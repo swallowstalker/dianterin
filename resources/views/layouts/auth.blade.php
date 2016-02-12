@@ -14,31 +14,60 @@
 
     <meta name="keyword" content="dianterin, food, delivery, restaurant, antar, makanan">
 
-    <link rel="icon" href="<?php echo img_url(); ?>favicon.ico" />
+    <link rel="icon" href="{!! asset("/") !!}img/favicon.ico" />
     <!-- Custom Fonts -->
-    <link href="<?php echo plugin_url(); ?>sb-admin-2/bower_components/font-awesome/css/font-awesome.min.css"
+    <link href="{!! asset("/") !!}plugins/sb-admin-2/bower_components/font-awesome/css/font-awesome.min.css"
           rel="stylesheet" type="text/css">
 
     <script type="text/javascript"
-            src="<?php echo bower_url(); ?>jquery/dist/jquery.min.js"></script>
+            src="{!! asset("/") !!}bower_components/jquery/dist/jquery.min.js"></script>
 
     <link rel="stylesheet" type="text/css"
-          href="<?php echo bower_url(); ?>bootstrap/dist/css/bootstrap.min.css">
+          href="{!! asset("/") !!}bower_components/bootstrap/dist/css/bootstrap.min.css">
 
     <link rel="stylesheet" type="text/css"
-          href="<?php echo bower_url(); ?>bootstrap/dist/css/bootstrap-theme.min.css">
+          href="{!! asset("/") !!}bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
 
     <script type="text/javascript"
-            src="<?php echo bower_url(); ?>bootstrap/dist/js/bootstrap.min.js"></script>
+            src="{!! asset("/") !!}bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- User CSS -->
-    <?php echo css("general.css"); ?>
-    <?php echo css("login.css"); ?>
+    {!! Html::style("css/general.css") !!}
+    {!! Html::style("css/login.css") !!}
+    
 </head>
 <body class="login-wrapper">
 <div class="container-fluid">
 
-    @yield("content")
+    <div class="row">
+        <div class="
+        col-lg-4 col-lg-offset-4
+        col-md-4 col-md-offset-4
+        col-sm-6 col-sm-offset-3
+        col-xs-8 col-xs-offset-2
+        login-box">
+
+            <div class="row" id="main-logo" style="margin-bottom: 10px; padding-top: 100px;">
+                <div class="col-md-12" style="text-align: center;">
+
+                    {!! Html::image(
+                        "img/img_logo_new.png",
+                        "Dianterin",
+                        ["style" => "max-width: 250px; height: auto; image-rendering: auto;"])
+                    !!}
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="col-md-12" style="text-align: center; font-size: 11pt;">
+                    Bangkitkan Ekonomi Rakyat
+                </div>
+            </div>
+
+            @yield("content")
+
+        </div>
+    </div>
 
     <div class="row footer-guide">
         <div class="col-md-12" style="border-top: 2px dashed white;">
@@ -126,6 +155,14 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            var divHeight = $(".login-wrapper").height();
+            var windowHeight = $(window).height();
+            var paddingTopValue = (windowHeight - divHeight) / 2;
+
+            if (paddingTopValue > 0) {
+                $("#main-logo").css("padding-top", paddingTopValue.toString() +"px");
+            }
 
             // find out maximum footer guide element height.
             var maxFooterGuideHeight = 0;

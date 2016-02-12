@@ -1,82 +1,95 @@
-@extends('layouts.app')
+@extends("layouts.auth")
 
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {!! csrf_field() !!}
+@section("content")
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Name</label>
+    {!! Form::open(["url" => "register"]) !!}
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="name" value="{{ old('name') }}">
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
+            {!! Form::text("name", old("name", ""), [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Nama",
+                "style" => "width: 98%;"
+            ]) !!}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input type="email" class="form-control" name="email" value="{{ old('email') }}">
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password">
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password_confirmation">
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-btn fa-user"></i>Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </div>
     </div>
-</div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::email("email", old("email", ""), [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Email",
+                "style" => "width: 98%;"
+            ]) !!}
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::password("password", [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Password",
+                "style" => "width: 98%;"
+            ]) !!}
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::password("password_confirmation", [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Konfirmasi Password",
+                "style" => "width: 98%;"
+            ]) !!}
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::text("twitter", old("twitter", ""), [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Twitter",
+                "style" => "width: 98%;"
+            ]) !!}
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::text("phone", old("phone", ""), [
+                "class" => "col-md-12 input-transparent-white",
+                "placeholder" => "Phone",
+                "style" => "width: 98%;"
+            ]) !!}
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12">
+
+            {!! Form::submit("DAFTAR!", ["name" => "register", "class" => "col-xs-12 button-yellow-white" ]) !!}
+
+        </div>
+    </div>
+
+    {!! Form::close() !!}
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("input[name=name]").focus();
+        });
+    </script>
+
 @endsection
