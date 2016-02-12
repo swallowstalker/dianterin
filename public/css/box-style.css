@@ -1,0 +1,107 @@
+@charset "utf-8";
+/* CSS Document */
+
+body {
+    background-color: #571F4C;
+}
+
+.container {
+    width: 100%;
+}
+
+.well {
+    background-color: #3F1937;
+    background-image: url("../img/profile/pattern.png");
+    border: 0;
+}
+
+.left {
+  /*//margin-left:50px;
+  //margin-right:20px;
+  //padding-right:50px;*/
+}
+
+.right {
+  /*margin-left:20px;*/
+  /*//margin-right:20px;
+  //padding-right:50px;*/
+}
+
+.box-left {
+  border-radius:10px;
+  background-color:#FFF;
+  /*//size:100% 100%;*/
+  margin-top:20px;
+}
+
+.box-right {
+  border-radius:10px;
+  background-color:#FFF;
+  /*//margin-left:50px;
+  //margin-right:20px;*/
+  margin-top:20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.header {
+  padding:0px;
+
+}
+
+.icon {
+  margin-right:10px;
+}
+
+.fileUpload:hover>i{
+	content:"\e046";
+  	font-family:'Glyphicons Halflings';
+	font-size:36px;
+	/*//width:50%;*/
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	color:#FFF;
+	opacity:1;
+}
+
+.fileUpload .overlay {
+	position:absolute;
+	background:#000;
+	width:140px;
+	height:140px;
+	opacity:0;
+}
+
+.fileUpload:hover .overlay {
+	opacity:0.5;
+}
+
+.fileUpload {
+	position: relative;
+	overflow: hidden;
+	/*//margin: 10px;*/
+	width:140px;
+	height:140px;
+	background: url(../img/profile/avatar.png);
+	background-size: 140px;
+	background-position:center;
+}
+
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	width:140px;
+	height:140px;
+	cursor: pointer;
+	opacity: 0;
+	/*//filter: alpha(opacity=0);*/
+}
+
+.fileUpload i {
+	opacity: 0;
+	/*//filter: alpha(opacity=0);*/
+}

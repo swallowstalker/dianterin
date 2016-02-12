@@ -1,0 +1,141 @@
+
+body {
+    font-family: quicksand;
+}
+
+.container-fluid.login-body {
+    height: 100%;
+    background-image: url("../img/bg_login_vespa.png");
+}
+
+.login-wrapper {
+    position: absolute;
+    margin: auto;
+    width: 50%;
+    height: 75%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.login-logo {
+    background-color: #23455E;
+    background-color: rgba(35, 69, 95, 0.7);
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.login-form {
+    background-color: #23455E;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    color: white;
+}
+
+.login-form input, .login-form button {
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    border: 0px;
+    padding: 10px 5px 10px 5px;
+}
+
+.login-form input.email {
+    background-color: #85B9C7;
+}
+
+.login-form input:-webkit-autofill.email {
+    -webkit-box-shadow: 0 0 0px 1000px #85B9C7 inset;
+    -webkit-text-fill-color: white;
+}
+
+.login-form input.password {
+    background-color: #6EA3B1;
+}
+
+.login-form input:-webkit-autofill.password  {
+    -webkit-box-shadow: 0 0 0px 1000px #6EA3B1 inset;
+    -webkit-text-fill-color: white;
+}
+
+.login-form input.login {
+    background-color: #C2DB3F;
+}
+
+.login-form button.register {
+    background-color: #F86A42;
+}
+
+.login-form a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+}
+
+.login-form input::-webkit-input-placeholder { /* WebKit browsers */
+    color:    white;
+}
+.login-form input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    white;
+    opacity:  1;
+}
+.login-form input::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    white;
+    opacity:  1;
+}
+.login-form input:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    white;
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+    -webkit-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+    -moz-box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+    box-shadow: 0px 0px 0px 0px rgba(0,0,0,0);
+}
+
+/* set font face for "lobster" font. */
+@FONT-FACE {
+	font-family: "lobster";
+    /*src: 	url("fonts/lobster/journal-webfont.eot"); IE9 Compat Modes*/
+    /*src: 	url("fonts/journal/journal-webfont.eot?#iefix") format('embedded-opentype'), IE6-IE8*/
+	src: 	url("fonts/lobster/Lobster1.3.woff") format('woff'), /*Modern Browsers*/
+			url("fonts/lobster/Lobster1.3.ttf") format("truetype"), /*Safari, Android, iOS*/
+			url("fonts/lobster/Lobster1.3.svg") format('svg'); /*Legacy iOS*/
+
+	font-weight: normal;
+    font-style: normal;
+}
+
+/* set font face for "quicksand" font. */
+@FONT-FACE {
+    font-family: "quicksand";
+    /*src: 	url("fonts/journal/journal-webfont.eot"); IE9 Compat Modes*/
+    /*src: 	url("fonts/quicksand-light/Quicksand-Light.otf#iefix") format('embedded-opentype'), IE6-IE8*/
+    src: 	url("fonts/quicksand-light/Quicksand-Light.woff") format('woff'), /*Modern Browsers*/
+            url("fonts/quicksand-light/Quicksand-Light.ttf") format("truetype"), /*Safari, Android, iOS*/
+            url("fonts/quicksand-light/Quicksand-Light.svg") format('svg'); /*Legacy iOS*/
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+.profile-data {
+    padding: 10px 30px;
+}
+
+.profile .header-wrapper {
+    font-family: lobster;
+}
+
+.profile .content-wrapper {
+    font-family: quicksand;
+}
+
+.profile .deposit {
+    font-family: quicksand;
+    color: white;
+    font-weight: bold;
+    font-size: 14pt;
+}

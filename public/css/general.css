@@ -1,0 +1,346 @@
+
+a, a:hover, a:visited {
+    text-decoration: none;
+}
+
+.button-blue-white,
+a.button-blue-white,
+input.button-blue-white {
+
+    background: #337AB7;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid #337AB7;
+    padding: 5px 10px;
+}
+
+
+.input-transparent-white,
+input.input-transparent-white,
+textarea.input-transparent-white {
+
+    display: block;
+    background: none;
+    color: white;
+    border: 1px solid white;
+    padding: 5px 0px 5px 10px;
+    font-size: 11pt;
+    font-family: opensans, serif;
+}
+
+
+.button-yellow-white,
+a.button-yellow-white,
+input.button-yellow-white,
+button.button-yellow-white {
+
+    font-family: opensans, serif;
+    background: #FEBD3D;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid #FEBD3D;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-yellow-white:hover,
+a.button-yellow-white:hover,
+input.button-yellow-white:hover,
+button.button-yellow-white:hover {
+
+    background: #FEBD3D;
+    border: 1px solid #FEBD3D;
+    text-decoration: none;
+}
+
+
+.button-green-white,
+a.button-green-white,
+input.button-green-white,
+button.button-green-white {
+
+    font-family: opensans, serif;
+    background: #4CBB90;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid #4CBB90;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-green-white:hover,
+a.button-green-white:hover,
+input.button-green-white:hover,
+button.button-green-white:hover {
+
+    background: #4CBB90;
+    border: 1px solid #4CBB90;
+    text-decoration: none;
+}
+
+
+.button-orange-black,
+a.button-orange-black,
+input.button-orange-black,
+button.button-orange-black {
+
+    font-family: opensans, serif;
+    background: #FEBD3D;
+    color: black;
+    font-size: 10pt;
+    border: 1px solid #FEBD3D;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-orange-black:hover,
+a.button-orange-black:hover,
+input.button-orange-black:hover,
+button.button-orange-black:hover {
+
+    background: #FEBD3D;
+    border: 1px solid #FEBD3D;
+    text-decoration: none;
+}
+
+
+.button-orange-white,
+a.button-orange-white,
+input.button-orange-white,
+button.button-orange-white {
+
+    font-family: opensans, serif;
+    background: #FEBD3D;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid #FEBD3D;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-orange-white:hover,
+a.button-orange-white:hover,
+input.button-orange-white:hover,
+button.button-orange-white:hover {
+
+    background: #FEBD3D;
+    border: 1px solid #FEBD3D;
+    text-decoration: none;
+}
+
+.button-green-white,
+a.button-green-white,
+input.button-green-white,
+button.button-green-white {
+
+    font-family: opensans, serif;
+    background: #03C772;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid #03C772;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-green-white:hover,
+a.button-green-white:hover,
+input.button-green-white:hover,
+button.button-green-white:hover {
+
+    background: #03C772;
+    border: 1px solid #03C772;
+    text-decoration: none;
+}
+
+.button-grey-black,
+a.button-grey-black,
+input.button-grey-black,
+button.button-grey-black {
+
+    font-family: opensans, serif;
+    background: #BDBDBD;
+    color: #909090;
+    font-size: 10pt;
+    border: 1px solid #BDBDBD;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-grey-black:hover,
+a.button-grey-black:hover,
+input.button-grey-black:hover,
+button.button-grey-black:hover {
+
+    background: #BDBDBD;
+    border: 1px solid #BDBDBD;
+    text-decoration: none;
+}
+
+
+
+
+.button-red-white,
+a.button-red-white,
+input.button-red-white,
+button.button-red-white {
+
+    font-family: opensans, serif;
+    background: red;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid red;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-red-white:hover,
+a.button-red-white:hover,
+input.button-red-white:hover,
+button.button-red-white:hover {
+
+    background: red;
+    border: 1px solid red;
+    text-decoration: none;
+}
+
+
+
+.button-black-white,
+a.button-black-white,
+input.button-black-white,
+button.button-black-white {
+
+    font-family: opensans, serif;
+    background: black;
+    color: white;
+    font-size: 10pt;
+    border: 1px solid black;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.button-black-white:hover,
+a.button-black-white:hover,
+input.button-black-white:hover,
+button.button-black-white:hover {
+
+    background: black;
+    border: 1px solid black;
+    text-decoration: none;
+}
+
+/* set font face for "quicksand-light" font. */
+@FONT-FACE {
+    font-family: "quicksand-light";
+    /*src: 	url("fonts/journal/journal-webfont.eot"); IE9 Compat Modes*/
+    /*src: 	url("fonts/quicksand-light/Quicksand-Light.otf#iefix") format('embedded-opentype'), IE6-IE8*/
+    src: 	url("fonts/quicksand-light/Quicksand-Light.woff") format('woff'), /*Modern Browsers*/
+    url("fonts/quicksand-light/Quicksand-Light.ttf") format("truetype"), /*Safari, Android, iOS*/
+    url("fonts/quicksand-light/Quicksand-Light.svg") format('svg'); /*Legacy iOS*/
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* set font face for "quicksand-bold" font. */
+@FONT-FACE {
+    font-family: "quicksand-bold";
+    /*src: 	url("fonts/journal/journal-webfont.eot"); IE9 Compat Modes*/
+    /*src: 	url("fonts/quicksand-light/Quicksand-Light.otf#iefix") format('embedded-opentype'), IE6-IE8*/
+    src: 	url("fonts/quicksand-bold/Quicksand-Bold.woff") format('woff'), /*Modern Browsers*/
+    url("fonts/quicksand-bold/Quicksand-Bold.ttf") format("truetype"), /*Safari, Android, iOS*/
+    url("fonts/quicksand-bold/Quicksand-Bold.svg") format('svg'); /*Legacy iOS*/
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* set font face for "quicksand-bold" font. */
+@FONT-FACE {
+    font-family: "opensans";
+    src: 	url("fonts/opensans/OpenSans.eot"); /*IE9 Compat Modes*/
+    /*src: 	url("fonts/quicksand-light/Quicksand-Light.otf#iefix") format('embedded-opentype'), IE6-IE8*/
+    src: 	url("fonts/opensans/OpenSans.woff") format('woff'), /*Modern Browsers*/
+    url("fonts/opensans/OpenSans.ttf") format("truetype"), /*Safari, Android, iOS*/
+    url("fonts/opensans/OpenSans.svg") format('svg'); /*Legacy iOS*/
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}
+
+/* line 73, ../sass/general.scss */
+.alert {
+    border: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    padding: 0;
+}
+
+/* line 87, ../sass/general.scss */
+.alert-danger {
+    background-image: none;
+    background-color: #ED1C24;
+    color: white;
+}
+
+/* line 93, ../sass/general.scss */
+.alert-danger .sub-alert-danger {
+    margin-left: 30px;
+    background-color: #FE444B;
+    padding: 10px;
+}
+
+/* line 99, ../sass/general.scss */
+.alert-success {
+    background-image: none;
+    background-color: #C3D849;
+    color: white;
+}
+
+/* line 105, ../sass/general.scss */
+.alert-success .sub-alert-success {
+    margin-left: 30px;
+    background-color: #B2C738;
+    padding: 10px;
+}
+
+/* line 99, ../sass/general.scss */
+.alert-info {
+    background-image: none;
+    background-color: #FEBD3D;
+}
+
+/* line 105, ../sass/general.scss */
+.alert-info .sub-alert-info {
+    background-color: #FEBD3D;
+    padding: 10px;
+    color: black;
+}
+
+.alert-icon {
+    color: #FEBD3D;
+    background-color: black;
+    padding: 10px;
+}
+
+.alert-dismissable .close, .alert-dismissible .close {
+    color: black;
+    opacity: 1;
+    text-shadow: none;
+}
