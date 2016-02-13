@@ -50,8 +50,11 @@ class AuthController extends Controller
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'email' => 'required|email|max:255|unique:user_customer',
             'password' => 'required|confirmed|min:6',
+            'twitter' => 'required',
+            'phone' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha',
         ]);
     }
 
@@ -67,6 +70,8 @@ class AuthController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'twitter' => $data["twitter"],
+            'phone' => $data["phone"],
         ]);
     }
 }

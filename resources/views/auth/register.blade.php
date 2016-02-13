@@ -76,6 +76,14 @@
     </div>
 
     <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-12" style="text-align: center;">
+
+            {!! Recaptcha::render() !!}
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-12">
 
             {!! Form::submit("DAFTAR!", ["name" => "register", "class" => "col-xs-12 button-yellow-white" ]) !!}

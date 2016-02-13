@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "49ada455bf675f279deec40d382546b2",
-    "content-hash": "4457e71583ecd731c0cfed2af8e465df",
+    "hash": "cfc9159f762b1b3b593d144f949bd6c2",
+    "content-hash": "acdd0b953679b8246467cceae68bca2f",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -722,6 +722,58 @@
             "time": "2015-12-07 04:07:13"
         },
         {
+            "name": "greggilbert/recaptcha",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/greggilbert/recaptcha.git",
+                "reference": "b84d3b4800591f547d308578e98d21e7baf82944"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/greggilbert/recaptcha/zipball/b84d3b4800591f547d308578e98d21e7baf82944",
+                "reference": "b84d3b4800591f547d308578e98d21e7baf82944",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.1",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-4": {
+                    "Greggilbert\\Recaptcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Gilbert",
+                    "email": "greg@greg-gilbert.com"
+                }
+            ],
+            "description": "reCAPTCHA Validator for Laravel 5",
+            "homepage": "http://github.com/greggilbert/recaptcha",
+            "keywords": [
+                "captcha",
+                "laravel",
+                "laravel5",
+                "recaptcha"
+            ],
+            "time": "2016-01-03 05:15:06"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -868,16 +920,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.2.14",
+            "version": "v5.2.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "ce63ba53d4891bdbb5e1aaeced1b5dd34edbc86f"
+                "reference": "78fafb78d35c617e24630f4e099746effc42c787"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/ce63ba53d4891bdbb5e1aaeced1b5dd34edbc86f",
-                "reference": "ce63ba53d4891bdbb5e1aaeced1b5dd34edbc86f",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/78fafb78d35c617e24630f4e099746effc42c787",
+                "reference": "78fafb78d35c617e24630f4e099746effc42c787",
                 "shasum": ""
             },
             "require": {
@@ -992,7 +1044,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-02-03 14:19:04"
+            "time": "2016-02-12 14:59:18"
         },
         {
             "name": "laravelcollective/html",
@@ -2876,16 +2928,16 @@
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v6.4.3",
+            "version": "v6.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "ef33c84abcd41312335fdc80efcd555cc3451c89"
+                "reference": "a72637f0cfc9957502d7c9998dc759c2fbe2ea8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/ef33c84abcd41312335fdc80efcd555cc3451c89",
-                "reference": "ef33c84abcd41312335fdc80efcd555cc3451c89",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/a72637f0cfc9957502d7c9998dc759c2fbe2ea8d",
+                "reference": "a72637f0cfc9957502d7c9998dc759c2fbe2ea8d",
                 "shasum": ""
             },
             "require": {
@@ -2929,7 +2981,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2016-02-11 06:14:41"
+            "time": "2016-02-13 01:56:56"
         }
     ],
     "packages-dev": [
@@ -4056,7 +4108,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "greggilbert/recaptcha": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

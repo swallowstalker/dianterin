@@ -161,6 +161,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
 
     ],
 
@@ -213,6 +214,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
 
     ],
 
