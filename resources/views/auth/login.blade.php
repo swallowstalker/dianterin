@@ -47,6 +47,16 @@
     <div class="row" style="margin-bottom: 10px; padding-bottom: 20px;">
         <div class="col-md-12" style="text-align: center; font-size: 10pt;">
 
+            <a href="{!! url("login/google") !!}" class="button-red-white col-xs-12">
+                <i class="fa fa-google-plus" style="font-size: 14pt;"></i>
+                &nbsp;&nbsp;MASUK DENGAN GOOGLE
+            </a>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px; padding-bottom: 20px;">
+        <div class="col-md-12" style="text-align: center; font-size: 10pt;">
+
             {!! Html::link("register", "DAFTAR YUK",
                 [
                     "style" => "color: #FEBD3D;",

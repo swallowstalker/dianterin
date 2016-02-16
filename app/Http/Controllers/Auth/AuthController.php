@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Log;
+use Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -73,5 +75,19 @@ class AuthController extends Controller
             'twitter' => $data["twitter"],
             'phone' => $data["phone"],
         ]);
+    }
+
+    public function redirectToGoogle() {
+
+        return Socialite::driver("google")->redirect();
+    }
+
+    public function handleCallbackGoogle() {
+
+        $user = Socialite::driver("google")->user();
+        Log::debug("XXX");
+        Log::debug($user->getId());
+        Log::debug($user->getName());
+        Log::debug($user->getEmail());
     }
 }

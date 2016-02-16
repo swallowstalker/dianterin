@@ -35,4 +35,10 @@ return [
         'secret' => env('STRIPE_SECRET'),
     ],
 
+    'google' => [
+        'client_id' => '728621353386-v2mmvlssbbfj80n2s8obpfr648g80llu.apps.googleusercontent.com',
+        'client_secret' => '58PGEnXMgzVVM_dNoLPv0dI3',
+        'redirect' => 'https://dianter.in/v2/login/google/callback',
+    ],
+
 ];
