@@ -41,10 +41,6 @@ class ChangeTimestampTransactionOrder extends Migration
             $table->renameColumn("time", "created_at");
         });
 
-        Schema::table('deposit_movement', function (Blueprint $table) {
-            $table->renameColumn("create_time", "created_at");
-        });
-
         Schema::table('courier_travel', function (Blueprint $table) {
             $table->renameColumn("time", "created_at");
             $table->timestamp("updated_at");
@@ -85,10 +81,6 @@ class ChangeTimestampTransactionOrder extends Migration
 
         Schema::table('order_feedback', function (Blueprint $table) {
             $table->renameColumn("created_at", "time");
-        });
-
-        Schema::table('deposit_movement', function (Blueprint $table) {
-            $table->renameColumn("created_at", "create_time");
         });
 
         Schema::table('courier_travel', function (Blueprint $table) {

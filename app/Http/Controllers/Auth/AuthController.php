@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Auth;
 use Log;
 use Socialite;
 use Validator;
@@ -84,10 +85,30 @@ class AuthController extends Controller
 
     public function handleCallbackGoogle() {
 
-        $user = Socialite::driver("google")->user();
+        $googleUser = Socialite::driver("google")->user();
+
+
+        $user = User::where("email", $googleUser->getEmail())->first();
+
+        if (empty($user)) {
+
+            $user = User::create([
+                'name' => $googleUser->getName(),
+                'email' => $googleUser->getEmail(),
+                'password' => "",
+                'twitter' => "",
+                'phone' => "",
+            ]);
+        }
+
+        Auth::login($user, true);
+
+        //@todo incomplete, how to save user credentials?
         Log::debug("XXX");
-        Log::debug($user->getId());
-        Log::debug($user->getName());
-        Log::debug($user->getEmail());
+        Log::debug($googleUser->getId());
+        Log::debug($googleUser->getName());
+        Log::debug($googleUser->getEmail());
+
+        return redirect("/");
     }
 }
