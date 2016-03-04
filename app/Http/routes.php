@@ -31,5 +31,10 @@ Route::group(['middleware' => 'web'], function () {
 
 //    Route::get('/home', 'HomeController@index');
     Route::get('/', 'OrderController@index');
+    Route::post('/order/add', 'OrderController@add');
+
     Route::get('/restaurant', 'RestaurantController@showList');
+
+    Route::get('/menu/list', 'MenuController@listForOrder');
+    Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');
 });

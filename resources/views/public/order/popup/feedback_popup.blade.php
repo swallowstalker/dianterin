@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <?php echo form_open("order/received", array("id" => "feedback")); ?>
+    {{ Form::open(["url" => "order/received", "id" => "feedback"]) }}
 
 
     <div class="row" style="margin-bottom: 10px;">
@@ -19,32 +19,55 @@
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-xs-12">
 
-            <?php
-            echo form_textarea(
-                    array(
-                            "name" => "feedback",
-                            "style" => 'width: 100%; resize: none;',
-                            "rows" => 2,
-                            "placeholder" => "Tanggapan"
-                    )
-            );
-            ?>
+            {{ Form::textarea(
+                "feedback",
+                "",
+                [
+                    "style" => 'width: 100%; resize: none;',
+                    "rows" => 2,
+                    "placeholder" => "Tanggapan"
+                ]) }}
 
-            <?php echo form_hidden("order_id"); ?>
+            {{ Form::hidden("order_id") }}
+
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <?php
-            echo form_submit(
-                    array(
-                            "name" => "save",
-                            "class" => "button-yellow-white pull-right"
-                    ),
-                    "Kirim Feedback"
-            );
-            ?>
+
+            {{ Form::submit("Kirim Feedback", [
+                "name" => "save",
+                "class" => "button-yellow-white pull-right"
+                ]) }}
         </div>
     </div>
-    <?php echo form_close(); ?>
+
+    {{ Form::close() }}
+
 </div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var currentOrder = 0;
+
+        $(".feedback-popup-button").click(function () {
+            currentOrder = $(this).next().val();
+        });
+
+        // register triggers for magnific popup
+        $(".feedback-popup-button").magnificPopup({
+            closeOnBgClick: false,
+            mainClass: 'mfp-fade',
+            callbacks: {
+                beforeOpen: function () {
+                    $("form#feedback").find("input[name=order_id]").val(currentOrder);
+                },
+                close: function () {
+
+                }
+            }
+        });
+    });
+</script>

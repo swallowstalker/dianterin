@@ -1,5 +1,44 @@
 @extends("layouts.main")
 
+
+@section("style")
+
+    <!-- DataTables CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-responsive/css/responsive.dataTables.css" rel="stylesheet">
+
+    <!-- DataTables TableTools CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-tabletools/css/dataTables.tableTools.css" rel="stylesheet">
+
+
+    <!-- JQuery-UI Theme CSS -->
+    <link href="{!! asset("/") !!}bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
+
+    <!-- Magnific Popup CSS -->
+    <link href="{!! asset("/") !!}bower_components/magnific-popup/dist/magnific-popup.css" rel="stylesheet" type="text/css">
+
+@endsection
+
+
+@section("javascript")
+
+    <!-- DataTables JavaScript -->
+    <script src="{!! asset("/") !!}bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
+    <script src="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="{!! asset("/") !!}bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
+
+
+    <!-- JQuery-UI JavaScript -->
+    <script src="{!! asset("/") !!}bower_components/jquery-ui/jquery-ui.min.js"></script>
+
+    <!-- Magnific Popup JavaScript -->
+    <script src="{!! asset("/") !!}bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+
+@endsection
+
+
 @section("content")
 
     <div class="row">
@@ -75,5 +114,9 @@
         @include("public.order.ordered_menu")
 
     </div>
+
+    @include("public.order.popup.food_popup")
+
+    @include("public.order.popup.feedback_popup")
 
 @endsection

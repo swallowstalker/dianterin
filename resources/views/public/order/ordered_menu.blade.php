@@ -22,7 +22,7 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-12">
                             <div style="border-bottom: 1px solid #DDDDDD;">
-                                Pesanan #{{ $orderParentID + 1 }}
+                                Pesanan #{{ $orderParentID }}
                             </div>
                         </div>
                     </div>
@@ -93,14 +93,13 @@
 
 
     {{-- @todo add more list to this check (later) --}}
-    @if(empty($orderedList))
+    @if($orderedList->count() == 0)
 
         <div class="row" style="margin-bottom: 10px;">
             <div class="col-xs-12">
                 <div style="background-color: white; padding: 10px;">
                     Silakan memesan makanan terlebih dahulu.
                 </div>
-
             </div>
         </div>
 
@@ -109,78 +108,55 @@
 </div>
 
 
-{{--@include("public.order.popup.feedback_popup")--}}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("select[name=amount]").spinner({
+            step: 1,
+            min: 0,
+            max: 4,
+            spin: function(event, ui) {
 
 
-{{--<script type="text/javascript">--}}
+                var orderElementID = $(this).parent().parent().find("input[name=order]").val();
 
-    {{--$(document).ready(function () {--}}
-
-        {{--var currentOrder = 0;--}}
-
-        {{--$(".feedback-popup-button").click(function () {--}}
-            {{--currentOrder = $(this).next().val();--}}
-        {{--});--}}
-
-        {{--// register triggers for magnific popup--}}
-        {{--$(".feedback-popup-button").magnificPopup({--}}
-            {{--closeOnBgClick: false,--}}
-            {{--mainClass: 'mfp-fade',--}}
-            {{--callbacks: {--}}
-                {{--beforeOpen: function () {--}}
-                    {{--$("form#feedback").find("input[name=order_id]").val(currentOrder);--}}
-                {{--},--}}
-                {{--close: function() {--}}
-
-                {{--}--}}
-            {{--}--}}
-        {{--});--}}
-
-        {{--$("select[name=amount]").spinner({--}}
-            {{--step: 1,--}}
-            {{--min: 0,--}}
-            {{--max: 4,--}}
-            {{--spin: function(event, ui) {--}}
+                var _this = $(this);
 
 
-                {{--var orderElementID = $(this).parent().parent().find("input[name=order]").val();--}}
+                $.ajax({
+                    url: baseURL + 'order/amount/change',
+                    type: "POST",
+                    data: {
+                        token_field: csrfHash,
+                        amount: ui.value,
+                        order: orderElementID
+                    },
+                    success: function (data) {
 
-                {{--var _this = $(this);--}}
+                        if (data.status == false) {
+                            _this.spinner("value", data.amount_response);
+                        }
+                    }
+                });
+            }
+        });
 
+        $("select[name=amount]").bind("keydown", function(event) {
+            event.preventDefault();
+        });
 
-                {{--$.ajax({--}}
-                    {{--url: baseURL + 'order/amount/change',--}}
-                    {{--type: "POST",--}}
-                    {{--data: {--}}
-                        {{--token_field: csrfHash,--}}
-                        {{--amount: ui.value,--}}
-                        {{--order: orderElementID--}}
-                    {{--},--}}
-                    {{--success: function (data) {--}}
+        $("select[name=amount]").focus(function () {
+            $(this).blur();
+        });
 
-                        {{--if (data.status == false) {--}}
-                            {{--_this.spinner("value", data.amount_response);--}}
-                        {{--}--}}
-                    {{--}--}}
-                {{--});--}}
-            {{--}--}}
-        {{--});--}}
+        $("select[name=amount]").each(function (key, value) {
 
-        {{--$("select[name=amount]").bind("keydown", function(event) {--}}
-            {{--event.preventDefault();--}}
-        {{--});--}}
+            var status = $(this).parent().parent().find("input[name=status]").val();
+            if (status != 0) {
+                $(this).spinner("disable");
+            }
 
-        {{--$("select[name=amount]").focus(function () {--}}
-            {{--$(this).blur();--}}
-        {{--});--}}
-
-        {{--$("select[name=amount]").each(function (key, value) {--}}
-
-            {{--var status = $(this).parent().parent().find("input[name=status]").val();--}}
-            {{--if (status != 0) {--}}
-                {{--$(this).spinner("disable");--}}
-            {{--}--}}
-
-        {{--})--}}
-    {{--});--}}
-{{--</script>--}}
+        })
+    });
+</script>

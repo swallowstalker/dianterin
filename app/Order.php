@@ -30,6 +30,8 @@ class Order extends Model
     const STATUS_RECEIVED = 2;
     const STATUS_NOT_FOUND = 3;
 
+    protected $fillable = ["travel_id", "user_id", "status"];
+
     /**
      * Sub element of this order.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -57,6 +57,16 @@
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{!! asset("/") !!}plugins/sb-admin-2/bower_components/metisMenu/dist/metisMenu.min.js"></script>
 
+
+    {{-- JS init for all js used in this layout. --}}
+    <script type="text/javascript">
+        var baseURL = '{{ url("/") }}';
+    </script>
+
+
+    @yield("style")
+
+
 </head>
 
 <body>
@@ -102,7 +112,7 @@
             <div class="col-sm-2 deposit-placeholder">
                 Sisa deposit <br/>
                 <span style="font-size: 16pt;">
-                    Rp <?php echo number_format(Auth::user()->deposit, 0, ",", "."); ?>
+                    Rp {{ number_format(Auth::user()->deposit, 0, ",", ".") }}
                 </span>
             </div>
         </div>
@@ -144,6 +154,10 @@
 
 <!-- Custom Theme JavaScript -->
 <script src="{!! asset("/") !!}plugins/sb-admin-2/dist/js/sb-admin-2.js"></script>
+
+
+@yield("javascript")
+
 
 </body>
 
