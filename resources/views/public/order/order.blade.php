@@ -119,4 +119,27 @@
 
     @include("public.order.popup.feedback_popup")
 
+    @include("public.order.popup.backup_popup")
+
+    @include("public.order.popup.error_popup")
+
+
+    <script type="text/javascript">
+
+        var validationError = false;
+        var orderForm = $("form#new-order");
+
+        $(document).ready(function () {
+
+            if (validationError) {
+
+                $(".validation-error-popup-button").click();
+
+            } else {
+
+                showBackupPopup();
+            }
+        });
+    </script>
+
 @endsection
