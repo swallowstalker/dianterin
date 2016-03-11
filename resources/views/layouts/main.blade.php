@@ -112,7 +112,7 @@
             <div class="col-sm-2 deposit-placeholder">
                 Sisa deposit <br/>
                 <span style="font-size: 16pt;">
-                    Rp {{ number_format(Auth::user()->deposit, 0, ",", ".") }}
+                    Rp {{ number_format(Auth::user()->balance, 0, ",", ".") }}
                 </span>
             </div>
         </div>

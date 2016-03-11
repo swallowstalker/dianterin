@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Order;
+use App\Validator\OrderValidator;
 use Illuminate\Support\ServiceProvider;
+use Log;
+use Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +17,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
+//        Validator::extend("check_balance", function($attribute, $value, $parameters, $validator) {
+//            Log::debug("check_balance was here");
+//            return true;
+//        });
+
+//        Validator::extend("order", 'App\Validator\OrderValidator@validateOrder');
+
+        Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
+
+            return new OrderValidator($translator, $data, $rules, $messages, $customAttributes);
+        });
     }
 
     /**

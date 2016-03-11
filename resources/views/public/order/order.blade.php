@@ -52,58 +52,63 @@
             <div class="row">
                 <div class="col-md-12" style="padding: 10px; background-color: white;">
 
-                    <div class="row">
 
-                        @foreach($restaurantList as $restaurant)
+                    @foreach($restaurantList as $key => $restaurant)
 
-                            <div class="col-md-6" style="margin-bottom: 10px;">
-                                <div style="border: 1px solid #FFC335;">
-                                    <div class="row">
-                                        <div class="col-sm-4">
+                        @if ($key % 2 == 0)
+                            <div class="row">
+                        @endif
 
-                                            {!! Html::image(
-                                                "img/restaurant/". $restaurant->image,
-                                                $restaurant->name,
-                                                ["style" => "width: 100%;"]
-                                                ) !!}
-                                        </div>
-                                        <div class="col-sm-8" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px;">
-                                            <div class="row">
-                                                <div class="col-xs-12" style="color: black;">
-                                                    <b>
-                                                        {{ $restaurant->name }}
-                                                    </b>
-                                                </div>
+                                <div class="col-md-6" style="margin-bottom: 10px;">
+                                    <div style="border: 1px solid #FFC335;">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+
+                                                {!! Html::image(
+                                                    "img/restaurant/". $restaurant->image,
+                                                    $restaurant->name,
+                                                    ["style" => "width: 100%;"]
+                                                    ) !!}
                                             </div>
-                                            <div class="row">
-                                                <div class="col-xs-12" style="font-size: 10pt;">
-                                                    Rp {!! number_format($restaurant->min_price, 0, ",", ".") !!}
-                                                    &nbsp;-&nbsp;
-                                                    Rp {!! number_format($restaurant->max_price, 0, ",", ".") !!}
+                                            <div class="col-sm-8" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="color: black;">
+                                                        <b>
+                                                            {{ $restaurant->name }}
+                                                        </b>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-xs-12" style="font-size: 10pt; color: black;">
-                                                    <b>{{ $restaurant->total_menu }} menu</b>
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="font-size: 10pt;">
+                                                        Rp {!! number_format($restaurant->min_price, 0, ",", ".") !!}
+                                                        &nbsp;-&nbsp;
+                                                        Rp {!! number_format($restaurant->max_price, 0, ",", ".") !!}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row" style="margin-top: 10px;">
-                                                <div class="col-xs-12" style="font-size: 10pt;">
-                                                    <a href="#food-popup" class="food-popup-button open-popup button-orange-black">
-                                                        Lihat Menu
-                                                    </a>
-                                                    <input type="hidden" value="{{ $restaurant->id }}" />
-                                                    <input type="hidden" value="{{ $restaurant->name }}" />
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="font-size: 10pt; color: black;">
+                                                        <b>{{ $restaurant->total_menu }} menu</b>
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-xs-12" style="font-size: 10pt;">
+                                                        <a href="#food-popup" class="food-popup-button open-popup button-orange-black">
+                                                            Lihat Menu
+                                                        </a>
+                                                        <input type="hidden" value="{{ $restaurant->id }}" />
+                                                        <input type="hidden" value="{{ $restaurant->name }}" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
+                        @if($key % 2 == 1)
                             </div>
+                        @endif
 
-                        @endforeach
-
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -111,7 +116,7 @@
 
 
         {{-- sidebar order list --}}
-        @include("public.order.ordered_menu")
+        @include("public.order.sidebar_ordered_menu")
 
     </div>
 
@@ -126,7 +131,8 @@
 
     <script type="text/javascript">
 
-        var validationError = false;
+        var validationError = '{{ session("errorFlag", 0) }}';
+        validationError = parseInt(validationError);
         var orderForm = $("form#new-order");
 
         $(document).ready(function () {

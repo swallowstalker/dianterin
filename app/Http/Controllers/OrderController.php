@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
+use App\Http\Requests\OrderRequest;
 use App\Menu;
 use App\Order;
 use App\OrderElement;
 use App\Restaurant;
 use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Log;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Validator;
 
 class OrderController extends Controller
 {
@@ -34,21 +36,21 @@ class OrderController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
         $viewData = $this->getOrderSidebar();
-        $viewData["restaurantList"] = Restaurant::active()->get();
+        $viewData["restaurantList"] = Restaurant::active()->orderBy("name", "asc")->get();
 
+        //@todo shorten the backup status
         $backupStatus = $request->session()->get("backup_status");
-
-        Log::debug("backup status");
-        Log::debug($backupStatus);
 
         if (empty($backupStatus)) {
             $backupStatus = 0;
         }
+
         $viewData["backupStatus"] = $backupStatus;
 
         return view('public.order.order', $viewData);
@@ -62,25 +64,43 @@ class OrderController extends Controller
 
         $viewData = [];
         $viewData["orderedList"] = $this->order->byOwner()->byStatus(Order::STATUS_ORDERED)->get();
-        Log::debug("ordered list");
-        Log::debug($viewData["orderedList"]->count());
         $viewData["processedList"] = $this->order->byOwner()->byStatus(Order::STATUS_PROCESSED)->get();
         return $viewData;
     }
 
-    public function add(Request $request) {
+    /**
+     * Add new order / backup order
+     *
+     * @param OrderRequest|Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function add(OrderRequest $request) {
 
+        //@todo validation
+        //@todo if order element has reached total of 2, reset the backup input.
+
+        //@todo move this to "request"
         $validator = Validator::make($request->all(), [
-            "backup" => "in:0,1"
+            "backup" => "required|in:0,1",
+            "menu" => "required|exists:dimenuin,id|sufficient_balance",
+            "travel" => "required|exists:courier_travel,id",
+            "preference" => "max:1000"
         ]);
 
         if ($validator->fails()) {
-            $request->session()->keep("backup_status");
-            return redirect("/");
+
+            if ($request->input("backup") == 1 || $request->input("backup") == 0) {
+                $request->session()->flash("backup_status", $request->input("backup"));
+            } else {
+                $request->session()->flash("backup_status", 0);
+            }
+
+            $errorMessage = implode("<br/>", $validator->errors()->all());
+
+            return redirect("/")
+                ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
         }
 
-        //@todo validation
-        //@todo if order element has reached 2, reset the backup input.
 
         if ($request->input("backup") == 1) {
 
@@ -124,5 +144,70 @@ class OrderController extends Controller
 
 
         return redirect("/");
+    }
+
+    public function changeAmount() {
+
+        $returnData = [
+            "amount_response" => 1
+        ];
+
+        return new JsonResponse($returnData);
+    }
+
+    /**
+     * @param $attribute
+     * @param $value menu ID
+     * @return bool
+     */
+    public function validateSufficientBalance($attribute, $value) {
+
+        // get all ordered list
+        $orderList = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
+
+        // get latest order if user choose backup
+        $latestOrderID = session()->get("latest_order_id");
+
+        $latestOrderPrice = 0;
+
+        foreach($orderList as $key => $order) {
+
+            // exclude order with backup in it
+            if ($latestOrderID == $order->id) {
+
+                $latestOrderPrice = $order->max_subtotal;
+
+                unset($orderList[$key]);
+                continue;
+            }
+        }
+
+        $previousSubtotal = $orderList->sum("max_subtotal");
+
+
+
+        // new order's price
+        $currentOrderPrice = $latestOrderPrice;
+        $chosenMenu = Menu::find($value);
+
+        if ($latestOrderPrice < $chosenMenu->price) {
+            $currentOrderPrice = $chosenMenu->price;
+        }
+
+
+
+        // compare previous order and current order VS user's balance
+        $userBalance = Auth::user()->balance;
+        Log::debug("Checking order:");
+        Log::debug("Prev order: ". $previousSubtotal);
+        Log::debug("Current order: ". $currentOrderPrice);
+        Log::debug("User balance: ". $userBalance);
+
+        if ($previousSubtotal + $currentOrderPrice <= $userBalance) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

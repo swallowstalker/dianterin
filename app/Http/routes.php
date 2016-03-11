@@ -32,6 +32,7 @@ Route::group(['middleware' => 'web'], function () {
 //    Route::get('/home', 'HomeController@index');
     Route::get('/', 'OrderController@index');
     Route::post('/order/add', 'OrderController@add');
+    Route::post('/order/change/amount', 'OrderController@changeAmount');
 
     Route::get('/restaurant', 'RestaurantController@showList');
 

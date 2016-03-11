@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 
 
 define('ITEM_ORDERED', 0);
@@ -40,6 +41,12 @@ class Order extends Model
         return $this->hasMany('App\OrderElement', 'order_parent_id');
     }
 
+    /**
+     * Retrieve order owned by logged-in user.
+     *
+     * @param $query
+     * @return mixed
+     */
     public function scopeByOwner($query) {
 
         $query->where("user_id", Auth::user()->id);
@@ -51,4 +58,19 @@ class Order extends Model
         $query->where("status", $status);
         return $query;
     }
+
+//    public function getMaxSubtotalAttribute() {
+//
+//        $maxSubtotal = 0;
+//        foreach ($this->elements as $element) {
+//
+//            $subtotal = $element->amount * $element->menuObject->price;
+//
+//            if ($maxSubtotal < $subtotal) {
+//                $maxSubtotal = $subtotal;
+//            }
+//        }
+//
+//        return $maxSubtotal;
+//    }
 }

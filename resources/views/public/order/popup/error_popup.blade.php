@@ -19,7 +19,7 @@
 
 <script type="text/javascript">
 
-    var validationMessage = "Test Validasi";
+    var validationMessage = "{!! session("errorMessage", "") !!}";
 
     $(document).ready(function () {
 

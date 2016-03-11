@@ -13,7 +13,7 @@
 
     {{-- newly ordered menu and its backup --}}
 
-    @foreach($orderedList as $orderParentID => $order)
+    @foreach($orderedList as $orderKey => $order)
 
         <div class="row" style="margin-bottom: 10px;">
             <div class="col-xs-12">
@@ -22,7 +22,7 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-12">
                             <div style="border-bottom: 1px solid #DDDDDD;">
-                                Pesanan #{{ $orderParentID }}
+                                Pesanan #{{ $orderKey + 1 }}
                             </div>
                         </div>
                     </div>
@@ -41,6 +41,7 @@
                                 ) !!}
 
                                 {!! Form::hidden("order", $orderElement->id) !!}
+                                {!! Form::hidden("status", $order->status) !!}
 
                             </div>
                             <div class="col-xs-8">
@@ -110,6 +111,8 @@
 
 <script type="text/javascript">
 
+    var baseURL = "{{ url("/") }}";
+
     $(document).ready(function () {
 
         $("select[name=amount]").spinner({
@@ -120,23 +123,25 @@
 
 
                 var orderElementID = $(this).parent().parent().find("input[name=order]").val();
-
+                var csrfHash = "{!! csrf_token() !!}";
                 var _this = $(this);
 
 
                 $.ajax({
-                    url: baseURL + 'order/amount/change',
+                    url: baseURL + '/order/change/amount',
                     type: "POST",
                     data: {
-                        token_field: csrfHash,
+                        _token: csrfHash,
                         amount: ui.value,
                         order: orderElementID
                     },
                     success: function (data) {
 
-                        if (data.status == false) {
+                        console.log(data);
+
+//                        if (data.status == false) {
                             _this.spinner("value", data.amount_response);
-                        }
+//                        }
                     }
                 });
             }
