@@ -33,6 +33,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/', 'OrderController@index');
     Route::post('/order/add', 'OrderController@add');
     Route::post('/order/change/amount', 'OrderController@changeAmount');
+    Route::post('/order/cancel', 'OrderController@cancel');
 
     Route::get('/restaurant', 'RestaurantController@showList');
 

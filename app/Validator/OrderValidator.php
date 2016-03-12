@@ -169,14 +169,15 @@ class OrderValidator extends Validator
 
         $uncheckedOrderSubtotal = $this->getPreviousOrderTotal($order->id);
 
+        // change amount of order here
         foreach ($order->elements as $key => $element) {
 
             if ($orderElementID == $element->id) {
                 $order->elements[$key]->amount = $this->data["amount"];
             }
-
         }
 
+        // recount max subtotal of that order
         $changedOrderPrice = $this->findMaxSubtotal($order);
 
         // compare previous order and currently changed order VS user's balance

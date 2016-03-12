@@ -56,7 +56,7 @@
                 ]) !!}
 
             {!! Form::hidden("menu") !!}
-            {!! Form::hidden("backup", $backupStatus) !!}
+            {!! Form::hidden("backup", session()->get("backup_status")) !!}
         </div>
         <div class="col-xs-3">
             {!! Form::submit("Pesan", [

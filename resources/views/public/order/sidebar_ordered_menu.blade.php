@@ -68,11 +68,12 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-xs-12">
                             <b>
-                                {!! Html::link(
-                                    "#",
-                                    "BATALKAN PEMESANAN",
-                                    ["class" => "button-red-white col-xs-12"]
-                                    ) !!}
+                                {!! Form::open(["url" => "order/cancel"]) !!}
+
+                                {!! Form::hidden("id", $order->id) !!}
+
+                                {!! Form::submit("BATALKAN PEMESANAN",
+                                    ["class" => "button-red-white col-xs-12"]) !!}
                             </b>
                         </div>
                     </div>

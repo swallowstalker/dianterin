@@ -45,13 +45,13 @@ class OrderController extends Controller
         $viewData["restaurantList"] = Restaurant::active()->orderBy("name", "asc")->get();
 
         //@todo shorten the backup status
-        $backupStatus = $request->session()->get("backup_status");
-
-        if (empty($backupStatus)) {
-            $backupStatus = 0;
-        }
-
-        $viewData["backupStatus"] = $backupStatus;
+//        $backupStatus = $request->session()->get("backup_status");
+//
+//        if (empty($backupStatus)) {
+//            $backupStatus = 0;
+//        }
+//
+//        $viewData["backupStatus"] = $backupStatus;
 
         return view('public.order.order', $viewData);
     }
@@ -175,5 +175,26 @@ class OrderController extends Controller
         }
 
         return new JsonResponse($returnData);
+    }
+
+
+    /**
+     * Cancel our own order with status "ordered"
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function cancel(Request $request) {
+
+        $this->validate($request, [
+            "id" => "required|exists:order_parent,id"
+        ]);
+
+        $order = Order::where("id", $request->input("id"))->first();
+
+        $this->authorize($order);
+        $order->delete();
+
+        return redirect("/");
     }
 }
