@@ -76,7 +76,6 @@ class OrderController extends Controller
      */
     public function add(OrderRequest $request) {
 
-        //@todo validation
         //@todo if order element has reached total of 2, reset the backup input.
 
         //@todo move this to "request"
@@ -146,68 +145,35 @@ class OrderController extends Controller
         return redirect("/");
     }
 
-    public function changeAmount() {
+    /**
+     *
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changeAmount(Request $request) {
 
-        $returnData = [
-            "amount_response" => 1
-        ];
+        $validator = Validator::make($request->all(), [
+            "order_element_id" => "bail|required|exists:order_element,id|allow_change_amount",
+            "amount" => "bail|required|numeric|min:1|max:7"
+        ]);
+
+        $orderElement = OrderElement::where("id", $request->input("order_element_id"))->first();
+
+        $returnData = (object) [];
+
+        if ($validator->fails()) {
+
+            $returnData->amount_response = $orderElement->amount;
+
+        } else {
+
+            $orderElement->amount = $request->input("amount");
+            $orderElement->save();
+
+            $returnData->amount_response = $orderElement->amount;
+        }
 
         return new JsonResponse($returnData);
-    }
-
-    /**
-     * @param $attribute
-     * @param $value menu ID
-     * @return bool
-     */
-    public function validateSufficientBalance($attribute, $value) {
-
-        // get all ordered list
-        $orderList = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
-
-        // get latest order if user choose backup
-        $latestOrderID = session()->get("latest_order_id");
-
-        $latestOrderPrice = 0;
-
-        foreach($orderList as $key => $order) {
-
-            // exclude order with backup in it
-            if ($latestOrderID == $order->id) {
-
-                $latestOrderPrice = $order->max_subtotal;
-
-                unset($orderList[$key]);
-                continue;
-            }
-        }
-
-        $previousSubtotal = $orderList->sum("max_subtotal");
-
-
-
-        // new order's price
-        $currentOrderPrice = $latestOrderPrice;
-        $chosenMenu = Menu::find($value);
-
-        if ($latestOrderPrice < $chosenMenu->price) {
-            $currentOrderPrice = $chosenMenu->price;
-        }
-
-
-
-        // compare previous order and current order VS user's balance
-        $userBalance = Auth::user()->balance;
-        Log::debug("Checking order:");
-        Log::debug("Prev order: ". $previousSubtotal);
-        Log::debug("Current order: ". $currentOrderPrice);
-        Log::debug("User balance: ". $userBalance);
-
-        if ($previousSubtotal + $currentOrderPrice <= $userBalance) {
-            return true;
-        } else {
-            return false;
-        }
-
     }
 }

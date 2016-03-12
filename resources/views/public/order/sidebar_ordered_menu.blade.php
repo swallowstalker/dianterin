@@ -36,7 +36,7 @@
                                 {!! Form::select(
                                     "amount",
                                     [1 => 1, 2 => 2, 3 => 3, 4 => 4],
-                                    1,
+                                    $orderElement->amount,
                                     ["class" => "col-xs-12"]
                                 ) !!}
 
@@ -133,7 +133,7 @@
                     data: {
                         _token: csrfHash,
                         amount: ui.value,
-                        order: orderElementID
+                        order_element_id: orderElementID
                     },
                     success: function (data) {
 

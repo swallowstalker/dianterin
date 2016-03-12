@@ -12,6 +12,7 @@ namespace App\Validator;
 use App\CourierVisitedRestaurant;
 use App\Menu;
 use App\Order;
+use App\OrderElement;
 use Auth;
 use Illuminate\Validation\Validator;
 use Log;
@@ -40,9 +41,14 @@ class OrderValidator extends Validator
      */
     public function validateSufficientBalance($attribute, $value) {
 
-        $previousSubtotal = $this->getPreviousOrderTotal();
+        $latestOrderID = null;
+        if ($this->data["backup"] == 1) {
+            $latestOrderID = session()->get("latest_order_id");
+        }
 
-        $latestOrderPrice = $this->getCurrentOrderSubtotal();
+        $previousSubtotal = $this->getPreviousOrderTotal($latestOrderID);
+
+        $latestOrderPrice = $this->getCurrentOrderSubtotalFromAddOrder($latestOrderID);
 
         // compare previous order and current order VS user's balance
         $userBalance = Auth::user()->balance;
@@ -58,24 +64,18 @@ class OrderValidator extends Validator
     /**
      * Sum up all previous order (excluding currently backup-ed order)
      *
+     * @param null $excludedOrderID
      * @return mixed
      */
-    private function getPreviousOrderTotal() {
-
+    private function getPreviousOrderTotal($excludedOrderID = null) {
 
         // get all ordered list
         $orderList = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
 
-        // get latest order if user choose backup
-        $latestOrderID = null;
-        if ($this->data["backup"] == 1) {
-            $latestOrderID = session()->get("latest_order_id");
-        }
-
         foreach($orderList as $key => $order) {
 
             // exclude order with backup in it
-            if ($latestOrderID == $order->id) {
+            if ($excludedOrderID == $order->id) {
 
                 unset($orderList[$key]);
                 continue;
@@ -95,12 +95,13 @@ class OrderValidator extends Validator
      * if new order, then straight add the subtotal
      * if backup order exist, compare it first with latest order.
      *
+     * @param $latestOrderID
+     * @param int $backup
      * @return int
      */
-    private function getCurrentOrderSubtotal() {
+    private function getCurrentOrderSubtotalFromAddOrder($latestOrderID, $backup = 0) {
 
-        // get latest order if user choose backup
-        $latestOrderID = session()->get("latest_order_id");
+
         $latestOrderPrice = 0;
 
         if ($this->data["backup"] == 1 && ! empty($latestOrderID)) {
@@ -138,7 +139,7 @@ class OrderValidator extends Validator
         foreach ($order->elements as $orderElement) {
 
             $visitedRestaurant = CourierVisitedRestaurant::where("allowed_restaurant", $orderElement->restaurantObject->id)
-                ->where("travel_id", $this->data["travel"])
+                ->where("travel_id", $order->travel_id)
                 ->first();
 
             $elementSubtotal = ($orderElement->menuObject->price * $orderElement->amount) + $visitedRestaurant->delivery_cost;
@@ -151,5 +152,43 @@ class OrderValidator extends Validator
 
         return $maxSubtotal;
     }
+
+    /**
+     * Validate order element's amount change
+     *
+     * @param $attribute
+     * @param $value
+     * @return bool
+     */
+    public function validateAllowChangeAmount($attribute, $value) {
+
+        $orderElementID = $this->data["order_element_id"];
+
+        $orderElement = OrderElement::where("id", $orderElementID)->first();
+        $order = $orderElement->order;
+
+        $uncheckedOrderSubtotal = $this->getPreviousOrderTotal($order->id);
+
+        foreach ($order->elements as $key => $element) {
+
+            if ($orderElementID == $element->id) {
+                $order->elements[$key]->amount = $this->data["amount"];
+            }
+
+        }
+
+        $changedOrderPrice = $this->findMaxSubtotal($order);
+
+        // compare previous order and currently changed order VS user's balance
+        $userBalance = Auth::user()->balance;
+
+        if ($uncheckedOrderSubtotal + $changedOrderPrice <= $userBalance) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
 
 }

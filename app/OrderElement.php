@@ -17,4 +17,8 @@ class OrderElement extends Model
     public function menuObject() {
         return $this->hasOne('App\Menu', 'id', 'menu');
     }
+
+    public function order() {
+        return $this->belongsTo('App\Order', 'order_parent_id');
+    }
 }
