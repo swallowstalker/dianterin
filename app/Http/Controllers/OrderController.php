@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderReceivedEvent;
 use App\Feedback;
 use App\Http\Requests;
 use App\Http\Requests\OrderRequest;
@@ -12,6 +13,7 @@ use App\PendingTransactionOrder;
 use App\Restaurant;
 use App\TransactionOrder;
 use Auth;
+use Event;
 use Illuminate\Http\Request;
 use Log;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,20 +22,12 @@ use Validator;
 class OrderController extends Controller
 {
 
-    private $order;
-    private $menu;
-
     /**
      * Create a new controller instance.
-     * @param Order $order
-     * @param Menu $menu
-     * @param Request $request
      */
-    public function __construct(Order $order, Menu $menu, Request $request)
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->order = $order;
-        $this->menu = $menu;
     }
 
     /**
@@ -66,8 +60,8 @@ class OrderController extends Controller
 
         $viewData = [];
 
-        $viewData["orderedList"] = $this->order->byOwner()->byStatus(Order::STATUS_ORDERED)->get();
-        $viewData["processedList"] = $this->order->byOwner()->byStatus(Order::STATUS_PROCESSED)->get();
+        $viewData["orderedList"] = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
+        $viewData["processedList"] = Order::byOwner()->byStatus(Order::STATUS_PROCESSED)->get();
 
         $viewData["pendingTransactionList"] = PendingTransactionOrder::byOwner()->get();
 
@@ -110,7 +104,7 @@ class OrderController extends Controller
         if ($request->input("backup") == 1) {
 
             $orderID = $request->session()->get("latest_order_id");
-            $order = $this->order->find($orderID);
+            $order = Order::find($orderID);
 
             if (empty($order)) {
                 return redirect("/");
@@ -122,7 +116,7 @@ class OrderController extends Controller
         } else {
 
             // saving new order parent
-            $order = $this->order->create([
+            $order = Order::create([
                 "travel_id" => $request->input("travel"),
                 "user_id" => Auth::user()->id,
                 "status" => Order::STATUS_ORDERED
@@ -135,7 +129,7 @@ class OrderController extends Controller
 
 
         // saving order element
-        $menu = $this->menu->where("id", $request->input("menu"))->first();
+        $menu = Menu::where("id", $request->input("menu"))->first();
 
         $element = new OrderElement([
             "restaurant" => $menu->restaurant_id,
@@ -226,7 +220,8 @@ class OrderController extends Controller
         $order->status = Order::STATUS_RECEIVED;
         $order->save();
 
-        $this->movePendingTransaction($order->id);
+        Event::fire(new OrderReceivedEvent($order));
+
         $this->saveFeedback($order->id, $request->input("feedback"));
 
         return redirect("/");

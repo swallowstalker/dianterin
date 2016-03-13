@@ -39,6 +39,10 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/order/unreceived', 'OrderController@notReceived');
 
 
+    Route::get('/transaction/history', 'TransactionController@history');
+    Route::get('/transaction/history/data', 'TransactionController@data');
+
+
     Route::get('/restaurant', 'RestaurantController@showList');
 
 

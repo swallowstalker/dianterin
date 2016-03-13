@@ -15,7 +15,7 @@
     </li>
 
     <li class="dropdown" style="margin-right: 20px;">
-        {!! Html::link("order/history", "Catatan Transaksi", ["style" => 'line-height: 40px;']) !!}
+        {!! Html::link("transaction/history", "Catatan Transaksi", ["style" => 'line-height: 40px;']) !!}
     </li>
 
 
@@ -29,7 +29,7 @@
 
 
     <li class="dropdown" style="margin-right: 20px;">
-        <a href="{!! url("/") !!}logout" style="line-height: 40px;">
+        <a href="{!! url("/") !!}/logout" style="line-height: 40px;">
             <i class="fa fa-power-off"></i>
         </a>
     </li>
