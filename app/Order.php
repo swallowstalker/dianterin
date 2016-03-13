@@ -58,19 +58,4 @@ class Order extends Model
         $query->where("status", $status);
         return $query;
     }
-
-//    public function getMaxSubtotalAttribute() {
-//
-//        $maxSubtotal = 0;
-//        foreach ($this->elements as $element) {
-//
-//            $subtotal = $element->amount * $element->menuObject->price;
-//
-//            if ($maxSubtotal < $subtotal) {
-//                $maxSubtotal = $subtotal;
-//            }
-//        }
-//
-//        return $maxSubtotal;
-//    }
 }

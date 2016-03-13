@@ -28,7 +28,7 @@
                     "placeholder" => "Tanggapan"
                 ]) }}
 
-            {{ Form::hidden("order_id") }}
+            {{ Form::hidden("id") }}
 
         </div>
     </div>
@@ -62,7 +62,7 @@
             mainClass: 'mfp-fade',
             callbacks: {
                 beforeOpen: function () {
-                    $("form#feedback").find("input[name=order_id]").val(currentOrder);
+                    $("form#feedback").find("input[name=id]").val(currentOrder);
                 },
                 close: function () {
 

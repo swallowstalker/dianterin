@@ -35,7 +35,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/order/change/amount', 'OrderController@changeAmount');
     Route::post('/order/cancel', 'OrderController@cancel');
 
+    Route::post('/order/received', 'OrderController@received');
+    Route::post('/order/unreceived', 'OrderController@notReceived');
+
+
     Route::get('/restaurant', 'RestaurantController@showList');
+
 
     Route::get('/menu/list', 'MenuController@listForOrder');
     Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');

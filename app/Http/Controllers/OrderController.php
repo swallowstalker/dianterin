@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Feedback;
 use App\Http\Requests;
 use App\Http\Requests\OrderRequest;
 use App\Menu;
 use App\Order;
 use App\OrderElement;
+use App\PendingTransactionOrder;
 use App\Restaurant;
+use App\TransactionOrder;
 use Auth;
 use Illuminate\Http\Request;
 use Log;
@@ -44,14 +47,13 @@ class OrderController extends Controller
         $viewData = $this->getOrderSidebar();
         $viewData["restaurantList"] = Restaurant::active()->orderBy("name", "asc")->get();
 
-        //@todo shorten the backup status
-//        $backupStatus = $request->session()->get("backup_status");
-//
-//        if (empty($backupStatus)) {
-//            $backupStatus = 0;
-//        }
-//
-//        $viewData["backupStatus"] = $backupStatus;
+        $backupStatus = $request->session()->get("backup_status");
+
+        if (empty($backupStatus)) {
+            $backupStatus = 0;
+        }
+
+        $viewData["backupStatus"] = $backupStatus;
 
         return view('public.order.order', $viewData);
     }
@@ -63,8 +65,12 @@ class OrderController extends Controller
     private function getOrderSidebar() {
 
         $viewData = [];
+
         $viewData["orderedList"] = $this->order->byOwner()->byStatus(Order::STATUS_ORDERED)->get();
         $viewData["processedList"] = $this->order->byOwner()->byStatus(Order::STATUS_PROCESSED)->get();
+
+        $viewData["pendingTransactionList"] = PendingTransactionOrder::byOwner()->get();
+
         return $viewData;
     }
 
@@ -128,7 +134,6 @@ class OrderController extends Controller
 
 
 
-
         // saving order element
         $menu = $this->menu->where("id", $request->input("menu"))->first();
 
@@ -146,7 +151,7 @@ class OrderController extends Controller
     }
 
     /**
-     *
+     * Change order element amount
      *
      * @param Request $request
      * @return JsonResponse
@@ -159,6 +164,7 @@ class OrderController extends Controller
         ]);
 
         $orderElement = OrderElement::where("id", $request->input("order_element_id"))->first();
+        $this->authorize($orderElement->order);
 
         $returnData = (object) [];
 
@@ -194,6 +200,105 @@ class OrderController extends Controller
 
         $this->authorize($order);
         $order->delete();
+
+        return redirect("/");
+    }
+
+    /**
+     * Mark order as received.
+     * Move pending transaction.
+     * Save feedback.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function received(Request $request) {
+
+        $this->validate($request, [
+            "id" => "required|exists:order_parent,id|exists:transaction_order_pending,order_id",
+            "feedback" => "max:1000"
+        ]);
+
+        $order = Order::where("id", $request->input("id"))->first();
+
+        $this->authorize($order);
+
+        $order->status = Order::STATUS_RECEIVED;
+        $order->save();
+
+        $this->movePendingTransaction($order->id);
+        $this->saveFeedback($order->id, $request->input("feedback"));
+
+        return redirect("/");
+    }
+
+    /**
+     * Move pending transaction to listed transaction.
+     * @param $orderID
+     */
+    private function movePendingTransaction($orderID) {
+
+        $pendingTransaction = PendingTransactionOrder::where("order_id", $orderID)->first();
+
+        // move pending transaction to transaction list
+        $transaction = new TransactionOrder([
+            "user_id" => $pendingTransaction->user_id,
+            "order_id" => $pendingTransaction->order_id,
+            "restaurant" => $pendingTransaction->restaurant,
+            "menu" => $pendingTransaction->menu,
+            "price" => $pendingTransaction->price,
+            "delivery_cost" => $pendingTransaction->delivery_cost,
+            "adjustment" => $pendingTransaction->adjustment,
+            "adjustment_info" => $pendingTransaction->adjustment_info,
+            "final_cost" => $pendingTransaction->final_cost,
+        ]);
+
+        $transaction->save();
+
+        $pendingTransaction->delete();
+    }
+
+    /**
+     * Save feedback sent from user.
+     *
+     * @param $orderID
+     * @param $feedbackMessage
+     */
+    private function saveFeedback($orderID, $feedbackMessage) {
+
+        // save in feedback table
+        if (! empty($feedbackMessage)) {
+
+            $feedback = new Feedback([
+                "order_id" => $orderID,
+                "feedback" => $feedbackMessage
+            ]);
+
+            $feedback->save();
+        }
+    }
+
+    /**
+     * Mark order as "not received"
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function notReceived(Request $request) {
+
+        $this->validate($request, [
+            "id" => "required|exists:order_parent,id",
+        ]);
+
+        $order = Order::where("id", $request->input("id"))->first();
+
+        $this->authorize($order);
+
+        $order->status = Order::STATUS_NOT_RECEIVED;
+        $order->save();
+
+        PendingTransactionOrder::where("order_id", $order->id)->delete();
+
 
         return redirect("/");
     }
