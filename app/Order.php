@@ -21,6 +21,17 @@ class Order extends Model
 {
     protected $table = "order_parent";
 
+    public static $statusDescriptionList = [
+        0 => "Ordered",
+        1 => "Processed",
+        4 => "Delivered",
+
+        5 => "Not Received",
+        6 => "Received By Force",
+        2 => "Received",
+        3 => "Not Found"
+    ];
+
     const STATUS_ORDERED = 0;
     const STATUS_PROCESSED = 1;
 
@@ -39,6 +50,10 @@ class Order extends Model
      */
     public function elements() {
         return $this->hasMany('App\OrderElement', 'order_parent_id');
+    }
+
+    public function travel() {
+        return $this->hasOne('App\CourierTravelRecord', 'travel_id');
     }
 
     /**

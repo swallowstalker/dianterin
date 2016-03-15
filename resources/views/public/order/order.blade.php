@@ -1,7 +1,13 @@
 @extends("layouts.main")
 
 
-@section("style")p
+@section("style")
+
+    <!-- DataTables CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
+
+    <!-- DataTables Responsive CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-responsive/css/responsive.dataTables.css" rel="stylesheet">
 
 
     <!-- JQuery-UI Theme CSS -->

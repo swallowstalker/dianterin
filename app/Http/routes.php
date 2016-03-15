@@ -38,6 +38,12 @@ Route::group(['middleware' => 'web'], function () {
     Route::post('/order/received', 'OrderController@received');
     Route::post('/order/unreceived', 'OrderController@notReceived');
 
+    Route::get('/admin/order/list', 'AdminOrderController@index');
+    Route::get('/admin/order/data', 'AdminOrderController@data');
+    Route::post('/admin/order/delete', 'AdminOrderController@delete');
+    Route::post('/admin/order/lock', 'AdminOrderController@lock');
+
+
 
     Route::get('/transaction/history', 'TransactionController@history');
     Route::get('/transaction/history/data', 'TransactionController@data');

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class CourierTravelRecord extends Model
@@ -16,5 +17,11 @@ class CourierTravelRecord extends Model
     public function courier() {
 
         return $this->belongsTo('App\User');
+    }
+
+    public function scopeIsOpen($query) {
+
+        $query->where("limit_time", ">", DB::raw("NOW()"));
+        return $query;
     }
 }
