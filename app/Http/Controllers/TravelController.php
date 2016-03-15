@@ -14,18 +14,6 @@ use Log;
 class TravelController extends Controller
 {
 
-    private $courierTravel;
-
-    /**
-     * Create a new controller instance.
-     * @param CourierTravelRecord $courierTravel
-     */
-    public function __construct(CourierTravelRecord $courierTravel)
-    {
-        $this->middleware('auth');
-        $this->courierTravel = $courierTravel;
-    }
-
     /**
      * Retrieved on food choice popup showed up.
      * User then choice given courier.
@@ -35,8 +23,7 @@ class TravelController extends Controller
      */
     public function getActiveCourierByRestaurant(Request $request) {
 
-        $activeTravel = $this->courierTravel
-            ->whereHas("visitedRestaurants", function($query) use ($request) {
+        $activeTravel = CourierTravelRecord::whereHas("visitedRestaurants", function($query) use ($request) {
                 $query->where("allowed_restaurant", $request->input("restaurant_id"));
             })
             ->where("limit_time", ">", DB::raw("NOW()"))
@@ -59,6 +46,10 @@ class TravelController extends Controller
         return new JsonResponse($responseList);
     }
 
+    /**
+     * Get list of active restaurant
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function showList() {
 
         $viewData = [];

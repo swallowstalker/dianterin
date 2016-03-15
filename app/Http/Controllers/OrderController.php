@@ -23,14 +23,6 @@ class OrderController extends Controller
 {
 
     /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show the application dashboard.
      *
      * @param Request $request

@@ -17,14 +17,6 @@ class TransactionController extends Controller
 {
 
     /**
-     * Create a new controller instance.
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
-    /**
      * Show user transaction history
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View

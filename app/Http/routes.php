@@ -26,32 +26,37 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::auth();
 
-    Route::get('/login/google', 'Auth\AuthController@redirectToGoogle');
-    Route::get('/login/google/callback', 'Auth\AuthController@handleCallbackGoogle');
+    Route::group(['middleware' => 'auth'], function() {
 
-//    Route::get('/home', 'HomeController@index');
-    Route::get('/', 'OrderController@index');
-    Route::post('/order/add', 'OrderController@add');
-    Route::post('/order/change/amount', 'OrderController@changeAmount');
-    Route::post('/order/cancel', 'OrderController@cancel');
-
-    Route::post('/order/received', 'OrderController@received');
-    Route::post('/order/unreceived', 'OrderController@notReceived');
-
-    Route::get('/admin/order/list', 'AdminOrderController@index');
-    Route::get('/admin/order/data', 'AdminOrderController@data');
-    Route::post('/admin/order/delete', 'AdminOrderController@delete');
-    Route::post('/admin/order/lock', 'AdminOrderController@lock');
+        Route::get('/login/google', 'Auth\AuthController@redirectToGoogle');
+        Route::get('/login/google/callback', 'Auth\AuthController@handleCallbackGoogle');
 
 
+        Route::get('/', 'OrderController@index');
+        Route::post('/order/add', 'OrderController@add');
+        Route::post('/order/change/amount', 'OrderController@changeAmount');
+        Route::post('/order/cancel', 'OrderController@cancel');
 
-    Route::get('/transaction/history', 'TransactionController@history');
-    Route::get('/transaction/history/data', 'TransactionController@data');
+        Route::post('/order/received', 'OrderController@received');
+        Route::post('/order/unreceived', 'OrderController@notReceived');
+
+        Route::get('/admin/order/list', 'AdminOrderController@index');
+        Route::get('/admin/order/data', 'AdminOrderController@data');
+        Route::post('/admin/order/delete', 'AdminOrderController@delete');
+        Route::post('/admin/order/lock', 'AdminOrderController@lock');
 
 
-    Route::get('/restaurant', 'RestaurantController@showList');
+
+        Route::get('/transaction/history', 'TransactionController@history');
+        Route::get('/transaction/history/data', 'TransactionController@data');
 
 
-    Route::get('/menu/list', 'MenuController@listForOrder');
-    Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');
+        Route::get('/restaurant', 'RestaurantController@showList');
+
+
+        Route::get('/menu/list', 'MenuController@listForOrder');
+        Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');
+    });
+
+
 });

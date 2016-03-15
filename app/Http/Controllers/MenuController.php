@@ -32,11 +32,11 @@ class MenuController extends Controller
         $this->validate(
             $request,
             [
-                "restaurantID" => "exists:". $this->restaurant->getTable() .",id"
+                "restaurantID" => "exists:direstoranin,id"
             ]
         );
 
-        $restaurant = $this->restaurant->where("id", $request->input("restaurantID"))->first();
+        $restaurant = Restaurant::where("id", $request->input("restaurantID"))->first();
         $menu = $restaurant->menus;
         return Datatables::of($menu)
             ->addColumn("reference", '{!! App\Http\Controllers\MenuController::hideReference($id) !!}')
