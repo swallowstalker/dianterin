@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\OrderReceivedEvent;
+use App\Events\OrderNotReceived;
+use App\Events\OrderReceived;
 use App\Feedback;
 use App\Http\Requests;
 use App\Http\Requests\OrderRequest;
@@ -205,44 +206,20 @@ class OrderController extends Controller
             "feedback" => "max:1000"
         ]);
 
-        $order = Order::where("id", $request->input("id"))->first();
+        $order = Order::where("id", $request->input("id"))
+            ->where("status", Order::STATUS_DELIVERED)
+            ->first();
 
         $this->authorize($order);
 
         $order->status = Order::STATUS_RECEIVED;
         $order->save();
 
-        Event::fire(new OrderReceivedEvent($order));
+        Event::fire(new OrderReceived($order));
 
         $this->saveFeedback($order->id, $request->input("feedback"));
 
         return redirect("/");
-    }
-
-    /**
-     * Move pending transaction to listed transaction.
-     * @param $orderID
-     */
-    private function movePendingTransaction($orderID) {
-
-        $pendingTransaction = PendingTransactionOrder::where("order_id", $orderID)->first();
-
-        // move pending transaction to transaction list
-        $transaction = new TransactionOrder([
-            "user_id" => $pendingTransaction->user_id,
-            "order_id" => $pendingTransaction->order_id,
-            "restaurant" => $pendingTransaction->restaurant,
-            "menu" => $pendingTransaction->menu,
-            "price" => $pendingTransaction->price,
-            "delivery_cost" => $pendingTransaction->delivery_cost,
-            "adjustment" => $pendingTransaction->adjustment,
-            "adjustment_info" => $pendingTransaction->adjustment_info,
-            "final_cost" => $pendingTransaction->final_cost,
-        ]);
-
-        $transaction->save();
-
-        $pendingTransaction->delete();
     }
 
     /**
@@ -277,15 +254,16 @@ class OrderController extends Controller
             "id" => "required|exists:order_parent,id",
         ]);
 
-        $order = Order::where("id", $request->input("id"))->first();
+        $order = Order::where("id", $request->input("id"))
+            ->where("status", Order::STATUS_DELIVERED)
+            ->first();
 
         $this->authorize($order);
 
         $order->status = Order::STATUS_NOT_RECEIVED;
         $order->save();
 
-        PendingTransactionOrder::where("order_id", $order->id)->delete();
-
+        Event::fire(new OrderNotReceived($order));
 
         return redirect("/");
     }

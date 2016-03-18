@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\CourierTravelRecord;
 use App\Order;
@@ -13,7 +13,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Log;
 
-class AdminOrderController extends Controller
+class OverallOrderController extends Controller
 {
 
     public function __construct() {
@@ -32,7 +32,7 @@ class AdminOrderController extends Controller
         $viewData = [];
         $viewData["openTravels"] = CourierTravelRecord::isOpen()->get()->pluck("id", "id");
 
-        return view("admin.order.order", $viewData);
+        return view("admin.order.overall_order", $viewData);
     }
 
     /**
@@ -44,9 +44,9 @@ class AdminOrderController extends Controller
 
         $order = Order::whereNotNull("travel_id")->orderBy("created_at", "desc")->get();
 
-        $element = '{!! App\Http\Controllers\AdminOrderController::unifyElements($id) !!}';
-        $courierName = '{!! App\Http\Controllers\AdminOrderController::getCourierName($travel_id) !!}';
-        $userName = '{!! App\Http\Controllers\AdminOrderController::getUserName($user_id) !!}';
+        $element = '{!! App\Http\Controllers\Admin\OverallOrderController::unifyElements($id) !!}';
+        $courierName = '{!! App\Http\Controllers\Admin\OverallOrderController::getCourierName($travel_id) !!}';
+        $userName = '{!! App\Http\Controllers\Admin\OverallOrderController::getUserName($user_id) !!}';
 
         $deleteElement = '{!! Form::open(["url" => "admin/order/delete"]) !!}';
         $deleteElement .= '{!! Form::hidden("id", $id) !!}';
@@ -80,7 +80,7 @@ class AdminOrderController extends Controller
             ->where("status", Order::STATUS_ORDERED)
             ->delete();
 
-        return redirect("/admin/order/list");
+        return redirect("/admin/order");
     }
 
     /**
@@ -98,7 +98,7 @@ class AdminOrderController extends Controller
             ->where("travel_id", $request->input("travel"))
             ->update(["status" => Order::STATUS_PROCESSED]);
 
-        return redirect("/admin/order/list");
+        return redirect("/admin/order");
     }
 
     /**

@@ -21,4 +21,9 @@ class OrderElement extends Model
     public function order() {
         return $this->belongsTo('App\Order', 'order_parent_id');
     }
+
+    public function getSubtotalAttribute() {
+
+        return $this->menuObject->price * $this->amount;
+    }
 }

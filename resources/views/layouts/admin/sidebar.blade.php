@@ -2,7 +2,7 @@
     <div class="sidebar-nav navbar-collapse">
         <ul class="nav" id="side-menu">
             <li>
-                <a href="{{ url("/") }}/admin/order/list">
+                <a href="{{ url("/") }}/admin/order">
                     <i class="fa fa-dashboard fa-fw"></i> Dashboard
                 </a>
             </li>
@@ -12,18 +12,18 @@
                 </a>
                 <ul class="nav nav-second-level collapse" aria-expanded="true">
                     <li>
-                        <a href="{{ url("/") }}/admin/order/list">
+                        <a href="{{ url("/") }}/admin/order">
                             Overall
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url("/") }}/admin/budget/finalize">
-                            Delivered Food
+                        <a href="{{ url("/") }}/admin/order/processed">
+                            Delivered
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url("/") }}/admin/budget/food/unreceived">
-                            Unreceived Food
+                        <a href="{{ url("/") }}/admin/order/unreceived">
+                            Unreceived
                         </a>
                     </li>
                 </ul>

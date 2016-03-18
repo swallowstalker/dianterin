@@ -14,12 +14,17 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
 
-        'App\Events\OrderReceivedEvent' => [
-            'App\Listeners\ChangePendingTransaction',
-            'App\Listeners\DebitUserBalance'
+        'App\Events\OrderDelivered' => [
+            'App\Listeners\CreatePendingTransaction',
+            'App\Listeners\EmailUserOrderDelivered'
         ],
-        'App\Events\OrderDeliveredEvent' => [
-            'App\Listeners\CreatePendingTransaction'
+        'App\Events\OrderReceived' => [
+            'App\Listeners\CreateRealTransaction',
+            'App\Listeners\DebitUserBalance',
+            'App\Listeners\DeletePendingTransaction'
+        ],
+        'App\Events\OrderNotReceived' => [
+            'App\Listeners\DeletePendingTransaction'
         ]
     ];
 

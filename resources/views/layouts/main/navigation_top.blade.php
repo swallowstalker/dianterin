@@ -22,7 +22,7 @@
     @if(Auth::user()->role == \App\User::ROLE_ADMIN)
 
         <li class="dropdown" style="margin-right: 20px;">
-            {!! Html::link("admin/order/list", "Panel Admin", ["style" => 'line-height: 40px;']) !!}
+            {!! Html::link("admin/order", "Panel Admin", ["style" => 'line-height: 40px;']) !!}
         </li>
 
     @endif

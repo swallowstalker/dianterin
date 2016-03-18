@@ -44,6 +44,11 @@ class Order extends Model
 
     protected $fillable = ["travel_id", "user_id", "status"];
 
+
+    //@todo add global scope for null travel id
+
+    //@todo create auto change status to "processed" if travel limit time has passed
+
     /**
      * Sub element of this order.
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -54,6 +59,10 @@ class Order extends Model
 
     public function travel() {
         return $this->hasOne('App\CourierTravelRecord', 'travel_id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User', 'user_id');
     }
 
     /**
@@ -71,6 +80,16 @@ class Order extends Model
     public function scopeByStatus($query, $status) {
 
         $query->where("status", $status);
+        return $query;
+    }
+
+    public function scopeByTravel($query, $travelID) {
+
+        if (empty($travelID)) {
+            $travelID = -1;
+        }
+
+        $query->where("travel_id", $travelID);
         return $query;
     }
 }

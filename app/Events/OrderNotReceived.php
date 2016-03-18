@@ -7,7 +7,7 @@ use App\Order;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class OrderReceivedEvent extends Event
+class OrderNotReceived extends Event
 {
     use SerializesModels;
 

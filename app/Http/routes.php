@@ -40,10 +40,17 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/order/received', 'OrderController@received');
         Route::post('/order/unreceived', 'OrderController@notReceived');
 
-        Route::get('/admin/order/list', 'AdminOrderController@index');
-        Route::get('/admin/order/data', 'AdminOrderController@data');
-        Route::post('/admin/order/delete', 'AdminOrderController@delete');
-        Route::post('/admin/order/lock', 'AdminOrderController@lock');
+
+        Route::get('/admin/order', 'Admin\OverallOrderController@index');
+        Route::get('/admin/order/data', 'Admin\OverallOrderController@data');
+        Route::post('/admin/order/delete', 'Admin\OverallOrderController@delete');
+        Route::post('/admin/order/ordered/lock', 'Admin\OverallOrderController@lock');
+
+        Route::get('/admin/order/processed', 'Admin\ProcessedOrderController@index');
+        Route::post('/admin/order/processed/lock', 'Admin\ProcessedOrderController@lock');
+
+        Route::get('/admin/order/unreceived', 'Admin\NotReceivedOrderController@index');
+        Route::post('/admin/order/unreceived/lock', 'Admin\NotReceivedOrderController@lock');
 
 
 

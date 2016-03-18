@@ -51,7 +51,7 @@
                         <div class="col-lg-12" style="margin-bottom: 20px;">
 
 
-                            {!! Form::open(["url" => "admin/order/lock"]) !!}
+                            {!! Form::open(["url" => "admin/order/ordered/lock"]) !!}
 
                             {!! Form::select("travel", $openTravels, null, ["class" => "button-blue-white"]) !!}
                             <button type="submit" class="button-blue-white">

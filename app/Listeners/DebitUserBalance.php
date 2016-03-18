@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderReceivedEvent;
+use App\Events\OrderReceived;
 use App\GeneralTransaction;
 use App\PendingTransactionOrder;
 use Auth;
@@ -24,10 +24,10 @@ class DebitUserBalance
     /**
      * Handle the event.
      *
-     * @param  OrderReceivedEvent  $event
+     * @param  OrderReceived  $event
      * @return void
      */
-    public function handle(OrderReceivedEvent $event)
+    public function handle(OrderReceived $event)
     {
 
         $pendingTransaction = PendingTransactionOrder::where("order_id", $event->order->id)->first();
