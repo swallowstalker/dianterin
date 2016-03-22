@@ -34,7 +34,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">User</h1>
+            <h1 class="page-header">Overall Transaction</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -44,8 +44,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    Currently registered user: {{ $totalUser }} person,
-                    deposit total: Rp {{ number_format($totalBalance, 0, ",", ".") }}
+                    Total transaction until [] is []
                 </div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
@@ -54,14 +53,12 @@
 
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Twitter</th>
-                                <th>Phone</th>
-
-                                <th>Deposit</th>
-
                                 <th></th>
+                                <th>Name</th>
+                                <th>Author</th>
+                                <th>Movement</th>
+                                <th>Reason</th>
+                                <th>Time</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -78,7 +75,7 @@
 
 <script type="text/javascript">
 
-    var source = '{{ url("/") }}/admin/user/data';
+    var source = '{{ url("/") }}/admin/transaction/data';
     var csrfHash = "{!! csrf_token() !!}";
 
 
@@ -101,15 +98,15 @@
             [10, 25, 50, "All"]
         ],
         order: [
-//            [0, 'asc']
+            [0, 'desc']
         ],
         columns: [
-            { visible: true, searchable: true, orderable: true, data: "name"},
-            { visible: true, searchable: true, orderable: true, data: "email"},
-            { visible: true, searchable: true, orderable: true, data: "twitter"},
-            { visible: true, searchable: true, orderable: true, data: "phone"},
-            { visible: true, searchable: true, orderable: true, data: "balance"},
-            { visible: true, searchable: false, orderable: false, data: "edit_deposit"}
+            { visible: false, searchable: true, orderable: true, data: "id"},
+            { visible: true, searchable: true, orderable: true, data: "owner"},
+            { visible: true, searchable: true, orderable: true, data: "author"},
+            { visible: true, searchable: true, orderable: true, data: "movement"},
+            { visible: true, searchable: true, orderable: true, data: "action"},
+            { visible: true, searchable: true, orderable: true, data: "created_at"}
         ],
         responsive: true
     };

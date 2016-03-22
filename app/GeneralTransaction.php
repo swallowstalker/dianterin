@@ -10,6 +10,14 @@ class GeneralTransaction extends Model
 
     protected $fillable = ["author_id", "user_id", "movement", "action"];
 
+    public function author() {
+        return $this->belongsTo('App\User', 'author_id');
+    }
+
+    public function owner() {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
     public function scopeByOwner($query, $id) {
 
         $query->where("user_id", $id);

@@ -61,6 +61,10 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/admin/deposit/edit', 'Admin\UserController@editDeposit');
 
 
+        Route::get('/admin/transaction', 'Admin\TransactionController@overall');
+        Route::get('/admin/transaction/data', 'Admin\TransactionController@overallData');
+
+
 
 
 

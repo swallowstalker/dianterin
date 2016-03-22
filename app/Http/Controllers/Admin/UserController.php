@@ -44,7 +44,7 @@ class UserController extends Controller
      */
     public function data() {
 
-        $user = User::get();
+        $user = User::orderBy("name", "asc")->get();
         $balance = '{!! App\User::find($id)->balance !!}';
         $edit = '<a href="'. url("/") .'/admin/deposit?id={!! $id !!}">Edit Deposit</a>';
 

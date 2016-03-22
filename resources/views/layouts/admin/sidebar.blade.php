@@ -41,12 +41,12 @@
                 </a>
                 <ul class="nav nav-second-level collapse" aria-expanded="true">
                     <li>
-                        <a href="{{ url("/") }}/admin/transaction/all">
+                        <a href="{{ url("/") }}/admin/transaction">
                             Overall
                         </a>
                     </li>
                     <li>
-                        <a href="{{ url("/") }}/admin/budget/transaction">
+                        <a href="{{ url("/") }}/admin/transaction/order">
                             Order
                         </a>
                     </li>
