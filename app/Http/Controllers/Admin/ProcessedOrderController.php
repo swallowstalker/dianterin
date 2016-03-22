@@ -21,6 +21,12 @@ use Log;
 class ProcessedOrderController extends Controller
 {
 
+    /**
+     * Show list of processed order, ready to mark "delivered"
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index(Request $request) {
 
         $viewData = [];
@@ -70,5 +76,56 @@ class ProcessedOrderController extends Controller
         }
 
         return redirect("admin/order/processed");
+    }
+
+    /**
+     * Show processed order summary for courier
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showSummary(Request $request) {
+
+        $processedOrderList = Order::byStatus(Order::STATUS_PROCESSED)
+            ->byTravel($request->input("travel"))->get();
+
+        // first, separate order element into priority list
+
+        $orderElementByPriority = [];
+
+        foreach ($processedOrderList as $order) {
+
+            foreach ($order->elements as $key => $element) {
+
+                if (! isset($orderElementByPriority[$key])) {
+                    $orderElementByPriority[$key] = [];
+                }
+
+                $orderElementByPriority[$key][] = $element;
+            }
+        }
+
+        // second, group it by restaurant.
+
+        $orderElementByPriorityAndRestaurant = [];
+
+        foreach ($orderElementByPriority as $key => $orderElementList) {
+
+            $orderElementByPriorityAndRestaurant[$key] = [];
+
+            foreach ($orderElementList as $orderElement) {
+
+                if (! isset($orderElementByPriorityAndRestaurant[$key][$orderElement->restaurant])) {
+                    $orderElementByPriorityAndRestaurant[$key][$orderElement->restaurant] = [];
+                }
+
+                $orderElementByPriorityAndRestaurant[$key][$orderElement->restaurant][] = $orderElement;
+
+            }
+        }
+
+        $viewData = ["orderElementByPriorityAndRestaurant" => $orderElementByPriorityAndRestaurant];
+
+        return view("admin.order.summary", $viewData);
     }
 }

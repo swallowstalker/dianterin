@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2016-02-13.
+    * Generated on 2016-03-18.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -52,10 +52,10 @@ namespace PHPSTORM_META {
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'recaptcha.service' instanceof \Greggilbert\Recaptcha\Service\CheckRecaptchaV2,
             'recaptcha' instanceof \Greggilbert\Recaptcha\Recaptcha,
-            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -175,10 +175,10 @@ namespace PHPSTORM_META {
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'recaptcha.service' instanceof \Greggilbert\Recaptcha\Service\CheckRecaptchaV2,
             'recaptcha' instanceof \Greggilbert\Recaptcha\Recaptcha,
-            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -298,10 +298,10 @@ namespace PHPSTORM_META {
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'recaptcha.service' instanceof \Greggilbert\Recaptcha\Service\CheckRecaptchaV2,
             'recaptcha' instanceof \Greggilbert\Recaptcha\Recaptcha,
-            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,
@@ -421,10 +421,10 @@ namespace PHPSTORM_META {
             'command.debugbar.clear' instanceof \Barryvdh\Debugbar\Console\ClearCommand,
             'recaptcha.service' instanceof \Greggilbert\Recaptcha\Service\CheckRecaptchaV2,
             'recaptcha' instanceof \Greggilbert\Recaptcha\Recaptcha,
-            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'translation.loader' instanceof \Illuminate\Translation\FileLoader,
             'translator' instanceof \Illuminate\Translation\Translator,
+            'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
             'Illuminate\Broadcasting\BroadcastManager' instanceof \Illuminate\Broadcasting\BroadcastManager,
             'Illuminate\Bus\Dispatcher' instanceof \Illuminate\Bus\Dispatcher,
             'cache' instanceof \Illuminate\Cache\CacheManager,

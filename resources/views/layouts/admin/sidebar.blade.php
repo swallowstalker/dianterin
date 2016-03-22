@@ -30,7 +30,7 @@
             </li>
 
             <li>
-                <a href="{{ url("/") }}/admin/user/list">
+                <a href="{{ url("/") }}/admin/user">
                     <i class="fa fa-user fa-fw"></i> User
                 </a>
             </li>

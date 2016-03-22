@@ -34,7 +34,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Order</h1>
+            <h1 class="page-header">User</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -42,40 +42,24 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
+
                 <div class="panel-heading">
-                    Order
+                    Currently registered user: {{ $totalUser }} person,
+                    deposit total: Rp {{ number_format($totalBalance, 0, ",", ".") }}
                 </div>
                 <div class="panel-body">
-
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-bottom: 20px;">
-
-
-                            {!! Form::open(["url" => "admin/order/ordered/lock"]) !!}
-
-                            {!! Form::select("travel", $openTravels, null, ["class" => "button-blue-white"]) !!}
-
-                            <button type="submit" class="button-blue-white">
-                                <i class="fa fa-lock fa-fw"></i> Process Order
-                            </button>
-
-                            {!! Form::close() !!}
-
-                        </div>
-                    </div>
-
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover"
                                cellpadding="0" cellspacing="0" id="data" width="100%">
+
                             <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>Nama</th>
-                                <th>Status</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Twitter</th>
+                                <th>Phone</th>
 
-                                <th>Pesanan</th>
-                                <th>ID Perjalanan</th>
-                                <th>Pengantar</th>
+                                <th>Deposit</th>
 
                                 <th></th>
                             </tr>
@@ -83,20 +67,20 @@
                             <tbody></tbody>
                         </table>
                     </div>
-
                 </div>
+
+
             </div>
         </div>
     </div>
 </div>
 
 
-
-
 <script type="text/javascript">
 
-    var source = '{{ url("/") }}/admin/order/data';
+    var source = '{{ url("/") }}/admin/user/data';
     var csrfHash = "{!! csrf_token() !!}";
+
 
     var settings = {
         processing: true,
@@ -117,31 +101,21 @@
             [10, 25, 50, "All"]
         ],
         order: [
-            [0, 'desc']
+            [0, 'asc']
         ],
         columns: [
-            { visible: true, searchable: true, orderable: true, data: "id"},
             { visible: true, searchable: true, orderable: true, data: "name"},
-            { visible: true, searchable: false, orderable: false, data: "status"},
-
-            { visible: true, searchable: true, orderable: true, data: "element"},
-            { visible: true, searchable: true, orderable: true, data: "travel_id"},
-            { visible: true, searchable: true, orderable: true, data: "courier"},
-
-            { visible: true, searchable: false, orderable: false, data: "delete"}
+            { visible: true, searchable: true, orderable: true, data: "email"},
+            { visible: true, searchable: true, orderable: true, data: "twitter"},
+            { visible: true, searchable: true, orderable: true, data: "phone"},
+            { visible: true, searchable: true, orderable: true, data: "balance"},
+            { visible: true, searchable: false, orderable: false, data: "edit_deposit"}
         ],
         responsive: true
     };
 
     $(document).ready(function () {
         var oTable = $('#data').DataTable(settings);
-
-
-        {{--@fixme still not working--}}
-        $("select[name=travel]").on("change", function () {
-            oTable.column(4).search("^"+ $(this).val() +"$", true).draw();
-        });
-
     });
 </script>
 

@@ -9,6 +9,9 @@
     <!-- DataTables Responsive CSS -->
     <link href="{!! asset("/") !!}bower_components/datatables-responsive/css/responsive.dataTables.css" rel="stylesheet">
 
+    <!-- DataTables TableTools CSS -->
+    <link href="{!! asset("/") !!}bower_components/datatables-tabletools/css/dataTables.tableTools.css" rel="stylesheet">
+
 
     <!-- JQuery-UI Theme CSS -->
     <link href="{!! asset("/") !!}bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">

@@ -10,6 +10,12 @@ class GeneralTransaction extends Model
 
     protected $fillable = ["author_id", "user_id", "movement", "action"];
 
+    public function scopeByOwner($query, $id) {
+
+        $query->where("user_id", $id);
+        return $query;
+    }
+
     public function setUpdatedAt($value)
     {
         // not setting anything here.

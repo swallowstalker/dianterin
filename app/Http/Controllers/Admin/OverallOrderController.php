@@ -30,7 +30,7 @@ class OverallOrderController extends Controller
     public function index() {
 
         $viewData = [];
-        $viewData["openTravels"] = CourierTravelRecord::isOpen()->get()->pluck("id", "id");
+        $viewData["openTravels"] = CourierTravelRecord::get()->pluck("id", "id");
 
         return view("admin.order.overall_order", $viewData);
     }
@@ -38,11 +38,13 @@ class OverallOrderController extends Controller
     /**
      * Show DT list data
      *
+     * @param Request $request
      * @return mixed
      */
-    public function data() {
+    public function data(Request $request) {
 
-        $order = Order::whereNotNull("travel_id")->orderBy("created_at", "desc")->get();
+        $order = Order::whereNotNull("travel_id")
+            ->orderBy("created_at", "desc")->get();
 
         $element = '{!! App\Http\Controllers\Admin\OverallOrderController::unifyElements($id) !!}';
         $courierName = '{!! App\Http\Controllers\Admin\OverallOrderController::getCourierName($travel_id) !!}';

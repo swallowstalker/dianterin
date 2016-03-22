@@ -47,13 +47,13 @@ class User extends Authenticatable
 
 
     public function transactions() {
-        return $this->hasMany('App\UserTransaction', 'user_id');
+        return $this->hasMany('App\GeneralTransaction', 'user_id');
     }
 
 
     public function getBalanceAttribute() {
 
-        $balance = $this->transactions()->byOwner()->sum("movement");
+        $balance = $this->transactions()->byOwner($this->id)->sum("movement");
         return $balance;
     }
 }
