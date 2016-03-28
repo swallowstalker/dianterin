@@ -34,8 +34,8 @@ class DebitUserBalance
 
         // add new debit transaction for user buying this order
         $generalTransaction = new GeneralTransaction([
-            "author_id" => Auth::user()->id,
-            "user_id" => Auth::user()->id,
+            "author_id" => $event->author->id,
+            "user_id" => $event->order->user_id,
             "movement" => -1 * $pendingTransaction->final_cost,
             "action" => "ORDER: Payment for #". $event->order->id
         ]);

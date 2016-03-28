@@ -64,6 +64,14 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/admin/transaction', 'Admin\TransactionController@overall');
         Route::get('/admin/transaction/data', 'Admin\TransactionController@overallData');
 
+        Route::get('/admin/transaction/order', 'Admin\TransactionController@order');
+        Route::get('/admin/transaction/order/data', 'Admin\TransactionController@orderData');
+
+        Route::post('/admin/transaction/order/revert', 'Admin\TransactionController@revert');
+
+        Route::get('/admin/message', 'Admin\MessageController@index');
+        Route::post('/admin/message/broadcast', 'Admin\MessageController@broadcast');
+
 
 
 

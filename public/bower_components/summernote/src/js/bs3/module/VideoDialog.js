@@ -20,6 +20,7 @@ define([
 
       this.$dialog = ui.dialog({
         title: lang.video.insert,
+        fade: options.dialogsFade,
         body: body,
         footer: footer
       }).render().appendTo($container);
@@ -116,7 +117,6 @@ define([
 
       return $video[0];
     };
-
 
     this.show = function () {
       var text = context.invoke('editor.getSelectedText');

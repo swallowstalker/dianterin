@@ -1,7 +1,11 @@
+var script = document.getElementById('start');
+var isIE8 = script && script.getAttribute('data-browser') === 'ie8';
+
+var jqueryLink = isIE8 ? '//code.jquery.com/jquery-1.11.3' : '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery';
 require.config({
   baseUrl: 'src/js',
   paths: {
-    jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery',
+    jquery: jqueryLink,
     bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap',
     lang: '../../lang/summernote-ko-KR'
   },
@@ -16,10 +20,7 @@ require.config({
   }]
 });
 
-require([
-  'jquery',
-  'summernote'
-], function ($) {
+require(['jquery', 'summernote'], function ($) {
   var requireByPromise = function (paths) {
     return $.Deferred(function (deferred) {
       require(paths, function () {

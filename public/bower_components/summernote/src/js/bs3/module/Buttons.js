@@ -32,6 +32,20 @@ define([
       this.addToolbarButtons();
       this.addImagePopoverButtons();
       this.addLinkPopoverButtons();
+      this.fontInstalledMap = {};
+    };
+
+    this.destroy = function () {
+      delete this.fontInstalledMap;
+    };
+
+    this.isFontInstalled = function (name) {
+      if (!self.fontInstalledMap.hasOwnProperty(name)) {
+        self.fontInstalledMap[name] = agent.isFontInstalled(name) ||
+          list.contains(options.fontNamesIgnoreCheck, name);
+      }
+
+      return self.fontInstalledMap[name];
     };
 
     this.addToolbarButtons = function () {
@@ -48,6 +62,19 @@ define([
           ui.dropdown({
             className: 'dropdown-style',
             items: context.options.styleTags,
+            template: function (item) {
+
+              if (typeof item === 'string') {
+                item = { tag: item, title: item };
+              }
+
+              var tag = item.tag;
+              var title = item.title;
+              var style = item.style ? ' style="' + item.style + '" ' : '';
+              var className = item.className ? ' className="' + item.className + '"' : '';
+
+              return '<' + tag + style + className + '>' + title + '</' + tag +  '>';
+            },
             click: context.createInvokeHandler('editor.formatBlock')
           })
         ]).render();
@@ -90,6 +117,7 @@ define([
 
       context.memo('button.strikethrough', function () {
         return ui.button({
+          className: 'note-btn-strikethrough',
           contents: ui.icon(options.icons.strikethrough),
           tooltip: lang.font.strikethrough + representShortcut('strikethrough'),
           click: context.createInvokeHandler('editor.strikethrough')
@@ -98,6 +126,7 @@ define([
 
       context.memo('button.superscript', function () {
         return ui.button({
+          className: 'note-btn-superscript',
           contents: ui.icon(options.icons.superscript),
           tooltip: lang.font.superscript,
           click: context.createInvokeHandler('editor.superscript')
@@ -106,6 +135,7 @@ define([
 
       context.memo('button.subscript', function () {
         return ui.button({
+          className: 'note-btn-subscript',
           contents: ui.icon(options.icons.subscript),
           tooltip: lang.font.subscript,
           click: context.createInvokeHandler('editor.subscript')
@@ -124,11 +154,11 @@ define([
           }),
           ui.dropdownCheck({
             className: 'dropdown-fontname',
-            checkClassName : options.icons.menuCheck,
-            items: options.fontNames.filter(function (name) {
-              return agent.isFontInstalled(name) ||
-                list.contains(options.fontNamesIgnoreCheck, name);
-            }),
+            checkClassName: options.icons.menuCheck,
+            items: options.fontNames.filter(self.isFontInstalled),
+            template: function (item) {
+              return '<span style="font-family:' + item + '">' + item + '</span>';
+            },
             click: context.createInvokeHandler('editor.fontName')
           })
         ]).render();
@@ -146,7 +176,7 @@ define([
           }),
           ui.dropdownCheck({
             className: 'dropdown-fontsize',
-            checkClassName : options.icons.menuCheck,
+            checkClassName: options.icons.menuCheck,
             items: options.fontSizes,
             click: context.createInvokeHandler('editor.fontSize')
           })
@@ -158,19 +188,20 @@ define([
           className: 'note-color',
           children: [
             ui.button({
-              className : 'note-current-color-button',
+              className: 'note-current-color-button',
               contents: ui.icon(options.icons.font + ' note-recent-color'),
               tooltip: lang.color.recent,
-              click: context.createInvokeHandler('editor.color'),
+              click: function (e) {
+                var $button = $(e.currentTarget);
+                context.invoke('editor.color', {
+                  backColor: $button.attr('data-backColor'),
+                  foreColor: $button.attr('data-foreColor')
+                });
+              },
               callback: function ($button) {
                 var $recentColor = $button.find('.note-recent-color');
-                $recentColor.css({
-                  'background-color': 'yellow'
-                });
-
-                $button.data('value', {
-                  backColor: 'yellow'
-                });
+                $recentColor.css('background-color', '#FFFF00');
+                $button.attr('data-backColor', '#FFFF00');
               }
             }),
             ui.button({
@@ -186,12 +217,20 @@ define([
                 '<li>',
                 '<div class="btn-group">',
                 '  <div class="note-palette-title">' + lang.color.background + '</div>',
-                '  <div class="note-color-reset" data-event="backColor" data-value="inherit">' + lang.color.transparent + '</div>',
+                '  <div>',
+                '    <button type="button" class="note-color-reset btn btn-default" data-event="backColor" data-value="inherit">',
+                lang.color.transparent,
+                '    </button>',
+                '  </div>',
                 '  <div class="note-holder" data-event="backColor"/>',
                 '</div>',
                 '<div class="btn-group">',
                 '  <div class="note-palette-title">' + lang.color.foreground + '</div>',
-                '  <div class="note-color-reset" data-event="foreColor" data-value="inherit">' + lang.color.resetToDefault + '</div>',
+                '  <div>',
+                '    <button type="button" class="note-color-reset btn btn-default" data-event="removeFormat" data-value="foreColor">',
+                lang.color.resetToDefault,
+                '    </button>',
+                '  </div>',
                 '  <div class="note-holder" data-event="foreColor"/>',
                 '</div>',
                 '</li>'
@@ -215,11 +254,8 @@ define([
                   var $color = $button.closest('.note-color').find('.note-recent-color');
                   var $currentButton = $button.closest('.note-color').find('.note-current-color-button');
 
-                  var colorInfo = $currentButton.data('value');
-                  colorInfo[eventName] = value;
                   $color.css(key, value);
-                  $currentButton.data('value', colorInfo);
-
+                  $currentButton.attr('data-' + eventName, value);
                   context.invoke('editor.' + eventName, value);
                 }
               }
@@ -228,7 +264,7 @@ define([
         }).render();
       });
 
-      context.memo('button.ol',  function () {
+      context.memo('button.ul',  function () {
         return ui.button({
           contents: ui.icon(options.icons.unorderedlist),
           tooltip: lang.lists.unordered + representShortcut('insertUnorderedList'),
@@ -236,7 +272,7 @@ define([
         }).render();
       });
 
-      context.memo('button.ul', function () {
+      context.memo('button.ol', function () {
         return ui.button({
           contents: ui.icon(options.icons.orderedlist),
           tooltip: lang.lists.ordered + representShortcut('insertOrderedList'),
@@ -244,11 +280,54 @@ define([
         }).render();
       });
 
+      var justifyLeft = ui.button({
+        contents: ui.icon(options.icons.alignLeft),
+        tooltip: lang.paragraph.left + representShortcut('justifyLeft'),
+        click: context.createInvokeHandler('editor.justifyLeft')
+      });
+
+      var justifyCenter = ui.button({
+        contents: ui.icon(options.icons.alignCenter),
+        tooltip: lang.paragraph.center + representShortcut('justifyCenter'),
+        click: context.createInvokeHandler('editor.justifyCenter')
+      });
+
+      var justifyRight = ui.button({
+        contents: ui.icon(options.icons.alignRight),
+        tooltip: lang.paragraph.right + representShortcut('justifyRight'),
+        click: context.createInvokeHandler('editor.justifyRight')
+      });
+
+      var justifyFull = ui.button({
+        contents: ui.icon(options.icons.alignJustify),
+        tooltip: lang.paragraph.justify + representShortcut('justifyFull'),
+        click: context.createInvokeHandler('editor.justifyFull')
+      });
+
+      var outdent = ui.button({
+        contents: ui.icon(options.icons.outdent),
+        tooltip: lang.paragraph.outdent + representShortcut('outdent'),
+        click: context.createInvokeHandler('editor.outdent')
+      });
+
+      var indent = ui.button({
+        contents: ui.icon(options.icons.indent),
+        tooltip: lang.paragraph.indent + representShortcut('indent'),
+        click: context.createInvokeHandler('editor.indent')
+      });
+
+      context.memo('button.justifyLeft', func.invoke(justifyLeft, 'render'));
+      context.memo('button.justifyCenter', func.invoke(justifyCenter, 'render'));
+      context.memo('button.justifyRight', func.invoke(justifyRight, 'render'));
+      context.memo('button.justifyFull', func.invoke(justifyFull, 'render'));
+      context.memo('button.outdent', func.invoke(outdent, 'render'));
+      context.memo('button.indent', func.invoke(indent, 'render'));
+
       context.memo('button.paragraph', function () {
         return ui.buttonGroup([
           ui.button({
             className: 'dropdown-toggle',
-            contents: ui.icon(options.icons.align) + ' ' + ui.icon(options.icons.caret, 'span'),
+            contents: ui.icon(options.icons.alignLeft) + ' ' + ui.icon(options.icons.caret, 'span'),
             tooltip: lang.paragraph.paragraph,
             data: {
               toggle: 'dropdown'
@@ -257,43 +336,11 @@ define([
           ui.dropdown([
             ui.buttonGroup({
               className: 'note-align',
-              children: [
-                ui.button({
-                  contents: ui.icon(options.icons.alignLeft),
-                  tooltip: lang.paragraph.left + representShortcut('justifyLeft'),
-                  click: context.createInvokeHandler('editor.justifyLeft')
-                }),
-                ui.button({
-                  contents: ui.icon(options.icons.alignCenter),
-                  tooltip: lang.paragraph.center + representShortcut('justifyCenter'),
-                  click: context.createInvokeHandler('editor.justifyCenter')
-                }),
-                ui.button({
-                  contents: ui.icon(options.icons.alignRight),
-                  tooltip: lang.paragraph.right + representShortcut('justifyRight'),
-                  click: context.createInvokeHandler('editor.justifyRight')
-                }),
-                ui.button({
-                  contents: ui.icon(options.icons.alignJustify),
-                  tooltip: lang.paragraph.justify + representShortcut('justifyFull'),
-                  click: context.createInvokeHandler('editor.justifyFull')
-                })
-              ]
+              children: [justifyLeft, justifyCenter, justifyRight, justifyFull]
             }),
             ui.buttonGroup({
               className: 'note-list',
-              children: [
-                ui.button({
-                  contents: ui.icon(options.icons.outdent),
-                  tooltip: lang.paragraph.outdent + representShortcut('outdent'),
-                  click: context.createInvokeHandler('editor.outdent')
-                }),
-                ui.button({
-                  contents: ui.icon(options.icons.indent),
-                  tooltip: lang.paragraph.indent + representShortcut('indent'),
-                  click: context.createInvokeHandler('editor.indent')
-                })
-              ]
+              children: [outdent, indent]
             })
           ])
         ]).render();
@@ -311,7 +358,7 @@ define([
           }),
           ui.dropdownCheck({
             items: options.lineHeights,
-            checkClassName : options.icons.menuCheck,
+            checkClassName: options.icons.menuCheck,
             className: 'dropdown-line-height',
             click: context.createInvokeHandler('editor.lineHeight')
           })
@@ -541,6 +588,15 @@ define([
         },
         '.note-btn-underline': function () {
           return styleInfo['font-underline'] === 'underline';
+        },
+        '.note-btn-subscript': function () {
+          return styleInfo['font-subscript'] === 'subscript';
+        },
+        '.note-btn-superscript': function () {
+          return styleInfo['font-superscript'] === 'superscript';
+        },
+        '.note-btn-strikethrough': function () {
+          return styleInfo['font-strikethrough'] === 'strikethrough';
         }
       });
 
@@ -550,10 +606,7 @@ define([
             .replace(/\s+$/, '')
             .replace(/^\s+/, '');
         });
-        var fontName = list.find(fontNames, function (name) {
-          return agent.isFontInstalled(name) ||
-            list.contains(options.fontNamesIgnoreCheck, name);
-        });
+        var fontName = list.find(fontNames, self.isFontInstalled);
 
         $toolbar.find('.dropdown-fontname li a').each(function () {
           // always compare string to avoid creating another func.

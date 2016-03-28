@@ -1,6 +1,10 @@
 define([
   'jquery'
 ], function ($) {
+  $.summernote = $.summernote || {
+    lang: {}
+  };
+
   $.extend($.summernote.lang, {
     'en-US': {
       font: {
@@ -107,7 +111,7 @@ define([
         documentStyle: 'Document Style',
         extraKeys: 'Extra keys'
       },
-      help : {
+      help: {
         'insertParagraph': 'Insert Paragraph',
         'undo': 'Undoes the last command',
         'redo': 'Redoes the last command',

@@ -1,4 +1,5 @@
 @import "elements.less";
+@import "../icons/dist/summernote.less";
 
 /* Theme Variables
  ------------------------------------------*/
@@ -44,6 +45,14 @@
 
     .note-editable {
       outline: none;
+
+      sup {
+        vertical-align: super;
+      }
+
+      sub {
+        vertical-align: sub;
+      }
     }
   }
 }
@@ -226,9 +235,10 @@
         }
 
         .note-color-reset {
-          font-size: 11px;
           margin: 3px;
           padding: 0 3px;
+          width: 100%;
+          font-size: 11px;
           cursor: pointer;
           .rounded(5px);
         }
@@ -323,6 +333,13 @@
       text-align: center;
       border: 4px dashed lightgray;
       margin-bottom: 10px;
+    }
+  }
+
+  // [workaround] firefox fileinput
+  @-moz-document url-prefix() {
+    .note-image-input {
+      height: auto;
     }
   }
 }

@@ -215,7 +215,7 @@ class OrderController extends Controller
         $order->status = Order::STATUS_RECEIVED;
         $order->save();
 
-        Event::fire(new OrderReceived($order));
+        Event::fire(new OrderReceived($order, Auth::user()));
 
         $this->saveFeedback($order->id, $request->input("feedback"));
 

@@ -48,6 +48,12 @@ define(function () {
       return a;
     };
 
+    var invoke = function (obj, method) {
+      return function () {
+        return obj[method].apply(obj, arguments);
+      };
+    };
+
     var idCounter = 0;
 
     /**
@@ -63,7 +69,7 @@ define(function () {
     /**
      * returns bnd (bounds) from rect
      *
-     * - IE Compatability Issue: http://goo.gl/sRLOAo
+     * - IE Compatibility Issue: http://goo.gl/sRLOAo
      * - Scroll Issue: http://goo.gl/sNjUc
      *
      * @param {Rect} rect
@@ -119,6 +125,7 @@ define(function () {
       self: self,
       not: not,
       and: and,
+      invoke: invoke,
       uniqueId: uniqueId,
       rect2bnd: rect2bnd,
       invertObject: invertObject,

@@ -7,16 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Log;
 
 
-define('ITEM_ORDERED', 0);
-define('ITEM_PROCESSED', 1);
-
-define('ITEM_DELIVERED', 4);
-define('ITEM_NOT_RECEIVED', 5);
-
-define('ITEM_RECEIVED_BY_FORCE', 6);
-define('ITEM_RECEIVED', 2);
-define('ITEM_NOT_FOUND', 3);
-
 class Order extends Model
 {
     protected $table = "order_parent";

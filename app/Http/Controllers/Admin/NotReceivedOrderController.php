@@ -11,6 +11,7 @@ use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
 use App\User;
+use Auth;
 use Datatables;
 use DB;
 use Event;
@@ -69,7 +70,7 @@ class NotReceivedOrderController extends Controller
                 $infoAdjustmentList[$orderID]
             ));
 
-            Event::fire(new OrderReceived($orderElement->order));
+            Event::fire(new OrderReceived($orderElement->order, Auth::user()));
 
             $order = $orderElement->order;
             $order->status = Order::STATUS_RECEIVED_BY_FORCE;

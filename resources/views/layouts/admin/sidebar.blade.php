@@ -65,7 +65,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url("/") }}/admin/notification/broadcast">
+                <a href="{{ url("/") }}/admin/message">
                     <i class="fa fa-bullhorn fa-fw"></i> Broadcast Message
                 </a>
             </li>
