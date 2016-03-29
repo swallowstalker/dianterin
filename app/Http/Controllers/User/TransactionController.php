@@ -1,17 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Message;
 use App\Order;
 use App\PendingTransactionOrder;
 use App\TransactionOrder;
 use Auth;
-use Carbon\Carbon;
 use Datatables;
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 
 class TransactionController extends Controller
 {
@@ -24,6 +22,9 @@ class TransactionController extends Controller
     public function history() {
 
         $viewData = $this->getOrderSidebar();
+
+        $viewData["notifications"] = Message::active()
+            ->byOwner()->byNewest()->get();
 
         return view("public.transaction.history", $viewData);
     }

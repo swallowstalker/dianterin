@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Menu;
 use App\Restaurant;
@@ -39,7 +39,7 @@ class MenuController extends Controller
         $restaurant = Restaurant::where("id", $request->input("restaurantID"))->first();
         $menu = $restaurant->menus;
         return Datatables::of($menu)
-            ->addColumn("reference", '{!! App\Http\Controllers\MenuController::hideReference($id) !!}')
+            ->addColumn("reference", '{!! App\Http\Controllers\User\MenuController::hideReference($id) !!}')
             ->make(true);
     }
 

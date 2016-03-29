@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Events\OrderNotReceived;
 use App\Events\OrderReceived;
 use App\Feedback;
+use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\OrderRequest;
 use App\Menu;

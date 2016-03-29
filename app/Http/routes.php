@@ -32,61 +32,60 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/login/google/callback', 'Auth\AuthController@handleCallbackGoogle');
 
 
-        Route::get('/', 'OrderController@index');
-        Route::post('/order/add', 'OrderController@add');
-        Route::post('/order/change/amount', 'OrderController@changeAmount');
-        Route::post('/order/cancel', 'OrderController@cancel');
+        Route::get('/', 'User\OrderController@index');
+        Route::post('/order/add', 'User\OrderController@add');
+        Route::post('/order/change/amount', 'User\OrderController@changeAmount');
+        Route::post('/order/cancel', 'User\OrderController@cancel');
 
-        Route::post('/order/received', 'OrderController@received');
-        Route::post('/order/unreceived', 'OrderController@notReceived');
+        Route::post('/order/received', 'User\OrderController@received');
+        Route::post('/order/unreceived', 'User\OrderController@notReceived');
 
+        Route::get('/transaction/history', 'User\TransactionController@history');
+        Route::get('/transaction/history/data', 'User\TransactionController@data');
 
-        Route::get('/admin/order', 'Admin\OverallOrderController@index');
-        Route::get('/admin/order/data', 'Admin\OverallOrderController@data');
-        Route::post('/admin/order/delete', 'Admin\OverallOrderController@delete');
-        Route::post('/admin/order/ordered/lock', 'Admin\OverallOrderController@lock');
+        Route::get('/restaurant', 'User\RestaurantController@showList');
 
-        Route::get('/admin/order/processed', 'Admin\ProcessedOrderController@index');
-        Route::post('/admin/order/processed/lock', 'Admin\ProcessedOrderController@lock');
-
-        Route::get('/admin/order/unreceived', 'Admin\NotReceivedOrderController@index');
-        Route::post('/admin/order/unreceived/lock', 'Admin\NotReceivedOrUsderController@lock');
-
-        Route::get('/admin/order/summary', 'Admin\ProcessedOrderController@showSummary');
-
-        Route::get('/admin/user', 'Admin\UserController@index');
-        Route::get('/admin/user/data', 'Admin\UserController@data');
-
-        Route::get('/admin/deposit', 'Admin\UserController@showEditDeposit');
-        Route::post('/admin/deposit/edit', 'Admin\UserController@editDeposit');
-
-
-        Route::get('/admin/transaction', 'Admin\TransactionController@overall');
-        Route::get('/admin/transaction/data', 'Admin\TransactionController@overallData');
-
-        Route::get('/admin/transaction/order', 'Admin\TransactionController@order');
-        Route::get('/admin/transaction/order/data', 'Admin\TransactionController@orderData');
-
-        Route::post('/admin/transaction/order/revert', 'Admin\TransactionController@revert');
-
-        Route::get('/admin/message', 'Admin\MessageController@index');
-        Route::post('/admin/message/broadcast', 'Admin\MessageController@broadcast');
-
-
-
-
-
-        Route::get('/transaction/history', 'TransactionController@history');
-        Route::get('/transaction/history/data', 'TransactionController@data');
-
-
-        Route::get('/restaurant', 'RestaurantController@showList');
-
-
-        Route::get('/menu/list', 'MenuController@listForOrder');
-        Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');
+        Route::get('/menu/list', 'User\MenuController@listForOrder');
+        Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
         Route::post('/notification/dismiss', 'User\MessageController@dismiss');
+
+
+        Route::group(['middleware' => 'admin'], function() {
+
+            Route::get('/admin/order', 'Admin\OverallOrderController@index');
+            Route::get('/admin/order/data', 'Admin\OverallOrderController@data');
+            Route::post('/admin/order/delete', 'Admin\OverallOrderController@delete');
+            Route::post('/admin/order/ordered/lock', 'Admin\OverallOrderController@lock');
+
+            Route::get('/admin/order/processed', 'Admin\ProcessedOrderController@index');
+            Route::post('/admin/order/processed/lock', 'Admin\ProcessedOrderController@lock');
+
+            Route::get('/admin/order/unreceived', 'Admin\NotReceivedOrderController@index');
+            Route::post('/admin/order/unreceived/lock', 'Admin\NotReceivedOrUsderController@lock');
+
+            Route::get('/admin/order/summary', 'Admin\ProcessedOrderController@showSummary');
+
+            Route::get('/admin/user', 'Admin\UserController@index');
+            Route::get('/admin/user/data', 'Admin\UserController@data');
+
+            Route::get('/admin/deposit', 'Admin\UserController@showEditDeposit');
+            Route::post('/admin/deposit/edit', 'Admin\UserController@editDeposit');
+
+
+            Route::get('/admin/transaction', 'Admin\TransactionController@overall');
+            Route::get('/admin/transaction/data', 'Admin\TransactionController@overallData');
+
+            Route::get('/admin/transaction/order', 'Admin\TransactionController@order');
+            Route::get('/admin/transaction/order/data', 'Admin\TransactionController@orderData');
+
+            Route::post('/admin/transaction/order/revert', 'Admin\TransactionController@revert');
+
+            Route::get('/admin/message', 'Admin\MessageController@index');
+            Route::post('/admin/message/broadcast', 'Admin\MessageController@broadcast');
+
+        });
+
     });
 
 
