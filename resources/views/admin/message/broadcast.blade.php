@@ -48,6 +48,15 @@
                         Broadcast Message
                     </div>
                     <div class="panel-body">
+
+                        @if (! empty($errors))
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-6">
+                                {!! implode(", ", $errors->all()) !!}
+                            </div>
+                        </div>
+                        @endif
+
                         {!! Form::open(["url" => "admin/message/broadcast"]) !!}
 
 

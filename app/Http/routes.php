@@ -85,6 +85,8 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::get('/menu/list', 'MenuController@listForOrder');
         Route::get('/courier/list', 'TravelController@getActiveCourierByRestaurant');
+
+        Route::post('/notification/dismiss', 'User\MessageController@dismiss');
     });
 
 

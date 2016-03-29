@@ -8,6 +8,7 @@ use App\Feedback;
 use App\Http\Requests;
 use App\Http\Requests\OrderRequest;
 use App\Menu;
+use App\Message;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
@@ -41,6 +42,9 @@ class OrderController extends Controller
         }
 
         $viewData["backupStatus"] = $backupStatus;
+
+        $viewData["notifications"] = Message::active()
+            ->byOwner()->byNewest()->get();
 
         return view('public.order.order', $viewData);
     }

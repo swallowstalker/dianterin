@@ -117,17 +117,10 @@
             </div>
         </div>
 
-        {{-- notification list needed. --}}
-
-
-
-
+        {{-- notification list --}}
+        @include("layouts.main.notifications")
 
         @yield("content")
-
-
-
-
 
     </div>
     <!-- /#container-fluid -->
