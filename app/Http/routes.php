@@ -62,7 +62,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/admin/order/processed/lock', 'Admin\ProcessedOrderController@lock');
 
             Route::get('/admin/order/unreceived', 'Admin\NotReceivedOrderController@index');
-            Route::post('/admin/order/unreceived/lock', 'Admin\NotReceivedOrUsderController@lock');
+            Route::post('/admin/order/unreceived/lock', 'Admin\NotReceivedOrderController@lock');
 
             Route::get('/admin/order/summary', 'Admin\ProcessedOrderController@showSummary');
 

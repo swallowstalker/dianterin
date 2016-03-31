@@ -21,10 +21,6 @@ use Log;
 
 class MessageController extends Controller
 {
-    public function __construct() {
-
-        //@todo authorize for admin only
-    }
 
     /**
      * Show broadcast form

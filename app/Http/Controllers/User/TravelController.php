@@ -4,11 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\CourierTravelRecord;
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
 use App\Restaurant;
 use DB;
 use Illuminate\Http\JsonResponse;
-use Request;
+use Illuminate\Http\Request;
 
 class TravelController extends Controller
 {
@@ -22,8 +21,10 @@ class TravelController extends Controller
      */
     public function getActiveCourierByRestaurant(Request $request) {
 
-        $activeTravel = CourierTravelRecord::whereHas("visitedRestaurants", function($query) use ($request) {
-                $query->where("allowed_restaurant", $request->input("restaurant_id"));
+        $restaurantID = $request->input("restaurant_id");
+
+        $activeTravel = CourierTravelRecord::whereHas("visitedRestaurants", function($query) use ($restaurantID) {
+                $query->where("allowed_restaurant", $restaurantID);
             })
             ->where("limit_time", ">", DB::raw("NOW()"))
             ->get();
@@ -32,7 +33,7 @@ class TravelController extends Controller
         foreach ($activeTravel as $travel) {
 
             $visitedRestaurant = $travel->visitedRestaurants()
-                ->where("allowed_restaurant", $request->input("restaurant_id"))
+                ->where("allowed_restaurant", $restaurantID)
                 ->first();
 
             $responseList[] = (object) [

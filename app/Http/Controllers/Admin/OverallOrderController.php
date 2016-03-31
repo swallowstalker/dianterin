@@ -16,12 +16,6 @@ use Log;
 class OverallOrderController extends Controller
 {
 
-    public function __construct() {
-
-        //@todo authorize for admin only
-
-    }
-
     /**
      * Show order list
      *

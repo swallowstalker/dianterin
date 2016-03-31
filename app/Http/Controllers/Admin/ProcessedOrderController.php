@@ -17,9 +17,11 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Log;
+use Mail;
 
 class ProcessedOrderController extends Controller
 {
+    use OrderInvoices;
 
     /**
      * Show list of processed order, ready to mark "delivered"
@@ -74,6 +76,9 @@ class ProcessedOrderController extends Controller
             $order->status = Order::STATUS_DELIVERED;
             $order->save();
         }
+
+        // send invoice via email, group order by user.
+        $this->sendInvoices(array_keys($chosenElementList));
 
         return redirect("admin/order/processed");
     }

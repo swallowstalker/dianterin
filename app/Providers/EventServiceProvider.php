@@ -15,8 +15,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
 
         'App\Events\OrderDelivered' => [
-            'App\Listeners\CreatePendingTransaction',
-            'App\Listeners\EmailUserOrderDelivered'
+            'App\Listeners\CreatePendingTransaction'
         ],
         'App\Events\OrderReceived' => [
             'App\Listeners\CreateRealTransaction',

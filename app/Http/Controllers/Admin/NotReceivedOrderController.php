@@ -23,6 +23,8 @@ use Log;
 
 class NotReceivedOrderController extends Controller
 {
+    use OrderInvoices;
+
     /**
      * Show order which is not received by user.
      *
@@ -69,6 +71,9 @@ class NotReceivedOrderController extends Controller
                 $adjustmentList[$orderID],
                 $infoAdjustmentList[$orderID]
             ));
+
+            // send forced order invoice via email
+            $this->sendInvoices([$orderID]);
 
             Event::fire(new OrderReceived($orderElement->order, Auth::user()));
 
