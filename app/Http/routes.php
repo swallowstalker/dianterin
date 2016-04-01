@@ -23,6 +23,7 @@
 */
 
 Route::get('/order/sweep', 'Admin\CronController@lockDeliveredOrder');
+Route::get('/backup/database', 'Admin\CronController@backupDatabase');
 
 
 Route::group(['middleware' => 'web'], function () {

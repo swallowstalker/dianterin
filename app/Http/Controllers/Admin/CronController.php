@@ -8,6 +8,7 @@ use App\Events\ProfitChanged;
 use App\GeneralTransaction;
 use App\Order;
 use App\User;
+use Artisan;
 use Auth;
 use Datatables;
 use DB;
@@ -49,9 +50,13 @@ class CronController extends Controller
 
     }
 
+    /**
+     * Backup to dropbox
+     */
     public function backupDatabase() {
 
-        //@todo backup using laravel-backup. usahakan via email attachment aja sql-nya.
+        // backup using laravel-backup
+        Artisan::call("backup:run");
     }
 
 }

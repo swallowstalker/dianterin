@@ -163,7 +163,9 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Greggilbert\Recaptcha\RecaptchaServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-        Spatie\Backup\BackupServiceProvider::class
+        Spatie\Backup\BackupServiceProvider::class,
+        
+        App\Providers\DropboxFilesystemServiceProvider::class
 
     ],
 

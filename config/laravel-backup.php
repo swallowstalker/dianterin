@@ -49,6 +49,7 @@ return [
              */
             'disks' => [
                 'local',
+                'dropbox'
             ],
         ],
     ],
@@ -146,7 +147,7 @@ return [
          */
         'mail' => [
             'from' => env('MAIL_USERNAME'),
-            'to'   => env('MASTER_EMAIL'),
+            'to'   => env('MASTER_EMAIL')
         ],
 
         /*
