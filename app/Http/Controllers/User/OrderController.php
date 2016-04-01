@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Events\OrderNotReceived;
 use App\Events\OrderReceived;
+use App\Events\ProfitChanged;
 use App\Feedback;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -221,6 +222,7 @@ class OrderController extends Controller
         $order->save();
 
         Event::fire(new OrderReceived($order, Auth::user()));
+        Event::fire(new ProfitChanged());
 
         $this->saveFeedback($order->id, $request->input("feedback"));
 

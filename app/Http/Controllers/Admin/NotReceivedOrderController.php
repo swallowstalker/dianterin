@@ -2,24 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CourierTravelRecord;
-use App\CourierVisitedRestaurant;
 use App\Events\OrderDelivered;
-use App\Events\OrderForceReceived;
 use App\Events\OrderReceived;
+use App\Events\ProfitChanged;
 use App\Order;
 use App\OrderElement;
-use App\PendingTransactionOrder;
-use App\User;
 use Auth;
-use Datatables;
-use DB;
 use Event;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Log;
 
 class NotReceivedOrderController extends Controller
 {
@@ -76,6 +69,7 @@ class NotReceivedOrderController extends Controller
             $this->sendInvoices([$orderID]);
 
             Event::fire(new OrderReceived($orderElement->order, Auth::user()));
+            Event::fire(new ProfitChanged());
 
             $order = $orderElement->order;
             $order->status = Order::STATUS_RECEIVED_BY_FORCE;

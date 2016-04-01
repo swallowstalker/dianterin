@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Order;
+use App\TransactionOrder;
 use App\Validator\OrderValidator;
 use Illuminate\Support\ServiceProvider;
 use Log;
