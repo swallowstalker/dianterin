@@ -222,7 +222,7 @@ class OrderController extends Controller
         $order->save();
 
         Event::fire(new OrderReceived($order, Auth::user()));
-        Event::fire(new ProfitChanged());
+        Event::fire(new ProfitChanged(Auth::user()->id));
 
         $this->saveFeedback($order->id, $request->input("feedback"));
 

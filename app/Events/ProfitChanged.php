@@ -10,14 +10,16 @@ class ProfitChanged extends Event
 {
     use SerializesModels;
 
+    public $userID;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($userID)
     {
-        //
+        $this->userID = $userID;
     }
 
     /**

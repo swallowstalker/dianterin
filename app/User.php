@@ -25,6 +25,8 @@ class User extends Authenticatable
     const ROLE_ADMIN = 498;
     const ROLE_USER = 1;
 
+    const SYSTEM_USER = 1;
+
     protected $table = "user_customer";
 
     /**

@@ -37,7 +37,7 @@ class UpdateProfit
             ->sum("delivery_cost");
 
         $profit->total = $totalDeliveryCost;
-        $profit->user = Auth::user()->id;
+        $profit->user = $event->userID;
         $profit->save();
 
     }
