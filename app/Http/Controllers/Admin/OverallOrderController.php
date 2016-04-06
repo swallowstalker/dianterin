@@ -24,7 +24,8 @@ class OverallOrderController extends Controller
     public function index() {
 
         $viewData = [];
-        $viewData["openTravels"] = CourierTravelRecord::get()->pluck("id", "id");
+        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
+            ->get()->pluck("id", "id");
 
         return view("admin.order.overall_order", $viewData);
     }
@@ -38,7 +39,7 @@ class OverallOrderController extends Controller
     public function data(Request $request) {
 
         $order = Order::whereNotNull("travel_id")
-            ->orderBy("created_at", "desc")->get();
+            ->orderBy("created_at", "desc");
 
         $element = '{!! App\Http\Controllers\Admin\OverallOrderController::unifyElements($id) !!}';
         $courierName = '{!! App\Http\Controllers\Admin\OverallOrderController::getCourierName($travel_id) !!}';
@@ -52,11 +53,20 @@ class OverallOrderController extends Controller
         $deleteElement .= '{!! Form::close() !!}';
 
         return Datatables::of($order)
+
             ->editColumn("status", '{!! App\Order::$statusDescriptionList[$status] !!}')
             ->addColumn("name", $userName)
             ->addColumn("element", $element)
             ->addColumn("courier", $courierName)
             ->addColumn("delete", $deleteElement)
+
+            ->filter(function($query) use ($request) {
+
+                if ($request->has("travel")) {
+                    $query->where("travel_id", "=", $request->input("travel"));
+                }
+
+            })
             ->make(true);
     }
 

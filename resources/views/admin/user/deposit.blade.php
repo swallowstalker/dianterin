@@ -52,6 +52,14 @@
                     {!! Form::open(["url" => "admin/deposit/edit"]) !!}
                     {!! Form::hidden("id", $user->id) !!}
 
+                    @if (! empty($errors))
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-5">
+                                {!! implode("<br/>", $errors->all()) !!}
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-md-2">
                             Name

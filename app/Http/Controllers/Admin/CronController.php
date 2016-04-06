@@ -59,4 +59,10 @@ class CronController extends Controller
         Artisan::call("backup:run");
     }
 
+    /**
+     * Make sure no order is left
+     */
+    public function finalizeOrphanedOrder() {
+
+    }
 }

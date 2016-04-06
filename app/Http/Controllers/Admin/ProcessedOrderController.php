@@ -32,9 +32,17 @@ class ProcessedOrderController extends Controller
     public function index(Request $request) {
 
         $viewData = [];
-        $viewData["openTravels"] = CourierTravelRecord::isOpen()->get()->pluck("id", "id");
+        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
+            ->get()->pluck("id", "id");
+
+        $travel = $viewData["openTravels"]->first();
+        if ($request->has("travel")) {
+            $travel = $request->input("travel");
+        }
+        $viewData["travel"] = $travel;
+
         $viewData["processedOrderList"] = Order::byStatus(Order::STATUS_PROCESSED)
-            ->byTravel($request->input("travel"))->get();
+            ->byTravel($travel)->get();
 
         return view("admin.order.delivered_order", $viewData);
     }

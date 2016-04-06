@@ -52,7 +52,7 @@
                         @if (! empty($errors))
                         <div class="row" style="margin-bottom: 10px;">
                             <div class="col-md-6">
-                                {!! implode(", ", $errors->all()) !!}
+                                {!! implode("<br/>", $errors->all()) !!}
                             </div>
                         </div>
                         @endif

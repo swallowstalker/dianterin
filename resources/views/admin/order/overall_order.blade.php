@@ -53,7 +53,7 @@
 
                             {!! Form::open(["url" => "admin/order/ordered/lock"]) !!}
 
-                            {!! Form::select("travel", $openTravels, null, ["class" => "button-blue-white"]) !!}
+                            {!! Form::select("travel", $openTravels, $openTravels->first(), ["class" => "button-blue-white"]) !!}
 
                             <button type="submit" class="button-blue-white">
                                 <i class="fa fa-lock fa-fw"></i> Process Order
@@ -98,48 +98,49 @@
     var source = '{{ url("/") }}/admin/order/data';
     var csrfHash = "{!! csrf_token() !!}";
 
-    var settings = {
-        processing: true,
-        autoWidth: false,
-        ajax: {
-            url: source,
-            type: "GET",
-            data: function(data) {
-                data._token = csrfHash;
-            }
-        },
-        serverSide: true,
-        lengthChange: false,
-        searching: true,
-        pageLength: 15,
-        lengthMenu: [
-            [10, 25, 50, -1],
-            [10, 25, 50, "All"]
-        ],
-        order: [
-            [0, 'desc']
-        ],
-        columns: [
-            { visible: true, searchable: true, orderable: true, data: "id"},
-            { visible: true, searchable: true, orderable: true, data: "name"},
-            { visible: true, searchable: false, orderable: false, data: "status"},
-
-            { visible: true, searchable: true, orderable: true, data: "element"},
-            { visible: true, searchable: true, orderable: true, data: "travel_id"},
-            { visible: true, searchable: true, orderable: true, data: "courier"},
-
-            { visible: true, searchable: false, orderable: false, data: "delete"}
-        ],
-        responsive: true
-    };
-
     $(document).ready(function () {
+
+        var settings = {
+            processing: true,
+            autoWidth: false,
+            ajax: {
+                url: source,
+                type: "GET",
+                data: function(data) {
+                    data._token = csrfHash;
+                    data.travel = $("select[name=travel]").val();
+                    console.log(data.travel);
+                }
+            },
+            serverSide: true,
+            lengthChange: false,
+            searching: true,
+            pageLength: 15,
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, "All"]
+            ],
+            order: [
+                [0, 'desc']
+            ],
+            columns: [
+                { visible: true, searchable: true, orderable: true, data: "id"},
+                { visible: true, searchable: true, orderable: true, data: "name"},
+                { visible: true, searchable: false, orderable: false, data: "status"},
+
+                { visible: true, searchable: true, orderable: true, data: "element"},
+                { visible: true, searchable: true, orderable: true, data: "travel_id", name: "travel_id"},
+                { visible: true, searchable: true, orderable: true, data: "courier"},
+
+                { visible: true, searchable: false, orderable: false, data: "delete"}
+            ],
+            responsive: true
+        };
+
         var oTable = $('#data').DataTable(settings);
 
-
-        {{--@fixme still not working--}}
         $("select[name=travel]").on("change", function () {
-            oTable.column(4).search("^"+ $(this).val() +"$", true).draw();
+            oTable.draw();
         });
 
     });

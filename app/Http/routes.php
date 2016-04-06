@@ -30,10 +30,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::auth();
 
-    Route::group(['middleware' => 'auth'], function() {
+    Route::get('/login/google', 'Auth\AuthController@redirectToGoogle');
+    Route::get('/login/google/callback', 'Auth\AuthController@handleCallbackGoogle');
 
-        Route::get('/login/google', 'Auth\AuthController@redirectToGoogle');
-        Route::get('/login/google/callback', 'Auth\AuthController@handleCallbackGoogle');
+    Route::group(['middleware' => 'auth'], function() {
 
 
         Route::get('/', 'User\OrderController@index');

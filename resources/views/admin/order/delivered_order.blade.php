@@ -52,7 +52,7 @@
                             {!! Form::open(["url" => "admin/order/processed", "method" => "GET"]) !!}
 
                             Travel
-                            {!! Form::select("travel", $openTravels, null, ["class" => "button-blue-white"]) !!}
+                            {!! Form::select("travel", $openTravels, $travel, ["class" => "button-blue-white"]) !!}
                             <button type="submit" class="button-blue-white">
                                 Filter
                             </button>

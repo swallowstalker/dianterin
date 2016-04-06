@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\CourierTravelRecord;
 use App\Events\OrderDelivered;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
@@ -27,7 +28,17 @@ class NotReceivedOrderController extends Controller
     public function index(Request $request) {
 
         $viewData = [];
-        $viewData["notReceivedOrderList"] = Order::byStatus(Order::STATUS_NOT_RECEIVED)->get();
+        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
+            ->get()->pluck("id", "id");
+
+        $travel = $viewData["openTravels"]->first();
+        if ($request->has("travel")) {
+            $travel = $request->input("travel");
+        }
+        $viewData["travel"] = $travel;
+
+        $viewData["notReceivedOrderList"] = Order::byStatus(Order::STATUS_NOT_RECEIVED)
+            ->byTravel($travel)->get();
 
         return view("admin.order.not_received_order", $viewData);
     }
@@ -69,7 +80,7 @@ class NotReceivedOrderController extends Controller
             $this->sendInvoices([$orderID]);
 
             Event::fire(new OrderReceived($orderElement->order, Auth::user()));
-            Event::fire(new ProfitChanged());
+            Event::fire(new ProfitChanged(Auth::user()->id));
 
             $order = $orderElement->order;
             $order->status = Order::STATUS_RECEIVED_BY_FORCE;
