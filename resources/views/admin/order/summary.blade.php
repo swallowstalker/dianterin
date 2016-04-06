@@ -3,6 +3,16 @@
 
 @section("content")
 
+    {!! Form::open(["url" => "admin/order/summary", "method" => "GET"]) !!}
+
+    Travel
+    {!! Form::select("travel", $openTravels, $travel) !!}
+    <button type="submit">
+        Filter
+    </button>
+
+    {!! Form::close() !!}
+
     @foreach($orderElementByPriorityAndRestaurant as $priority => $orderElementByPriority)
 
         PRIORITAS {{ $priority + 1 }} ------------------------- <br/><br/>

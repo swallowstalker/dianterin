@@ -139,6 +139,15 @@ class ProcessedOrderController extends Controller
 
         $viewData = ["orderElementByPriorityAndRestaurant" => $orderElementByPriorityAndRestaurant];
 
+        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
+            ->get()->pluck("id", "id");
+
+        $travel = $viewData["openTravels"]->first();
+        if ($request->has("travel")) {
+            $travel = $request->input("travel");
+        }
+        $viewData["travel"] = $travel;
+
         return view("admin.order.summary", $viewData);
     }
 }
