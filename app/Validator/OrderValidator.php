@@ -13,6 +13,7 @@ use App\CourierVisitedRestaurant;
 use App\Menu;
 use App\Order;
 use App\OrderElement;
+use App\PendingTransactionOrder;
 use Auth;
 use Illuminate\Validation\Validator;
 use Log;
@@ -46,6 +47,8 @@ class OrderValidator extends Validator
             $latestOrderID = session()->get("latest_order_id");
         }
 
+        $pendingTransactionTotal = PendingTransactionOrder::byOwner()->sum("final_cost");
+
         $previousSubtotal = $this->getPreviousOrderTotal($latestOrderID);
 
         $latestOrderPrice = $this->getCurrentOrderSubtotalFromAddOrder($latestOrderID);
@@ -53,7 +56,7 @@ class OrderValidator extends Validator
         // compare previous order and current order VS user's balance
         $userBalance = Auth::user()->balance;
 
-        if ($previousSubtotal + $latestOrderPrice <= $userBalance) {
+        if ($pendingTransactionTotal + $previousSubtotal + $latestOrderPrice <= $userBalance) {
             return true;
         } else {
             return false;
@@ -167,6 +170,8 @@ class OrderValidator extends Validator
         $orderElement = OrderElement::where("id", $orderElementID)->first();
         $order = $orderElement->order;
 
+        $pendingTransactionTotal = PendingTransactionOrder::byOwner()->sum("final_cost");
+
         $uncheckedOrderSubtotal = $this->getPreviousOrderTotal($order->id);
 
         // change amount of order here
@@ -183,7 +188,7 @@ class OrderValidator extends Validator
         // compare previous order and currently changed order VS user's balance
         $userBalance = Auth::user()->balance;
 
-        if ($uncheckedOrderSubtotal + $changedOrderPrice <= $userBalance) {
+        if ($pendingTransactionTotal + $uncheckedOrderSubtotal + $changedOrderPrice <= $userBalance) {
             return true;
         } else {
             return false;
