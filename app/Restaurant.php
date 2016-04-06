@@ -41,4 +41,15 @@ class Restaurant extends Model
 
         return $this->menus->count();
     }
+
+    public function getImageAttribute($value) {
+
+        $image = "img_default_restaurant.png";
+        if (! empty($value) && file_exists(public_path("img/restaurant/". $value))) {
+            $image = "restaurant/". $value;
+        }
+
+        return $image;
+
+    }
 }

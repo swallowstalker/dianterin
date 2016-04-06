@@ -65,7 +65,7 @@
                                             <div class="col-sm-4">
 
                                                 {!! Html::image(
-                                                    "img/restaurant/". $restaurant->image,
+                                                    "img/". $restaurant->image,
                                                     $restaurant->name,
                                                     ["style" => "width: 100%;"]
                                                     ) !!}
