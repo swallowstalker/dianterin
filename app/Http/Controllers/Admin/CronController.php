@@ -51,18 +51,10 @@ class CronController extends Controller
     }
 
     /**
-     * Backup to dropbox
-     */
-    public function backupDatabase() {
-
-        // backup using laravel-backup
-        Artisan::call("backup:run");
-    }
-
-    /**
      * Make sure no order is left
      */
     public function finalizeOrphanedOrder() {
+
 
     }
 }
