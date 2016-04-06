@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c2b1f07c-26df-4780-bab2-be9da6052073" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/composer.lock" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/resources/views/admin/order/delivered_order.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/order/processed_order.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProcessedOrderController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProcessedOrderController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/order/summary.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/order/summary.blade.php" />
     </list>
     <ignored path="dianterin.iws" />
@@ -35,26 +35,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ProcessedOrderController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ProcessedOrderController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/ProcessedOrderController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2268">
-              <caret line="141" column="65" selection-start-line="141" selection-start-column="65" selection-end-line="141" selection-end-column="65" />
+            <state relative-caret-position="72">
+              <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="not_received_order.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="not_received_order.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state relative-caret-position="288">
+              <caret line="94" column="81" selection-start-line="94" selection-start-column="81" selection-end-line="94" selection-end-column="81" />
               <folding>
-                <marker date="1459899145461" expanded="true" signature="5408:5800" placeholder="..." />
-                <marker date="1459899145461" expanded="true" signature="5558:5799" placeholder="..." />
-                <marker date="1459899145461" expanded="true" signature="6116:6666" placeholder="..." />
-                <marker date="1459899145461" expanded="true" signature="6271:6665" placeholder="..." />
+                <marker date="1459941642521" expanded="true" signature="5776:6168" placeholder="..." />
+                <marker date="1459941642521" expanded="true" signature="5926:6167" placeholder="..." />
+                <marker date="1459941642521" expanded="true" signature="6484:7034" placeholder="..." />
+                <marker date="1459941642521" expanded="true" signature="6639:7033" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -63,8 +63,8 @@
       <file leaf-file-name="summary.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/admin/order/summary.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="144">
-              <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+            <state relative-caret-position="162">
+              <caret line="15" column="9" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -80,6 +80,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="processed_order.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/admin/order/processed_order.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="177">
+              <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
+              <folding>
+                <marker date="1459941510166" expanded="true" signature="5710:6102" placeholder="..." />
+                <marker date="1459941510166" expanded="true" signature="5860:6101" placeholder="..." />
+                <marker date="1459941510166" expanded="true" signature="6418:6968" placeholder="..." />
+                <marker date="1459941510166" expanded="true" signature="6573:6967" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -88,7 +103,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2016_03_24_075353_add_time_to_message.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OrderController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Public/MessageController.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/main.blade.php" />
@@ -131,14 +145,15 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/OverallOrderController.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/order/overall_order.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/order/delivered_order.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/NotReceivedOrderController.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/user/deposit.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/message/broadcast.blade.php" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/resources/views/admin/order/summary.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Admin/ProcessedOrderController.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/order/summary.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/order/processed_order.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php" />
       </list>
     </option>
   </component>
@@ -561,7 +576,7 @@
       <workItem from="1459829681238" duration="21000" />
       <workItem from="1459863762773" duration="1046000" />
       <workItem from="1459864827594" duration="13696000" />
-      <workItem from="1459938058873" duration="815000" />
+      <workItem from="1459938058873" duration="1765000" />
     </task>
     <task id="LOCAL-00001" summary="Improvement: correcting auth UI element">
       <created>1455290261829</created>
@@ -738,11 +753,18 @@
       <option name="project" value="LOCAL" />
       <updated>1459901148772</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Bugfix: order summary with filter">
+      <created>1459940175188</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1459940175188</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56819000" />
+    <option name="totallyTimeSpent" value="57769000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="-4" width="1360" height="772" extended-state="6" />
@@ -752,6 +774,7 @@
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18437026" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18968134" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32159266" sideWeight="0.5030349" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22230652" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="File Transfer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31393567" sideWeight="0.73111784" order="10" side_tool="false" content_ui="tabs" />
@@ -760,7 +783,6 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3154671" sideWeight="0.4969651" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" x="100" y="121" width="1160" height="572" />
@@ -812,7 +834,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
-    <MESSAGE value="Improvement: correcting auth UI element" />
     <MESSAGE value="Feature: register with recaptcha OK" />
     <MESSAGE value="Improvement: add migration for timestamps in almost all table" />
     <MESSAGE value="Feature: google login" />
@@ -837,7 +858,8 @@
     <MESSAGE value="Improvement: prepare cron function for auto-finalize delivered order" />
     <MESSAGE value="Improvement: backup database" />
     <MESSAGE value="Bugfix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Bugfix" />
+    <MESSAGE value="Bugfix: order summary with filter" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bugfix: order summary with filter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -846,13 +868,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Listeners/CreatePendingTransaction.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="37" column="41" selection-start-line="37" selection-start-column="41" selection-end-line="37" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Listeners/DeletePendingTransaction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="235">
@@ -1092,13 +1107,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/order/delivered_order.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="54" column="76" selection-start-line="54" selection-start-column="69" selection-end-line="54" selection-end-column="76" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/MessageController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-306">
@@ -1117,6 +1125,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="324">
           <caret line="2205" column="28" selection-start-line="2205" selection-start-column="28" selection-end-line="2205" selection-end-column="28" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1202,19 +1211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding>
-            <marker date="1459899145461" expanded="true" signature="5408:5800" placeholder="..." />
-            <marker date="1459899145461" expanded="true" signature="5558:5799" placeholder="..." />
-            <marker date="1459899145461" expanded="true" signature="6116:6666" placeholder="..." />
-            <marker date="1459899145461" expanded="true" signature="6271:6665" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -1223,19 +1219,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/_ide_helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="10601" column="31" selection-start-line="10601" selection-start-column="31" selection-end-line="10601" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/admin/order/summary.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="8" column="36" selection-start-line="8" selection-start-column="36" selection-end-line="8" selection-end-column="36" />
+        <state relative-caret-position="162">
+          <caret line="15" column="9" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Admin/ProcessedOrderController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2268">
-          <caret line="141" column="65" selection-start-line="141" selection-start-column="65" selection-end-line="141" selection-end-column="65" />
+        <state relative-caret-position="72">
+          <caret line="46" column="48" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="48" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/order/processed_order.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="95" column="56" selection-start-line="95" selection-start-column="56" selection-end-line="95" selection-end-column="56" />
+          <folding>
+            <marker date="1459941510166" expanded="true" signature="5710:6102" placeholder="..." />
+            <marker date="1459941510166" expanded="true" signature="5860:6101" placeholder="..." />
+            <marker date="1459941510166" expanded="true" signature="6418:6968" placeholder="..." />
+            <marker date="1459941510166" expanded="true" signature="6573:6967" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin/order/not_received_order.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="94" column="81" selection-start-line="94" selection-start-column="81" selection-end-line="94" selection-end-column="81" />
+          <folding>
+            <marker date="1459941642521" expanded="true" signature="5776:6168" placeholder="..." />
+            <marker date="1459941642521" expanded="true" signature="5926:6167" placeholder="..." />
+            <marker date="1459941642521" expanded="true" signature="6484:7034" placeholder="..." />
+            <marker date="1459941642521" expanded="true" signature="6639:7033" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -12,6 +12,8 @@
     </button>
 
     {!! Form::close() !!}
+    <br/>
+    <br/>
 
     @foreach($orderElementByPriorityAndRestaurant as $priority => $orderElementByPriority)
 

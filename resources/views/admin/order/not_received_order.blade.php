@@ -92,11 +92,16 @@
                                         <td class="menu">
 
                                              {{--loop all order element, let admin choose one of this--}}
-                                            @foreach($order->elements as $orderElement)
+                                            @foreach($order->elements as $key => $orderElement)
 
                                                 <div>
 
-                                                    {!! Form::radio("chosen_element[". $order->id ."]", $orderElement->id, null, ["class" => "element-choice"]) !!}
+                                                    @if ($key == 0)
+                                                        {!! Form::radio("chosen_element[". $order->id ."]", $orderElement->id, true, ["class" => "element-choice"]) !!}
+                                                    @else
+                                                        {!! Form::radio("chosen_element[". $order->id ."]", $orderElement->id, false, ["class" => "element-choice"]) !!}
+                                                    @endif
+
                                                     {!! Form::hidden("subtotal", $orderElement->subtotal) !!}
 
                                                     &nbsp;
@@ -113,7 +118,7 @@
                                              {{--backup order not available case handling--}}
                                             <div>
 
-                                                {!! Form::radio("chosen_element[". $order->id ."]", 0, true, ["class" => "element-choice"]) !!}
+                                                {!! Form::radio("chosen_element[". $order->id ."]", 0, false, ["class" => "element-choice"]) !!}
                                                 {!! Form::hidden("subtotal", 0) !!}
 
                                                 &nbsp;

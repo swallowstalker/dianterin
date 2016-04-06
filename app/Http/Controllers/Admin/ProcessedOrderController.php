@@ -44,7 +44,7 @@ class ProcessedOrderController extends Controller
         $viewData["processedOrderList"] = Order::byStatus(Order::STATUS_PROCESSED)
             ->byTravel($travel)->get();
 
-        return view("admin.order.delivered_order", $viewData);
+        return view("admin.order.processed_order", $viewData);
     }
 
     /**
