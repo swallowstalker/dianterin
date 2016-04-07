@@ -26,6 +26,7 @@ class User extends Authenticatable
     const ROLE_USER = 1;
 
     const SYSTEM_USER = 1;
+    const SYSTEM_DEFAULT_COURIER = 106;
 
     protected $table = "user_customer";
 

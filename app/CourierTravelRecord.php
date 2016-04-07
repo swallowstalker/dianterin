@@ -9,6 +9,8 @@ class CourierTravelRecord extends Model
 {
     protected $table = "courier_travel";
 
+    protected $fillable = ["courier_id", "quota", "limit_time"];
+
     public function visitedRestaurants() {
 
         return $this->hasMany('App\CourierVisitedRestaurant', 'travel_id');

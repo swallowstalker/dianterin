@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\CourierTravelRecord;
+use App\User;
 use Illuminate\Console\Command;
 
 class TravelCreator extends Command
@@ -37,6 +39,23 @@ class TravelCreator extends Command
      */
     public function handle()
     {
-        //
+
+        // from monday to thursday
+        if (1 <= date("N") && date("N") <= 4) {
+            CourierTravelRecord::create([
+                "courier_id" => User::SYSTEM_DEFAULT_COURIER,
+                "quota" => 0,
+                "limit_time" => date("Y-m-d") ." 11:00:00"
+            ]);
+        } else if (date("N") == 5) { // special for friday
+            CourierTravelRecord::create([
+                "courier_id" => User::SYSTEM_DEFAULT_COURIER,
+                "quota" => 0,
+                "limit_time" => date("Y-m-d") ." 10:30:00"
+            ]);
+        }
+
+        $this->info("Default travel created.");
+
     }
 }
