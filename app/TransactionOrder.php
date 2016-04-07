@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransactionOrder extends Model
 {
+    use DisableUpdatedAt;
+
     protected $table = "transaction_order";
 
     protected $fillable = [
@@ -26,11 +28,5 @@ class TransactionOrder extends Model
 
         $query->where("user_id", Auth::user()->id);
         return $query;
-    }
-
-    public function setUpdatedAt($value)
-    {
-        // not setting anything here.
-        return $this;
     }
 }

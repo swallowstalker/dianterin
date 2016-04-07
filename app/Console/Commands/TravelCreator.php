@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\CourierTravelRecord;
+use App\CourierVisitedRestaurant;
+use App\Restaurant;
 use App\User;
 use Illuminate\Console\Command;
 
@@ -39,23 +41,47 @@ class TravelCreator extends Command
      */
     public function handle()
     {
-
         // from monday to thursday
-        if (1 <= date("N") && date("N") <= 4) {
-            CourierTravelRecord::create([
+        if (1 <= date("N") && date("N") <= 5) {
+
+            $time = "11:00:00";
+
+            if (date("N") == 5) {
+                $time = "10:30:00";
+            }
+
+            $travel = CourierTravelRecord::create([
                 "courier_id" => User::SYSTEM_DEFAULT_COURIER,
                 "quota" => 0,
-                "limit_time" => date("Y-m-d") ." 11:00:00"
+                "limit_time" => date("Y-m-d") ." ". $time
             ]);
-        } else if (date("N") == 5) { // special for friday
-            CourierTravelRecord::create([
-                "courier_id" => User::SYSTEM_DEFAULT_COURIER,
-                "quota" => 0,
-                "limit_time" => date("Y-m-d") ." 10:30:00"
-            ]);
+
+            // add available restaurant for this newly created travel
+            $this->registerActiveRestaurant($travel, $time);
         }
 
         $this->info("Default travel created.");
 
     }
+
+    /**
+     * Register active restaurant for daily operations.
+     *
+     * @param CourierTravelRecord $travel
+     * @param $time
+     */
+    private function registerActiveRestaurant(CourierTravelRecord $travel, $time) {
+        
+        $visitedRestaurants = Restaurant::openAt($time)->get();
+        foreach ($visitedRestaurants as $visitedRestaurant) {
+
+            CourierVisitedRestaurant::create([
+                "travel_id" => $travel->id,
+                "allowed_restaurant" => $visitedRestaurant->id,
+                "delivery_cost" => $visitedRestaurant->cost
+            ]);
+        }
+        
+    }
+
 }

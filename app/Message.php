@@ -8,6 +8,8 @@ use Log;
 
 class Message extends Model
 {
+    use DisableUpdatedAt;
+
     protected $table = "notification";
 
     protected $fillable = ["sender", "receiver", "status", "message"];
@@ -22,16 +24,5 @@ class Message extends Model
 
     public function scopeByNewest($query) {
         return $query->orderBy("created_at", "desc");
-    }
-
-    public function setUpdatedAt($value)
-    {
-        // not setting anything here.
-        return $this;
-    }
-
-    public function getUpdatedAtColumn()
-    {
-        return null;
     }
 }

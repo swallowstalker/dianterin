@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class GeneralTransaction extends Model
 {
+    use DisableUpdatedAt;
+
     protected $table = "transaction_general";
 
     protected $fillable = ["author_id", "user_id", "movement", "action"];
@@ -22,11 +24,5 @@ class GeneralTransaction extends Model
 
         $query->where("user_id", $id);
         return $query;
-    }
-
-    public function setUpdatedAt($value)
-    {
-        // not setting anything here.
-        return $this;
     }
 }

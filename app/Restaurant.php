@@ -20,6 +20,12 @@ class Restaurant extends Model
         return $query->where("status", 1);
     }
 
+    public function scopeOpenAt($query, $time) {
+
+        return $query->where("open", "<=", $time)
+            ->where("close", ">=", $time);
+    }
+
     public function menus() {
 
         return $this->hasMany('App\Menu');
