@@ -48,7 +48,7 @@ class Order extends Model
     }
 
     public function travel() {
-        return $this->hasOne('App\CourierTravelRecord', 'travel_id');
+        return $this->belongsTo('App\CourierTravelRecord', 'travel_id');
     }
 
     public function user() {

@@ -43,7 +43,14 @@ class OrderSweeper extends Command
      */
     public function handle()
     {
+
+        // auto debit the delivered order which hasn't been confirmed "received" by user after 1 hour.
         $this->lockDeliveredOrder();
+
+        // also sweep order in STATUS_ORDERED to become expired in 5 hours after travel limit time
+        $this->changeOldOrderFlag();
+
+        Event::fire(new ProfitChanged(User::SYSTEM_USER));
     }
 
     /**
@@ -66,11 +73,58 @@ class OrderSweeper extends Command
 //
 //            Event::fire(new OrderReceived($order, User::find($order->user_id)));
 //        }
-//
-//        Event::fire(new ProfitChanged(User::SYSTEM_USER));
 
         $this->info("Order changed from delivered to received: ".
             count($unconfirmedOrderList) ." item(s)");
+
+    }
+
+    public function changeOldOrderFlag() {
+
+        $orderTooOld = Order::whereHas('travel', function($query) {
+                $query->where(
+                    DB::raw("DATE_ADD(limit_time, INTERVAL 5 HOUR)"),
+                    "<=",
+                    DB::raw("NOW()")
+                );
+            });
+
+        $orderedOrderList = $orderTooOld->byStatus(Order::STATUS_ORDERED)->get();
+        $processedOrderList = $orderTooOld->byStatus(Order::STATUS_PROCESSED)->get();
+
+        $notReceivedOrderList = Order::byStatus(Order::STATUS_NOT_RECEIVED)
+            ->where(
+                DB::raw("DATE_ADD(updated_at, INTERVAL 3 HOUR)"),
+                "<=",
+                DB::raw("NOW()")
+            )->get();
+
+//        foreach ($orderedOrderList as $order) {
+//
+//            $order->status = Order::STATUS_NOT_FOUND;
+//            $order->save();
+//        }
+//
+//        foreach ($processedOrderList as $order) {
+//
+//            $order->status = Order::STATUS_NOT_FOUND;
+//            $order->save();
+//        }
+
+//        foreach ($notReceivedOrderList as $order) {
+//
+//            $order->status = Order::STATUS_NOT_FOUND;
+//            $order->save();
+//        }
+
+        $this->info("Order changed from ordered to not found: ".
+            count($orderedOrderList) ." item(s)");
+
+        $this->info("Order changed from processed to not found: ".
+            count($processedOrderList) ." item(s)");
+
+        $this->info("Order changed from not received to not found: ".
+            count($notReceivedOrderList) ." item(s)");
 
     }
 }

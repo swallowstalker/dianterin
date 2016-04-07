@@ -65,6 +65,7 @@ class ProcessedOrderController extends Controller
 
                 // change order status to not found
 
+                //@fixme add conditional for order status
                 $order = Order::find($orderID);
                 $order->status = Order::STATUS_NOT_FOUND;
                 $order->save();

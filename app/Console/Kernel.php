@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Inspire::class,
-        Commands\OrderSweeper::class
+        Commands\OrderSweeper::class,
+        Commands\TravelCreator::class
     ];
 
     /**

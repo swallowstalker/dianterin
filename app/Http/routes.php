@@ -22,8 +22,6 @@
 |
 */
 
-Route::get('/order/sweep', 'Admin\CronController@lockDeliveredOrder');
-
 
 Route::group(['middleware' => 'web'], function () {
 
