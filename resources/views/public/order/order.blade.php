@@ -104,7 +104,7 @@
                                     </div>
                                 </div>
 
-                        @if($key % 2 == 1)
+                        @if($key % 2 == 1 || $key == count($restaurantList) - 1)
                             </div>
                         @endif
 

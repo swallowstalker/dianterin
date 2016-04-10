@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class TransactionOrder extends Model
@@ -27,6 +28,12 @@ class TransactionOrder extends Model
     public function scopeByOwner($query) {
 
         $query->where("user_id", Auth::user()->id);
+        return $query;
+    }
+
+    public function scopeToday($query) {
+
+        $query->where(DB::raw("DATE(created_at)"), date("Y-m-d"));
         return $query;
     }
 }

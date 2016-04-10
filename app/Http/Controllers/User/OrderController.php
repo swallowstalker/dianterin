@@ -59,10 +59,13 @@ class OrderController extends Controller
 
         $viewData = [];
 
-        $viewData["orderedList"] = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
-        $viewData["processedList"] = Order::byOwner()->byStatus(Order::STATUS_PROCESSED)->get();
+        $viewData["orderedList"] = Order::byOwner()
+            ->byStatus(Order::STATUS_ORDERED)->today()->get();
+        $viewData["processedList"] = Order::byOwner()
+            ->byStatus(Order::STATUS_PROCESSED)->today()->get();
 
-        $viewData["pendingTransactionList"] = PendingTransactionOrder::byOwner()->get();
+        $viewData["pendingTransactionList"] = PendingTransactionOrder::byOwner()
+            ->today()->get();
 
         return $viewData;
     }

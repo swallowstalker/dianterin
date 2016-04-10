@@ -3,6 +3,7 @@
 namespace App;
 
 use Auth;
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
@@ -80,6 +81,12 @@ class Order extends Model
         }
 
         $query->where("travel_id", $travelID);
+        return $query;
+    }
+
+    public function scopeToday($query) {
+
+        $query->where(DB::raw("DATE(created_at)"), date("Y-m-d"));
         return $query;
     }
 }
