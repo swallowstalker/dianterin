@@ -66,13 +66,13 @@ class OrderSweeper extends Command
                 DB::raw("NOW()")
             )->get();
 
-//        foreach ($unconfirmedOrderList as $order) {
-//
-//            $order->status = Order::STATUS_RECEIVED;
-//            $order->save();
-//
-//            Event::fire(new OrderReceived($order, User::find($order->user_id)));
-//        }
+        foreach ($unconfirmedOrderList as $order) {
+
+            $order->status = Order::STATUS_RECEIVED;
+            $order->save();
+
+            Event::fire(new OrderReceived($order, User::find($order->user_id)));
+        }
 
         $this->info("Order changed from delivered to received: ".
             count($unconfirmedOrderList) ." item(s)");
@@ -99,23 +99,23 @@ class OrderSweeper extends Command
                 DB::raw("NOW()")
             )->get();
 
-//        foreach ($orderedOrderList as $order) {
-//
-//            $order->status = Order::STATUS_NOT_FOUND;
-//            $order->save();
-//        }
-//
-//        foreach ($processedOrderList as $order) {
-//
-//            $order->status = Order::STATUS_NOT_FOUND;
-//            $order->save();
-//        }
+        foreach ($orderedOrderList as $order) {
 
-//        foreach ($notReceivedOrderList as $order) {
-//
-//            $order->status = Order::STATUS_NOT_FOUND;
-//            $order->save();
-//        }
+            $order->status = Order::STATUS_NOT_FOUND;
+            $order->save();
+        }
+
+        foreach ($processedOrderList as $order) {
+
+            $order->status = Order::STATUS_NOT_FOUND;
+            $order->save();
+        }
+
+        foreach ($notReceivedOrderList as $order) {
+
+            $order->status = Order::STATUS_NOT_FOUND;
+            $order->save();
+        }
 
         $this->info("Order changed from ordered to not found: ".
             count($orderedOrderList) ." item(s)");
