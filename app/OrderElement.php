@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class OrderElement extends Model
@@ -25,5 +26,20 @@ class OrderElement extends Model
     public function getSubtotalAttribute() {
 
         return $this->menuObject->price * $this->amount;
+    }
+
+    /**
+     * Retrieve order element owned by logged-in user.
+     *
+     * @param $query
+     * @return mixed
+     */
+    public function scopeByOwner($query) {
+        
+        $query->whereHas("order", function($query) {
+            $query->where("user_id", Auth::user()->id);
+        });
+
+        return $query;
     }
 }

@@ -249,6 +249,19 @@
 
             var reference = $(this).find(".reference").find("input[type=hidden]").val();
             orderForm.find("input[name=menu]").val(reference);
+            orderForm.find("textarea[name=preference]").html("");
+
+            $.ajax({
+                url: baseURL + '/menu/previous/preference',
+                type: "GET",
+                data: {
+                    menu: reference
+                },
+                success: function (data) {
+                    orderForm.find("textarea[name=preference]").val(data.preference);
+                }
+            });
+
         });
 
         /**

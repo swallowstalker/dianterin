@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Menu;
+use App\OrderElement;
 use App\Restaurant;
+use Auth;
 use Datatables;
 use Form;
 use Illuminate\Http\Request;
@@ -11,6 +13,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Log;
+use Psy\Util\Json;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MenuController extends Controller
 {
@@ -53,5 +57,26 @@ class MenuController extends Controller
 
         $hiddenReference = Form::hidden("menu-id", $menuID);
         return $hiddenReference;
+    }
+
+    /**
+     * Get user's last preference on this menu.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getLastPreference(Request $request) {
+
+        $orderElement = OrderElement::where("menu", $request->input("menu"))
+            ->byOwner()->get()->last();
+
+        $preference = "";
+        if (! empty($orderElement)) {
+            $preference = $orderElement->preference;
+        }
+
+        return new JsonResponse([
+            "preference" => $preference
+        ]);
     }
 }

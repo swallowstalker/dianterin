@@ -47,6 +47,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/restaurant', 'User\RestaurantController@showList');
 
         Route::get('/menu/list', 'User\MenuController@listForOrder');
+        Route::get('/menu/previous/preference', 'User\MenuController@getLastPreference');
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
         Route::post('/notification/dismiss', 'User\MessageController@dismiss');

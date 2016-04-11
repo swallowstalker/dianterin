@@ -11,4 +11,9 @@ class Menu extends Model
     public function restaurant() {
         return $this->belongsTo('App\Restaurant', 'restaurant_id');
     }
+
+    public function getLastPreferenceAttribute($value) {
+        
+        return $value;
+    }
 }
