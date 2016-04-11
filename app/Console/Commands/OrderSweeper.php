@@ -9,6 +9,7 @@ use App\User;
 use DB;
 use Event;
 use Illuminate\Console\Command;
+use Log;
 
 class OrderSweeper extends Command
 {
@@ -63,8 +64,9 @@ class OrderSweeper extends Command
             ->where(
                 DB::raw("DATE_ADD(updated_at, INTERVAL 1 HOUR)"),
                 "<=",
-                DB::raw("NOW()")
-            )->get();
+                date("Y-m-d H:i:s")
+            )
+            ->get();
 
         foreach ($unconfirmedOrderList as $order) {
 
@@ -85,7 +87,7 @@ class OrderSweeper extends Command
                 $query->where(
                     DB::raw("DATE_ADD(limit_time, INTERVAL 5 HOUR)"),
                     "<=",
-                    DB::raw("NOW()")
+                    date("Y-m-d H:i:s")
                 );
             });
 
@@ -96,7 +98,7 @@ class OrderSweeper extends Command
             ->where(
                 DB::raw("DATE_ADD(updated_at, INTERVAL 3 HOUR)"),
                 "<=",
-                DB::raw("NOW()")
+                date("Y-m-d H:i:s")
             )->get();
 
         foreach ($orderedOrderList as $order) {
