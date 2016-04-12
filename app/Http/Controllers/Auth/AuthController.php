@@ -86,8 +86,7 @@ class AuthController extends Controller
     public function handleCallbackGoogle() {
 
         $googleUser = Socialite::driver("google")->user();
-
-
+        
         $user = User::where("email", $googleUser->getEmail())->first();
 
         if (empty($user)) {
@@ -102,12 +101,6 @@ class AuthController extends Controller
         }
 
         Auth::login($user, true);
-
-        //@todo incomplete, how to save user credentials?
-        Log::debug("XXX");
-        Log::debug($googleUser->getId());
-        Log::debug($googleUser->getName());
-        Log::debug($googleUser->getEmail());
 
         return redirect("/");
     }
