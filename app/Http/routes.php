@@ -74,8 +74,11 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('user', 'Admin\UserController@index');
             Route::get('user/data', 'Admin\UserController@data');
 
-            Route::get('deposit', 'Admin\UserController@showEditDeposit');
-            Route::post('deposit/edit', 'Admin\UserController@editDeposit');
+            Route::get('deposit', 'Admin\DepositController@showEditDeposit');
+            Route::post('deposit/edit', 'Admin\DepositController@editDeposit');
+
+            Route::get('transfer', 'Admin\DepositController@showTransfer');
+            Route::post('transfer/action', 'Admin\DepositController@transfer');
 
             Route::group(['prefix' => 'transaction'], function() {
 

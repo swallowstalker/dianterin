@@ -48,25 +48,37 @@
                     deposit total: Rp {{ number_format($totalBalance, 0, ",", ".") }}
                 </div>
                 <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover"
-                               cellpadding="0" cellspacing="0" id="data" width="100%">
-
-                            <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Twitter</th>
-                                <th>Phone</th>
-
-                                <th>Deposit</th>
-
-                                <th></th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="{!! url("admin/transfer") !!}" class="button-blue-white">
+                                <i class="fa fa-exchange"></i> Transfer
+                            </a>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover"
+                                       cellpadding="0" cellspacing="0" id="data" width="100%">
+
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Twitter</th>
+                                        <th>Phone</th>
+
+                                        <th>Deposit</th>
+
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
 

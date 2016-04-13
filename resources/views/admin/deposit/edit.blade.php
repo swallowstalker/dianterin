@@ -2,28 +2,10 @@
 
 @section("style")
 
-<!-- DataTables CSS -->
-<link href="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet">
-
-<!-- DataTables Responsive CSS -->
-<link href="{!! asset("/") !!}bower_components/datatables-responsive/css/responsive.dataTables.css" rel="stylesheet">
-
-<!-- JQuery-UI Theme CSS -->
-<link href="{!! asset("/") !!}bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
-
 @endsection
 
 
 @section("javascript")
-
-        <!-- DataTables JavaScript -->
-<script src="{!! asset("/") !!}bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-<script src="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-<script src="{!! asset("/") !!}bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
-
-
-<!-- JQuery-UI JavaScript -->
-<script src="{!! asset("/") !!}bower_components/jquery-ui/jquery-ui.min.js"></script>
 
 @endsection
 
@@ -34,7 +16,7 @@
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">User</h1>
+            <h1 class="page-header">Edit Deposit</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -42,7 +24,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="panel panel-default">
-
 
                 <div class="panel-heading">
                     Edit Deposit
