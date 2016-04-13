@@ -14,6 +14,7 @@ use App\Menu;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
+use App\User;
 use Auth;
 use Illuminate\Validation\Validator;
 use Log;
@@ -23,7 +24,9 @@ class OrderValidator extends Validator
 {
 
     private $orderCustomMessages = [
-        "sufficient_balance" => "Your balance is not enough."
+        "sufficient_balance" => "Your balance is not enough.",
+        "allow_change_amount" => "Your balance is not enough.",
+        "sufficient_balance_for_transfer" => "Your balance is not enough.",
     ];
 
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages, array $customAttributes)
@@ -195,6 +198,21 @@ class OrderValidator extends Validator
         }
     }
 
+    /**
+     * @todo is it possible to move this function to DepositValidator?
+     * @param $attribute
+     * @param $value
+     * @return bool
+     */
+    public function validateSufficientBalanceForTransfer($attribute, $value) {
 
+        $sender = User::find($this->data["sender"]);
 
+        if ($sender->balance >= $value) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

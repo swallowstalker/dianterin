@@ -12,10 +12,12 @@ namespace App\Http\Controllers\Admin;
 use App\GeneralTransaction;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Validator\OrderValidator;
 use Auth;
 use Hash;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Http\Request;
+use Validator;
 
 class DepositController extends Controller
 {
@@ -93,7 +95,7 @@ class DepositController extends Controller
         $this->validate($request, [
             "sender" => "required|exists:user_customer,id",
             "receiver" => "required|exists:user_customer,id|different:sender",
-            "amount" => "required|numeric|min:1",
+            "amount" => "required|numeric|min:1|sufficient_balance_for_transfer",
             "reason" => "required|max:500",
         ]);
 
