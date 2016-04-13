@@ -100,7 +100,7 @@
                     <div class="row" style="margin-bottom: 10px;">
                         <div class="col-md-5">
 
-                            {!! Form::submit("Edit", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
+                            {!! Form::submit("Transfer", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
 
                         </div>
                     </div>

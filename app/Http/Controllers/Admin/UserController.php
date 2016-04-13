@@ -42,7 +42,7 @@ class UserController extends Controller
 
         $user = User::orderBy("name", "asc")->get();
         $balance = '{!! App\User::find($id)->balance !!}';
-        $edit = '<a href="'. url("/") .'/admin/deposit?id={!! $id !!}">Edit Deposit</a>';
+        $edit = '<a href="'. url("/") .'/admin/deposit?id={!! $id !!}" class="button-blue-white">Edit Deposit</a>';
 
         return Datatables::of($user)
             ->addColumn("balance", $balance)

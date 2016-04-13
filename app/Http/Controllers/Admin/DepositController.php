@@ -105,8 +105,6 @@ class DepositController extends Controller
             return redirect("admin/transfer")->withErrors("Password not match");
         }
 
-        //@todo validate on sender's deposit
-
         $generalTransaction = new GeneralTransaction();
         $generalTransaction->author_id = Auth::user()->id;
         $generalTransaction->user_id = $request->input("sender");
