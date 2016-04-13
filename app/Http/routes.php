@@ -32,7 +32,6 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['middleware' => 'auth'], function() {
 
-
         Route::get('/', 'User\OrderController@index');
         Route::post('/order/add', 'User\OrderController@add');
         Route::post('/order/change/amount', 'User\OrderController@changeAmount');
@@ -58,17 +57,17 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => 'order'], function() {
 
                 Route::get('/', 'Admin\OverallOrderController@index');
-                Route::get('data', 'Admin\OverallOrderController@data');
-                Route::post('delete', 'Admin\OverallOrderController@delete');
-                Route::post('ordered/lock', 'Admin\OverallOrderController@lock');
+                Route::get('/data', 'Admin\OverallOrderController@data');
+                Route::post('/delete', 'Admin\OverallOrderController@delete');
+                Route::post('/ordered/lock', 'Admin\OverallOrderController@lock');
 
-                Route::get('processed', 'Admin\ProcessedOrderController@index');
-                Route::post('processed/lock', 'Admin\ProcessedOrderController@lock');
+                Route::get('/processed', 'Admin\ProcessedOrderController@index');
+                Route::post('/processed/lock', 'Admin\ProcessedOrderController@lock');
 
-                Route::get('unreceived', 'Admin\NotReceivedOrderController@index');
-                Route::post('unreceived/lock', 'Admin\NotReceivedOrderController@lock');
+                Route::get('/unreceived', 'Admin\NotReceivedOrderController@index');
+                Route::post('/unreceived/lock', 'Admin\NotReceivedOrderController@lock');
 
-                Route::get('summary', 'Admin\ProcessedOrderController@showSummary');
+                Route::get('/summary', 'Admin\ProcessedOrderController@showSummary');
 
             });
 
@@ -81,18 +80,21 @@ Route::group(['middleware' => 'web'], function () {
             Route::group(['prefix' => 'transaction'], function() {
 
                 Route::get('/', 'Admin\TransactionController@overall');
-                Route::get('data', 'Admin\TransactionController@overallData');
+                Route::get('/data', 'Admin\TransactionController@overallData');
 
-                Route::get('order', 'Admin\TransactionController@order');
-                Route::get('order/data', 'Admin\TransactionController@orderData');
+                Route::get('/order', 'Admin\TransactionController@order');
+                Route::get('/order/data', 'Admin\TransactionController@orderData');
 
-                Route::post('order/revert', 'Admin\TransactionController@revert');
+                Route::post('/order/revert', 'Admin\TransactionController@revert');
             });
 
 
 
             Route::get('message', 'Admin\MessageController@index');
             Route::post('message/broadcast', 'Admin\MessageController@broadcast');
+
+            Route::get('profit', 'Admin\ProfitController@index');
+            Route::get('profit/data', 'Admin\ProfitController@data');
 
         });
 
