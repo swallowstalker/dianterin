@@ -53,8 +53,6 @@ class OrderSweeper extends Command
         // also sweep order in STATUS_ORDERED to become expired in 5 hours after travel limit time
         $this->changeOldOrderFlag();
 
-        $this->sendProfitEmail();
-
         Event::fire(new ProfitChanged(User::SYSTEM_USER));
     }
 
@@ -78,6 +76,10 @@ class OrderSweeper extends Command
             $order->save();
 
             Event::fire(new OrderReceived($order, User::find($order->user_id)));
+        }
+
+        if (! empty($unconfirmedOrderList)) {
+            $this->sendProfitEmail();
         }
 
         $this->info("Order changed from delivered to received: ".
@@ -136,7 +138,7 @@ class OrderSweeper extends Command
 
     public function sendProfitEmail() {
 
-        $adminList = User::whereIn([14, 30])->get();
+        $adminList = User::whereIn("id", [14, 30])->get();
 
         $profit = Profit::where("date", date("Y-m-d"))->first();
         $total = 0;
