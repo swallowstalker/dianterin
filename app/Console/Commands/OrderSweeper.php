@@ -5,11 +5,13 @@ namespace App\Console\Commands;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
 use App\Order;
+use App\Profit;
 use App\User;
 use DB;
 use Event;
 use Illuminate\Console\Command;
 use Log;
+use Mail;
 
 class OrderSweeper extends Command
 {
@@ -50,6 +52,8 @@ class OrderSweeper extends Command
 
         // also sweep order in STATUS_ORDERED to become expired in 5 hours after travel limit time
         $this->changeOldOrderFlag();
+
+        $this->sendProfitEmail();
 
         Event::fire(new ProfitChanged(User::SYSTEM_USER));
     }
@@ -127,6 +131,32 @@ class OrderSweeper extends Command
 
         $this->info("Order changed from not received to not found: ".
             count($notReceivedOrderList) ." item(s)");
+
+    }
+
+    public function sendProfitEmail() {
+
+        $adminList = User::whereIn([14, 30])->get();
+
+        $profit = Profit::where("date", date("Y-m-d"))->first();
+        $total = 0;
+        if (! empty($profit)) {
+            $total = $profit->total;
+        }
+
+        $viewData = ["profit" => $total];
+
+        foreach ($adminList as $admin) {
+
+            Mail::send("email.profit", $viewData, function ($mail) use ($admin) {
+
+                $mail->from("strato@dianter.in", 'Dianterin');
+                $mail->to($admin->email, $admin->name);
+                $mail->subject("Profit ". date("d") ."-". date("m") ."-". date("Y"));
+
+            });
+        }
+
 
     }
 }
