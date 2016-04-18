@@ -36,8 +36,7 @@ class TransactionController extends Controller
      */
     public function data() {
 
-        $history = TransactionOrder::where("user_id", Auth::user()->id)
-            ->orderBy("created_at", "desc")->get();
+        $history = TransactionOrder::where("user_id", Auth::user()->id);
 
         $transactionDate = '{!!
             Carbon\Carbon::createFromFormat("Y-m-d H:i:s", $created_at)

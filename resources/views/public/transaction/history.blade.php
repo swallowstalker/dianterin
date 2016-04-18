@@ -109,10 +109,10 @@
                     [10, 25, 50, "All"]
                 ],
                 order: [
-                    [1, 'desc']
+                    [0, 'desc']
                 ],
                 columns: [
-                    {visible: false, searchable: false, orderable: false, data: "id"},
+                    {visible: false, searchable: false, orderable: true, data: "id"},
                     {visible: true, searchable: true, orderable: true, width: "16%", data: "transaction_date"},
                     {visible: true, searchable: true, orderable: true, width: "14%", data: "ordered_menu"},
                     {visible: true, searchable: true, orderable: true, width: "14%", data: "order_id"},
