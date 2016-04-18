@@ -1,0 +1,154 @@
+
+
+body {
+    font-family: opensans, serif;
+    background-color: #E9E9E9;
+}
+
+.navbar-default {
+    background-color: black;
+    color: white;
+    padding-left: 60px;
+    padding-right: 60px;
+    border: 0;
+    font-size: 12pt;
+    width: 100%;
+}
+
+.navbar-brand {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.navbar-top-links li a {
+    padding: 5px;
+}
+
+.container-fluid.content {
+    padding-left: 6%;
+    padding-right: 6%;
+}
+
+.container-fluid.footer {
+    background-color: black;
+    color: white;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    font-size: 10pt;
+}
+
+
+.deposit-placeholder {
+    color: white; 
+    text-align: center; 
+    border: 1px solid white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.profile-background {
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+.profile-background img {
+    min-width: 100%;
+    min-height: 210px;
+}
+
+.white-popup {
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    width: auto;
+    margin: 20px auto;
+}
+
+/* overlay at start */
+.mfp-fade.mfp-bg {
+    opacity: 0;
+
+    -webkit-transition: all 0.15s ease-out;
+    -moz-transition: all 0.15s ease-out;
+    transition: all 0.15s ease-out;
+}
+/* overlay animate in */
+.mfp-fade.mfp-bg.mfp-ready {
+    opacity: 0.8;
+}
+/* overlay animate out */
+.mfp-fade.mfp-bg.mfp-removing {
+    opacity: 0;
+}
+
+/* content at start */
+.mfp-fade.mfp-wrap .mfp-content {
+    opacity: 0;
+
+    -webkit-transition: all 0.15s ease-out;
+    -moz-transition: all 0.15s ease-out;
+    transition: all 0.15s ease-out;
+}
+/* content animate it */
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content {
+    opacity: 1;
+}
+/* content animate out */
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content {
+    opacity: 0;
+}
+
+/* for popup menu pagination */
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover {
+
+    background-color: #FEBD3D;
+    border-color: #FEBD3D;
+}
+
+.pagination>li>a,
+.pagination>li>span {
+    color: black;
+}
+
+.nav > li > a {
+    color: white;
+}
+
+.nav > li > a:focus,
+.nav > li > a:hover {
+    background: none;
+    color: #FEBD3D;
+}
+
+.notification-element {
+    display: table;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.notification-element > div {
+    display: table-row;
+}
+
+.notification-element > div > div {
+    display: table-cell;
+}
+
+.notification-element > div > div.notification-content {
+    display: block;
+    padding: 10px;
+    padding-bottom: 0px;
+    color: black;
+}
+
+.notification-element > div > div.notification-icon {
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}

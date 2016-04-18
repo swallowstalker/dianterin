@@ -1,0 +1,7 @@
+
+table#dataTables-list.dataTable tr.DTTT_selected {
+
+    &.even, &.odd, td {
+        background-color: #FEBD3D;
+    }
+}
