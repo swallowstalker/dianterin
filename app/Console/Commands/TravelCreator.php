@@ -47,7 +47,7 @@ class TravelCreator extends Command
             $time = "11:00:00";
 
             if (date("N") == 5) {
-                $time = "10:30:00";
+                $time = "10:45:00";
             }
 
             $travel = CourierTravelRecord::create([
