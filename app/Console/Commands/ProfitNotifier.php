@@ -59,6 +59,8 @@ class ProfitNotifier extends Command
             $total = $profit->total;
         }
 
+        $this->info("Profit for ". date("Y-m-d") ." is: ". $total);
+
         $viewData = ["profit" => $total];
 
         foreach ($adminList as $admin) {
