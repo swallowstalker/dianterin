@@ -25,9 +25,13 @@ class TransactionOrder extends Model
         "final_cost",
     ];
 
-    public function scopeByOwner($query) {
+    public function scopeByOwner($query, $ownerID = null) {
 
-        $query->where("user_id", Auth::user()->id);
+        if (empty($ownerID)) {
+            $ownerID = Auth::user()->id;
+        }
+
+        $query->where("user_id", $ownerID);
         return $query;
     }
 

@@ -57,14 +57,19 @@ class Order extends Model
     }
 
     /**
-     * Retrieve order owned by logged-in user.
+     * Retrieve order owned by specified user or logged-in user
      *
      * @param $query
+     * @param null $ownerID
      * @return mixed
      */
-    public function scopeByOwner($query) {
+    public function scopeByOwner($query, $ownerID = null) {
 
-        $query->where("user_id", Auth::user()->id);
+        if (empty($ownerID)) {
+            $ownerID = Auth::user()->id;
+        }
+
+        $query->where("user_id", $ownerID);
         return $query;
     }
 

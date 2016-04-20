@@ -52,7 +52,7 @@ class OrderValidator extends Validator
 
         $pendingTransactionTotal = PendingTransactionOrder::byOwner()->sum("final_cost");
 
-        $previousSubtotal = $this->getPreviousOrderTotal($latestOrderID);
+        $previousSubtotal = $this->getPreviousOrderTotal([$latestOrderID]);
 
         $latestOrderPrice = $this->getCurrentOrderSubtotalFromAddOrder($latestOrderID);
 
@@ -70,18 +70,20 @@ class OrderValidator extends Validator
     /**
      * Sum up all previous order (excluding currently backup-ed order)
      *
-     * @param null $excludedOrderID
+     * @param array $excludedOrderIDs
+     * @param null $ownerID
      * @return mixed
+     * @internal param null $excludedOrderID
      */
-    private function getPreviousOrderTotal($excludedOrderID = null) {
+    private function getPreviousOrderTotal(array $excludedOrderIDs = [], $ownerID = null) {
 
         // get all ordered list
-        $orderList = Order::byOwner()->byStatus(Order::STATUS_ORDERED)->get();
+        $orderList = Order::byOwner($ownerID)->byStatus(Order::STATUS_ORDERED)->get();
 
         foreach($orderList as $key => $order) {
 
             // exclude order with backup in it
-            if ($excludedOrderID == $order->id) {
+            if (in_array($order->id, $excludedOrderIDs)) {
 
                 unset($orderList[$key]);
                 continue;
@@ -173,9 +175,8 @@ class OrderValidator extends Validator
         $orderElement = OrderElement::where("id", $orderElementID)->first();
         $order = $orderElement->order;
 
-        $pendingTransactionTotal = PendingTransactionOrder::byOwner()->sum("final_cost");
-
-        $uncheckedOrderSubtotal = $this->getPreviousOrderTotal($order->id);
+        $pendingTransactionTotal = $this->getTotalPendingTransaction();
+        $uncheckedOrderSubtotal = $this->getPreviousOrderTotal([$order->id]);
 
         // change amount of order here
         foreach ($order->elements as $key => $element) {
@@ -198,6 +199,12 @@ class OrderValidator extends Validator
         }
     }
 
+    private function getTotalPendingTransaction($ownerID = null) {
+
+        $pendingTransactionTotal = PendingTransactionOrder::byOwner($ownerID)->sum("final_cost");
+        return $pendingTransactionTotal;
+    }
+
     /**
      * @todo is it possible to move this function to DepositValidator?
      * @param $attribute
@@ -206,9 +213,13 @@ class OrderValidator extends Validator
      */
     public function validateSufficientBalanceForTransfer($attribute, $value) {
 
-        $sender = User::find($this->data["sender"]);
+        $ownerID = $this->data["sender"];
+        $sender = User::find($ownerID);
 
-        if ($sender->balance >= $value) {
+        $pendingTransactionTotal = $this->getTotalPendingTransaction($ownerID);
+        $uncheckedOrderSubtotal = $this->getPreviousOrderTotal([], $ownerID);
+
+        if ($pendingTransactionTotal + $uncheckedOrderSubtotal + $value <= $sender->balance) {
             return true;
         } else {
             return false;

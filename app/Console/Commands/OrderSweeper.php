@@ -78,10 +78,6 @@ class OrderSweeper extends Command
             Event::fire(new OrderReceived($order, User::find($order->user_id)));
         }
 
-        if (! empty($unconfirmedOrderList)) {
-            $this->sendProfitEmail();
-        }
-
         $this->info("Order changed from delivered to received: ".
             count($unconfirmedOrderList) ." item(s)");
 
@@ -133,32 +129,6 @@ class OrderSweeper extends Command
 
         $this->info("Order changed from not received to not found: ".
             count($notReceivedOrderList) ." item(s)");
-
-    }
-
-    public function sendProfitEmail() {
-
-        $adminList = User::whereIn("id", [14, 30])->get();
-
-        $profit = Profit::where("date", date("Y-m-d"))->first();
-        $total = 0;
-        if (! empty($profit)) {
-            $total = $profit->total;
-        }
-
-        $viewData = ["profit" => $total];
-
-        foreach ($adminList as $admin) {
-
-            Mail::send("email.profit", $viewData, function ($mail) use ($admin) {
-
-                $mail->from("strato@dianter.in", 'Dianterin');
-                $mail->to($admin->email, $admin->name);
-                $mail->subject("Profit ". date("d") ."-". date("m") ."-". date("Y"));
-
-            });
-        }
-
 
     }
 }
