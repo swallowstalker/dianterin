@@ -25,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\OrderNotReceived' => [
             'App\Listeners\DeletePendingTransaction'
         ],
+        'App\Events\OrderLocked' => [
+            'App\Listeners\NotifyTransactionToUser'
+        ],
         'App\Events\ProfitChanged' => [
             'App\Listeners\UpdateProfit'
         ]

@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Pesanan Anda</title>
-<link href="{{ asset("") }}css/email.css" media="all" rel="stylesheet" type="text/css" />
+<link href="/css/email.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body itemscope itemtype="http://schema.org/EmailMessage">
@@ -20,7 +20,7 @@
 							<table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block aligncenter">
-										<img src="{{ asset("") }}img/img_logo_new_black.png" style="width: 50%;" />
+										<img src="/img/img_logo_new_black.png" style="width: 50%;" />
                                     </td>
                                 </tr>
 								<tr>
@@ -62,6 +62,26 @@
 										</table>
 									</td>
 								</tr>
+
+								@if (! empty($notFoundOrderList))
+								<tr>
+									<td style="padding-bottom: 30px;">
+										<p>
+											Pesanan berikut tidak dapat kami antarkan karena tidak ada:
+										</p>
+										<table>
+											@foreach($notFoundOrderList as $notFoundOrder)
+											<tr>
+												<td>
+													{{ $notFoundOrder->elements()->first()->restaurantObject->name }},
+													{{ $notFoundOrder->elements()->first()->menuObject->name }}
+												</td>
+											</tr>
+											@endforeach
+										</table>
+									</td>
+								</tr>
+								@endif
 
 								<tr>
 									<td class="content-block aligncenter">

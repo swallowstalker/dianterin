@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\CourierTravelRecord;
 use App\CourierVisitedRestaurant;
 use App\Events\OrderDelivered;
+use App\Events\OrderLocked;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
@@ -70,24 +71,26 @@ class ProcessedOrderController extends Controller
                 $order->status = Order::STATUS_NOT_FOUND;
                 $order->save();
 
-                continue;
+            } else {
+
+                $orderElement = OrderElement::find($chosenElementID);
+
+                Event::fire(new OrderDelivered(
+                    $orderElement,
+                    $adjustmentList[$orderID],
+                    $infoAdjustmentList[$orderID]
+                ));
+
+                $order = $orderElement->order;
+                $order->status = Order::STATUS_DELIVERED;
+                $order->save();
             }
-
-            $orderElement = OrderElement::find($chosenElementID);
-
-            Event::fire(new OrderDelivered(
-                $orderElement,
-                $adjustmentList[$orderID],
-                $infoAdjustmentList[$orderID]
-            ));
-
-            $order = $orderElement->order;
-            $order->status = Order::STATUS_DELIVERED;
-            $order->save();
         }
 
         // send invoice via email, group order by user.
-        $this->sendInvoices(array_keys($chosenElementList));
+//        $this->sendInvoices(array_keys($chosenElementList));
+
+        Event::fire(new OrderLocked($chosenElementList));
 
         return redirect("admin/order/processed");
     }
@@ -150,5 +153,16 @@ class ProcessedOrderController extends Controller
         $viewData["travel"] = $travel;
 
         return view("admin.order.summary", $viewData);
+    }
+
+    public function testInvoice() {
+
+        $chosenElementList = [4522 => 4878, 4521 => 0];
+        Event::fire(new OrderLocked($chosenElementList));
+
+    }
+
+    public function seeBillingEmail() {
+        return view("email.billing_raw");
     }
 }

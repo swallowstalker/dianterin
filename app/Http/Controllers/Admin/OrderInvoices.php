@@ -16,11 +16,11 @@ use Mail;
 trait OrderInvoices
 {
     /**
-     * @param $orderList
+     * @param $orderIDList
      */
-    protected function sendInvoices($orderList) {
+    protected function sendInvoices($orderIDList) {
 
-        $transactionByUser = PendingTransactionOrder::whereIn("order_id", $orderList)
+        $transactionByUser = PendingTransactionOrder::whereIn("order_id", $orderIDList)
             ->get()->groupBy("user_id");
 
         foreach ($transactionByUser as $userID => $transactionList) {
