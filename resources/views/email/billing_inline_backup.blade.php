@@ -20,13 +20,13 @@
                             <table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                 <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block aligncenter" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0;" align="center" valign="top">
-                                        <img src="https://dianter.in/v2/img/img_logo_new_black.png" style="width: 50%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; max-width: 100%; margin: 0;" />
+                                        <img src="https://dianter.in/v2/img/img_logo_new_black.png" style="Xwidth: 50%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; max-width: 100%; margin: 0;" />
                                     </td>
                                 </tr>
                                 <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0;" valign="top">
                                         <h1 class="aligncenter" style="font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; box-sizing: border-box; font-size: 22px !important; color: #000; line-height: 1.2em; font-weight: 800 !important; text-align: center; margin: 20px 0 5px;" align="center">
-                                            Rp {{ $total }}
+                                            Rp {{ number_format((float) $total, 0, ",", ".") }}
                                         </h1><br style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
                                         akan dibayar dari deposit anda.
                                     </td>
@@ -51,9 +51,9 @@
 
                                                         @foreach($transactionList as $transaction)
 
-                                                            <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                                                <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;" valign="top">
-                                                                    {{ $transaction->restaurant .", ". $transaction->menu }}<br style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                                                            <tr>
+                                                                <td>
+                                                                    {{ $transaction->restaurant .", ". $transaction->menu }}<br/>
 
                                                                     @if (! empty($transaction->adjustment))
 
@@ -64,7 +64,7 @@
 
                                                                     @endif
                                                                 </td>
-                                                                <td class="alignright" style="text-align: right; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;" align="right" valign="top">
+                                                                <td class="alignright" style="text-align: right;">
                                                                     Rp {{ number_format((float) $transaction->final_cost, 0, ",", ".") }}
                                                                 </td>
                                                             </tr>
@@ -74,8 +74,7 @@
                                                         <tr class="total" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                             <td class="alignright" width="80%" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 2px; border-top-color: #333; border-top-style: solid; border-bottom-color: #333; border-bottom-width: 2px; border-bottom-style: solid; font-weight: 700; margin: 0; padding: 5px 0;" align="right" valign="top">Total</td>
                                                             <td class="alignright" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 2px; border-top-color: #333; border-top-style: solid; border-bottom-color: #333; border-bottom-width: 2px; border-bottom-style: solid; font-weight: 700; margin: 0; padding: 5px 0;" align="right" valign="top">
-                                                                Rp {{ number_format((float) $total, 0, ",", ".") }}
-                                                            </td>
+                                                                Rp {{ number_format((float) $total, 0, ",", ".") }}</td>
                                                         </tr>
                                                     </table>
                                                 </td>
@@ -83,26 +82,6 @@
                                         </table>
                                     </td>
                                 </tr>
-
-                                @if (! empty($notFoundOrderList))
-                                    <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                        <td style="padding-bottom: 30px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top">
-                                            <p style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; font-weight: normal; margin: 0 0 10px;">
-                                                Pesanan berikut tidak dapat kami antarkan karena tidak ada:
-                                            </p>
-                                            <table style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                                @foreach($notFoundOrderList as $notFoundOrder)
-                                                    <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                                                        <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top">
-                                                            {{ $notFoundOrder->elements()->first()->restaurantObject->name }},
-                                                            {{ $notFoundOrder->elements()->first()->menuObject->name }}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </table>
-                                        </td>
-                                    </tr>
-                                @endif
 
                                 <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                     <td class="content-block aligncenter" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: center; margin: 0; padding: 0;" align="center" valign="top">

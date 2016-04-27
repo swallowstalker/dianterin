@@ -154,15 +154,4 @@ class ProcessedOrderController extends Controller
 
         return view("admin.order.summary", $viewData);
     }
-
-    public function testInvoice() {
-
-        $chosenElementList = [4522 => 4878, 4521 => 0];
-        Event::fire(new OrderLocked($chosenElementList));
-
-    }
-
-    public function seeBillingEmail() {
-        return view("email.billing_raw");
-    }
 }

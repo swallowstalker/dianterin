@@ -109,6 +109,6 @@ Route::group(['middleware' => 'web'], function () {
 
 Route::group(['prefix' => 'test'], function() {
 
-    Route::get('/invoices', 'Admin\ProcessedOrderController@testInvoice');
-    Route::get('/invoices/raw', 'Admin\ProcessedOrderController@seeBillingEmail');
+    Route::get('/invoices', 'Admin\TestController@testInvoice');
+    Route::get('/invoices/raw', 'Admin\TestController@seeBillingEmail');
 });

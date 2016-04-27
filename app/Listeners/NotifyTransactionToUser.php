@@ -36,7 +36,7 @@ class NotifyTransactionToUser
 
         $notFoundOrderIDList = [];
 
-        //@todo we must group delivered and not received order.
+        // group not received order.
         foreach ($orderElementIDList as $orderID => $orderElementID) {
 
             if ($orderElementID == 0) {
@@ -47,7 +47,7 @@ class NotifyTransactionToUser
         $notFoundOrderListByUser = Order::whereIn("id", $notFoundOrderIDList)
             ->get()->groupBy("user_id");
 
-        //@fixme this is only send email to user who receive his/her order.
+        // transaction list of user who receive his/her order.
         $transactionByUser = PendingTransactionOrder::whereIn("order_id", array_keys($orderElementIDList))
             ->get()->groupBy("user_id");
 

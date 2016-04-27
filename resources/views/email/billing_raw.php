@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Pesanan Anda</title>
-<link href="/css/email.css" media="all" rel="stylesheet" type="text/css" />
+<link href="https://dianter.in/v2/css/email.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body itemscope itemtype="http://schema.org/EmailMessage">
@@ -20,7 +20,7 @@
 							<table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block aligncenter">
-										<img src="/img/img_logo_new_black.png" style="width: 50%;" />
+										<img src="https://dianter.in/v2/img/img_logo_new_black.png" style="width: 50%;" />
                                     </td>
                                 </tr>
 								<tr>
@@ -49,12 +49,33 @@
 												<td>
 													<table class="invoice-items" cellpadding="0" cellspacing="0">
 
+														@foreach($transactionList as $transaction)
 
+														<tr>
+															<td>
+																{{ $transaction->restaurant .", ". $transaction->menu }}<br/>
+
+																@if (! empty($transaction->adjustment))
+
+																	(
+																	{{ $transaction->adjustment_info .", " }}
+																	Rp {{ number_format((float) $transaction->adjustment, 0, ",", ".") }}
+																	)
+
+																@endif
+															</td>
+															<td class="alignright" style="text-align: right;">
+																Rp {{ number_format((float) $transaction->final_cost, 0, ",", ".") }}
+															</td>
+														</tr>
+
+														@endforeach
 
 														<tr class="total" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
 															<td class="alignright" width="80%" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 2px; border-top-color: #333; border-top-style: solid; border-bottom-color: #333; border-bottom-width: 2px; border-bottom-style: solid; font-weight: 700; margin: 0; padding: 5px 0;" align="right" valign="top">Total</td>
 															<td class="alignright" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; text-align: right; border-top-width: 2px; border-top-color: #333; border-top-style: solid; border-bottom-color: #333; border-bottom-width: 2px; border-bottom-style: solid; font-weight: 700; margin: 0; padding: 5px 0;" align="right" valign="top">
-																Rp {{ $total }}</td>
+																Rp {{ number_format((float) $total, 0, ",", ".") }}
+															</td>
 														</tr>
 													</table>
 												</td>
@@ -69,7 +90,7 @@
 										<p>
 											Pesanan berikut tidak dapat kami antarkan karena tidak ada:
 										</p>
-										<table>
+										<table style="width: 100%;">
 											@foreach($notFoundOrderList as $notFoundOrder)
 											<tr>
 												<td>
