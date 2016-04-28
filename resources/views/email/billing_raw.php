@@ -23,10 +23,12 @@
 										<img src="https://dianter.in/v2/img/img_logo_new_black.png" style="width: 50%;" />
                                     </td>
                                 </tr>
+
+								@if(count($transactionList) != 0)
 								<tr>
 									<td class="content-block">
 										<h1 class="aligncenter">
-											Rp {{ $total }}
+											Rp {{ number_format((float) $total, 0, ",", ".") }}
 										</h1><br/>
 										akan dibayar dari deposit anda.
 									</td>
@@ -83,8 +85,9 @@
 										</table>
 									</td>
 								</tr>
+								@endif
 
-								@if (! empty($notFoundOrderList))
+								@if (count($notFoundOrderList) != 0)
 								<tr>
 									<td style="padding-bottom: 30px;">
 										<p>
@@ -104,6 +107,7 @@
 								</tr>
 								@endif
 
+								@if(count($transactionList) != 0)
 								<tr>
 									<td class="content-block aligncenter">
 										Silakan lakukan konfirmasi apabila anda belum menerima pesanan
@@ -117,6 +121,8 @@
 										<span style="font-size: 18pt; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; margin: 0;">☺</span>
 									</td>
 								</tr>
+								@endif
+								
 							</table>
 						</td>
 					</tr>

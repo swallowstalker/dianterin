@@ -25,7 +25,9 @@ class TestController extends Controller
 
     public function testInvoice() {
 
-        $chosenElementList = [4522 => 4878, 4521 => 0, 4520 => 0, 4519 => 0];
+//        $chosenElementList = [4522 => 4878, 4521 => 0, 4520 => 0, 4519 => 0];
+//        $chosenElementList = [4521 => 0];
+        $chosenElementList = [4522 => 4878];
         Event::fire(new OrderLocked($chosenElementList));
 
     }
