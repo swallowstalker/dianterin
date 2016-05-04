@@ -23,7 +23,10 @@ class CourierTravelRecord extends Model
 
     public function scopeIsOpen($query) {
 
-        $query->where("limit_time", ">", DB::raw("NOW()"));
+        $query->where(function($query) {
+            $query->where("limit_time", ">", DB::raw("NOW()"))
+                ->orWhereNull("limit_time");
+        });
         return $query;
     }
 }

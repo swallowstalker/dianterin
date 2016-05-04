@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 10px;">
         <div class="col-xs-12">
             <div style="background: white; padding: 10px;">
 
@@ -62,6 +62,16 @@
                 </form>
 
             </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 10px;">
+        <div class="col-xs-12">
+
+            <a href="{!! route("user.titip.open") !!}" class="button-green-white publish-travel col-xs-12" style="font-size: 11pt;">
+                BUKA PENITIPAN &nbsp;&nbsp;  <i class="fa fa-arrow-right"></i>
+            </a>
+
         </div>
     </div>
 

@@ -55,6 +55,9 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('/start', ['uses' => 'User\TitipController@showStartPage', 'as' => 'start']);
             Route::post('/restaurant/add', ['uses' => 'User\TitipController@addRestaurant', 'as' => 'restaurant.add']);
+            Route::get('/open', ['uses' => 'User\TitipController@open', 'as' => 'open']);
+
+            Route::get('/opened', ['uses' => 'User\TitipController@showOpened', 'as' => 'opened']);
         });
 
     });
