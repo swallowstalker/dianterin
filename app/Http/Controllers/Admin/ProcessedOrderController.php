@@ -86,10 +86,7 @@ class ProcessedOrderController extends Controller
                 $order->save();
             }
         }
-
-        // send invoice via email, group order by user.
-//        $this->sendInvoices(array_keys($chosenElementList));
-
+        
         Event::fire(new OrderLocked($chosenElementList));
 
         return redirect("admin/order/processed");
