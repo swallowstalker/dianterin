@@ -58,6 +58,10 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/open', ['uses' => 'User\TitipController@open', 'as' => 'open']);
 
             Route::get('/opened', ['uses' => 'User\TitipController@showOpened', 'as' => 'opened']);
+            Route::get('/close', ['uses' => 'User\TitipController@close', 'as' => 'close']);
+
+            Route::get('/closed', ['uses' => 'User\TitipController@showClosed', 'as' => 'closed']);
+            Route::post('/finish', ['uses' => 'User\TitipController@finish', 'as' => 'finish']);
         });
 
     });

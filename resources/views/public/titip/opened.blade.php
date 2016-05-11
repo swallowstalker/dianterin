@@ -9,6 +9,8 @@
     <!-- Magnific Popup CSS -->
     <link href="{!! asset("/") !!}bower_components/magnific-popup/dist/magnific-popup.css" rel="stylesheet" type="text/css">
 
+    <link href="{!! asset("/") !!}css/public/titip.css" rel="stylesheet" type="text/css">
+
 @endsection
 
 
@@ -56,18 +58,28 @@
 
                                 @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $orderElement)
 
-                                    <div>
-                                        {{ $orderElement->menuObject->name }}
-                                        <b>({{ $orderElement->amount }} buah)</b>
+                                    <section class="order-element
 
-                                        <span class="pull-right">
-                                            Rp {{ number_format($orderElement->menuObject->price * $orderElement->amount, 0, ",", ".") }}
-                                        </span>
+                                    @if($orderElement->is_backup) inactive @endif
 
-                                    </div>
-                                    <div style="font-size: 11pt;">
-                                        {{ $orderElement->preference }}
-                                    </div>
+                                    ">
+
+                                        <div>
+
+                                            {{ $orderElement->menuObject->name }}
+                                            <b>({{ $orderElement->amount }} buah)</b>
+                                            {{ $orderElement->preference }}
+
+
+                                            <span class="pull-right">
+                                                Rp {{ number_format($orderElement->subtotal, 0, ",", ".") }}
+                                            </span>
+
+                                        </div>
+                                        <div style="font-size: 11pt;">
+                                            {{ $orderElement->order->user->name }}
+                                        </div>
+                                    </section>
 
                                 @endforeach
 

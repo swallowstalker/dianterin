@@ -17,12 +17,12 @@
 
                         <h5>Perkiraan Total Ongkos</h5>
                         <h4>
-                            Rp {{ number_format($expectedIncome, 0, ",", ".") }}
+                            Rp <span class="expected-income">Expected Income</span>
                         </h4>
 
                         <h5>Perkiraan Total Pembelian Makanan</h5>
                         <h4>
-                            Rp {{ number_format($totalPaymentWhichUserBorrow, 0, ",", ".") }}
+                            Rp <span class="expected-subtotal">Perkiraan Total Dibayar</span>
                         </h4>
                     </div>
                 </div>
@@ -34,9 +34,9 @@
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-xs-12">
 
-            <a href="{!! route("user.titip.close") !!}" class="button-red-white publish-travel col-xs-12" style="font-size: 11pt;">
-                <b>TUTUP PENITIPAN &nbsp;&nbsp;  <i class="fa fa-arrow-right"></i></b>
-            </a>
+            <button class="button-red-white finish-travel col-xs-12" style="font-size: 11pt;">
+                <b>SELESAIKAN PENITIPAN &nbsp;&nbsp;  <i class="fa fa-arrow-right"></i></b>
+            </button>
 
         </div>
     </div>
@@ -50,5 +50,8 @@
     var baseURL = "{{ url("/") }}";
 
     $(document).ready(function () {
+        $("button.finish-travel").click(function () {
+            $("form#finish-form-travel").submit();
+        });
     });
 </script>

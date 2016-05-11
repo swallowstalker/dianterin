@@ -4,12 +4,18 @@ namespace App\Http\Controllers\User;
 
 use App\CourierTravelRecord;
 use App\CourierVisitedRestaurant;
+use App\Events\OrderDelivered;
+use App\Events\OrderLocked;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\TitipAddRestaurantRequest;
 use App\Order;
 use App\OrderElement;
 use App\Restaurant;
 use Auth;
+use DB;
+use Event;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Session;
 
 class TitipController extends Controller
@@ -17,7 +23,7 @@ class TitipController extends Controller
 
     public function showStartPage() {
 
-        $restaurantList = Restaurant::active()->get();
+        $restaurantList = Restaurant::active()->orderBy("name")->get();
         $restaurantListDropdown = $restaurantList->pluck("name", "id");
 
         $viewData = [
@@ -56,7 +62,8 @@ class TitipController extends Controller
             $travelRecord = CourierTravelRecord::create([
                 "courier_id" => Auth::user()->id,
                 "quota" => 0,
-                "limit_time" => null
+                "limit_time" => null,
+                "status" => CourierTravelRecord::STATUS_OPENED
             ]);
 
             $restaurantList = Session::get("titipRestaurantList");
@@ -72,8 +79,6 @@ class TitipController extends Controller
 
             Session::forget("titipRestaurantList");
 
-            Session::put("activeTravel", $travelRecord->id);
-
             return redirect()->route("user.titip.opened");
 
         } else {
@@ -86,13 +91,136 @@ class TitipController extends Controller
 
     public function showOpened() {
 
-        $activeTravelID = Session::get("activeTravel");
-        $travel = CourierTravelRecord::where("id", $activeTravelID)->isOpen()->first();
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_OPENED);
 
         if (empty($travel)) {
             return redirect()->route("user.titip.start");
         }
-        
+
+        $orderElementListByRestaurant = $this->getOrderElementListGroupedByRestaurant($travel);
+
+        $expectedIncome = $this->getTotalIncome($orderElementListByRestaurant, $travel);
+
+        $totalPaymentWhichUserBorrow = $this->getTotalPaymentWhichUserBorrow(
+            $orderElementListByRestaurant);
+
+        return view("public.titip.opened", [
+            "travel" => $travel,
+            "orderElementListByRestaurant" => $orderElementListByRestaurant,
+            "expectedIncome" => $expectedIncome,
+            "totalPaymentWhichUserBorrow" => $totalPaymentWhichUserBorrow
+        ]);
+    }
+
+    public function close() {
+
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_OPENED);
+        $this->closeTravel($travel);
+        $this->markOrderInsideTravelAsProcessed($travel);
+
+        return redirect()->route("user.titip.closed");
+    }
+
+    public function showClosed() {
+
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
+
+        if (empty($travel)) {
+            return redirect()->route("user.titip.start");
+        }
+
+        $orderElementListByRestaurant = $this->getOrderElementListGroupedByRestaurant($travel);
+        $orderList = Order::where("travel_id", $travel->id)
+            ->whereNotNull("travel_id")
+            ->get();
+
+        return view("public.titip.closed", [
+            "travel" => $travel,
+            "orderElementListByRestaurant" => $orderElementListByRestaurant,
+            "orderList" => $orderList
+        ]);
+
+    }
+
+    public function finish(Request $request) {
+
+//        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
+//        $this->finishTravel($travel);
+        $this->inspectChosenOrderElementToBillTheUser($request);
+
+        //@todo mark order as delivered, create pending transaction
+
+    }
+
+    private function inspectChosenOrderElementToBillTheUser(Request $request) {
+
+        $adjustmentList = $request->input("adjustment");
+        $infoAdjustmentList = $request->input("info-adjustment");
+        $chosenElementList = $request->input("element");
+
+        //@fixme penambahannya masih ke override input yang pertama, harusnya sesuai dengan input radio
+        dump($adjustmentList);
+        dump($infoAdjustmentList);
+        dd($chosenElementList);
+
+        foreach ($chosenElementList as $orderID => $chosenElementID) {
+
+            if ($chosenElementID == 0) {
+
+                // change order status to not found
+
+                //@fixme add conditional for order status
+                $order = Order::find($orderID);
+                $order->status = Order::STATUS_NOT_FOUND;
+                $order->save();
+
+            } else {
+
+                $orderElement = OrderElement::find($chosenElementID);
+
+                Event::fire(new OrderDelivered(
+                    $orderElement,
+                    $adjustmentList[$orderID],
+                    $infoAdjustmentList[$orderID]
+                ));
+
+                $order = $orderElement->order;
+                $order->status = Order::STATUS_DELIVERED;
+                $order->save();
+            }
+        }
+
+        Event::fire(new OrderLocked($chosenElementList));
+
+        return redirect()->route("user.titip.finished");
+    }
+
+    private function getTravelByStatus($status) {
+        $travel = CourierTravelRecord::byCourier(Auth::user()->id)->byStatus($status)->first();
+        return $travel;
+    }
+
+    private function closeTravel(CourierTravelRecord $travel) {
+        $travel->limit_time = DB::raw("NOW()");
+        $travel->status = CourierTravelRecord::STATUS_CLOSED;
+        $travel->save();
+    }
+
+    private function markOrderInsideTravelAsProcessed(CourierTravelRecord $travel) {
+        Order::byTravel($travel->id)
+            ->update(["status" => Order::STATUS_PROCESSED]);
+    }
+
+    private function finishTravel(CourierTravelRecord $travel) {
+
+        $travel->status = CourierTravelRecord::STATUS_FINISHED;
+        $travel->save();
+    }
+
+    private function getOrderElementListGroupedByRestaurant(CourierTravelRecord $travel) {
+
+        $activeTravelID = $travel->id;
+
         $orderElementList = OrderElement::with("order")
             ->whereHas("order", function($query) use ($activeTravelID) {
                 $query->where("travel_id", $activeTravelID)
@@ -101,15 +229,52 @@ class TitipController extends Controller
             ->get();
 
         $orderElementListByRestaurant = $orderElementList->groupBy("restaurant");
-//        dd($orderElementList->groupBy("restaurant"));
-//        dd($orderElementListByRestaurant);
-//        dd($orderElementListByRestaurant[1]);
-        
-        
 
-        return view("public.titip.opened", [
-            "travel" => $travel,
-            "orderElementListByRestaurant" => $orderElementListByRestaurant
-        ]);
+        return $orderElementListByRestaurant;
+    }
+
+    private function getTotalIncome($orderElementListByRestaurant, CourierTravelRecord $travel) {
+
+        $totalPayment = 0;
+
+        foreach ($orderElementListByRestaurant as $orderElementList) {
+
+            foreach ($orderElementList as $orderElement) {
+
+                if (! $orderElement->is_backup) {
+
+                    $visitedRestaurant = $travel->visitedRestaurants()
+                        ->where("allowed_restaurant", $orderElement->restaurant)
+                        ->first();
+
+                    $totalPayment += $visitedRestaurant->delivery_cost;
+
+                }
+
+            }
+        }
+
+        return $totalPayment;
+
+    }
+
+    private function getTotalPaymentWhichUserBorrow($orderElementListByRestaurant) {
+
+        $totalPayment = 0;
+
+        foreach ($orderElementListByRestaurant as $orderElementList) {
+
+            foreach ($orderElementList as $orderElement) {
+
+                if (! $orderElement->is_backup) {
+
+                    $totalPayment += ($orderElement->subtotal);
+
+                }
+            }
+        }
+
+        return $totalPayment;
+
     }
 }
