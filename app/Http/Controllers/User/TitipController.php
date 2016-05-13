@@ -158,11 +158,6 @@ class TitipController extends Controller
         $infoAdjustmentList = $request->input("info-adjustment");
         $chosenElementList = $request->input("element");
 
-        //@fixme penambahannya masih ke override input yang pertama, harusnya sesuai dengan input radio
-        dump($adjustmentList);
-        dump($infoAdjustmentList);
-        dd($chosenElementList);
-
         foreach ($chosenElementList as $orderID => $chosenElementID) {
 
             if ($chosenElementID == 0) {

@@ -64,11 +64,7 @@
 
                                     @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $orderElement)
 
-                                        <section class="order-element
-
-                                        @if($orderElement->is_backup) inactive @endif
-
-                                        ">
+                                        <section class="order-element">
 
                                             <div>
 
@@ -91,9 +87,15 @@
                                                 </span>
 
                                             </div>
+
                                             <div>
-                                                <input name="adjustment[{{ $orderElement->order->id }}]" placeholder="Penambahan">
-                                                <input name="info-adjustment[{{ $orderElement->order->id }}]" placeholder="Info">
+
+                                                <input name="adjustment[{{ $orderElement->order->id }}]" class="adjustment"
+                                                       placeholder="Penambahan" disabled="disabled">
+
+                                                <input name="info-adjustment[{{ $orderElement->order->id }}]" class="info"
+                                                       placeholder="Info" disabled="disabled">
+
                                             </div>
                                             <div style="font-size: 11pt;">
                                                 {{ $orderElement->order->user->name }}
@@ -168,7 +170,7 @@
 
     <script type="text/javascript">
 
-        function countDeliveryCost() {
+        function _countDeliveryCost() {
 
             var totalCost = 0;
 
@@ -185,7 +187,7 @@
             return totalCost;
         }
 
-        function countExpectedSubtotal() {
+        function _countExpectedSubtotal() {
 
             var totalCost = 0;
 
@@ -202,40 +204,86 @@
             return totalCost;
         }
 
+        function _countAdjustment() {
+
+            var totalCost = 0;
+
+            $("section.order-element").not(".inactive").each(function (key, selector) {
+
+                var input = $(selector).find("input.adjustment");
+
+                if (input.length != 0 && input.val() != "") {
+                    totalCost += parseInt(input.val());
+                }
+
+            });
+
+            return totalCost;
+        }
+
         function updateExpectedIncome() {
 
-            var deliveryCost = countDeliveryCost();
+            var deliveryCost = _countDeliveryCost();
             $(".expected-income").html(deliveryCost);
         }
 
         function updateExpectedSubtotal() {
 
-            var subtotal = countExpectedSubtotal();
+            var subtotal = _countExpectedSubtotal() + _countAdjustment();
             $(".expected-subtotal").html(subtotal);
+        }
+
+        function updateOrderElementActiveness(orderAreaSelector) {
+
+            var elementSelector = orderAreaSelector.find("input.element-selector");
+            var selectorName = elementSelector.prop("name");
+            selectorName = selectorName.replace("[", "\\[");
+            selectorName = selectorName.replace("]", "\\]");
+
+            $("input[name="+ selectorName +"]").each(function (key, selector) {
+
+                var elementAreaSelector = $(selector).closest("section.order-element");
+
+                if ($(selector).is(":checked")) {
+                    elementAreaSelector.removeClass("inactive")
+                } else {
+                    elementAreaSelector.addClass("inactive")
+                }
+
+                updateAdjustmentAndInfoActiveness(elementAreaSelector, ! $(selector).is(":checked") );
+            });
+
+        }
+
+        function updateAdjustmentAndInfoActiveness(elementAreaSelector, disableFlag) {
+
+            elementAreaSelector.find("input.adjustment").prop("disabled", disableFlag);
+            elementAreaSelector.find("input.info").prop("disabled", disableFlag);
         }
 
         $(document).ready(function () {
 
+            var orderArea = $("section.order-area");
+            var elementSelector = orderArea.find("input.element-selector");
+            var adjustmentSelector = orderArea.find("input.adjustment");
+
+            elementSelector.each(function (key, selector) {
+                updateOrderElementActiveness($(selector).closest("section.order-area"));
+            });
+
             updateExpectedIncome();
             updateExpectedSubtotal();
 
-            $("section.order-area input.element-selector").change(function () {
+            elementSelector.change(function () {
 
-                var selectorName = $(this).prop("name");
-                selectorName = selectorName.replace("[", "\\[");
-                selectorName = selectorName.replace("]", "\\]");
+                updateOrderElementActiveness($(this).closest("section.order-area"));
+                updateExpectedIncome();
+                updateExpectedSubtotal();
+            });
 
-                $("input[name="+ selectorName +"]").each(function (key, selector) {
+            adjustmentSelector.keyup(function () {
 
-                    var elementAreaSelector = $(selector).closest("section.order-element");
-
-                    if ($(selector).is(":checked")) {
-                        elementAreaSelector.removeClass("inactive")
-                    } else {
-                        elementAreaSelector.addClass("inactive")
-                    }
-                });
-
+                updateOrderElementActiveness($(this).closest("section.order-area"));
                 updateExpectedIncome();
                 updateExpectedSubtotal();
             });
