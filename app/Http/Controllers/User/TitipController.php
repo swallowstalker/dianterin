@@ -144,11 +144,32 @@ class TitipController extends Controller
 
     public function finish(Request $request) {
 
-//        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
-//        $this->finishTravel($travel);
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
+        $this->finishTravel($travel);
         $this->inspectChosenOrderElementToBillTheUser($request);
 
-        //@todo mark order as delivered, create pending transaction
+    }
+
+    public function showFinished() {
+
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
+
+        if (empty($travel)) {
+            return redirect()->route("user.titip.start");
+        }
+
+        $pendingTransactionGroupedByRestaurant = $this->getPendingTransactionGroupedByRestaurant($travel);
+
+        return view("public.titip.finished", [
+            "travel" => $travel,
+            "pendingTransactionGroupedByRestaurant" => $pendingTransactionGroupedByRestaurant
+        ]);
+    }
+
+    private function getPendingTransactionGroupedByRestaurant(CourierTravelRecord $travel) {
+
+        //@todo work this out
+        return [];
 
     }
 
@@ -191,7 +212,7 @@ class TitipController extends Controller
     }
 
     private function getTravelByStatus($status) {
-        $travel = CourierTravelRecord::byCourier(Auth::user()->id)->byStatus($status)->first();
+        $travel = CourierTravelRecord::byCourier(Auth::user()->id)->byStatus($status)->last();
         return $travel;
     }
 

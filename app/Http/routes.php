@@ -62,6 +62,9 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('/closed', ['uses' => 'User\TitipController@showClosed', 'as' => 'closed']);
             Route::post('/finish', ['uses' => 'User\TitipController@finish', 'as' => 'finish']);
+
+            Route::get('/finished', ['uses' => 'User\TitipController@showFinished', 'as' => 'finished']);
+            
         });
 
     });
