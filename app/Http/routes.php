@@ -127,3 +127,9 @@ Route::group(['middleware' => 'web'], function () {
 //    Route::get('/invoices', 'Admin\TestController@testInvoice');
 //    Route::get('/invoices/raw', 'Admin\TestController@seeBillingEmail');
 //});
+
+//Route::group(['prefix' => 'fix'], function() {
+//
+//    Route::get('/travel/in/transaction', 'Admin\TestController@fixPendingAndActiveTransactionTravelID');
+//
+//});

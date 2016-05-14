@@ -62,7 +62,7 @@
 
                                 @if (isset($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant]))
 
-                                    @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $orderElement)
+                                    @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $pendingTransaction)
 
                                         <section class="order-element">
 
@@ -70,35 +70,35 @@
 
                                                 <input type="radio"
                                                        class="element-selector"
-                                                       name="element[{{ $orderElement->order->id }}]"
-                                                       value="{{ $orderElement->id }}"
-                                                       @if (! $orderElement->is_backup) checked="checked" @endif
+                                                       name="element[{{ $pendingTransaction->order->id }}]"
+                                                       value="{{ $pendingTransaction->id }}"
+                                                       @if (! $pendingTransaction->is_backup) checked="checked" @endif
                                                 >
                                                 <input type="hidden" class="delivery-cost" value="{{ $visitedRestaurant->delivery_cost }}">
-                                                <input type="hidden" class="subtotal" value="{{ $orderElement->subtotal }}">
+                                                <input type="hidden" class="subtotal" value="{{ $pendingTransaction->subtotal }}">
 
-                                                {{ $orderElement->menuObject->name }}
-                                                <b>({{ $orderElement->amount }} buah)</b>
-                                                {{ $orderElement->preference }}
+                                                {{ $pendingTransaction->menuObject->name }}
+                                                <b>({{ $pendingTransaction->amount }} buah)</b>
+                                                {{ $pendingTransaction->preference }}
 
 
                                                 <span class="pull-right">
-                                                    Rp {{ number_format($orderElement->subtotal, 0, ",", ".") }}
+                                                    Rp {{ number_format($pendingTransaction->subtotal, 0, ",", ".") }}
                                                 </span>
 
                                             </div>
 
                                             <div>
 
-                                                <input name="adjustment[{{ $orderElement->order->id }}]" class="adjustment"
+                                                <input name="adjustment[{{ $pendingTransaction->order->id }}]" class="adjustment"
                                                        placeholder="Penambahan" disabled="disabled">
 
-                                                <input name="info-adjustment[{{ $orderElement->order->id }}]" class="info"
+                                                <input name="info-adjustment[{{ $pendingTransaction->order->id }}]" class="info"
                                                        placeholder="Info" disabled="disabled">
 
                                             </div>
                                             <div style="font-size: 11pt;">
-                                                {{ $orderElement->order->user->name }}
+                                                {{ $pendingTransaction->order->user->name }}
                                             </div>
                                         </section>
 
@@ -140,11 +140,11 @@
 
                                     </div>
 
-                                    @foreach($order->elements as $orderElement)
+                                    @foreach($order->elements as $pendingTransaction)
                                         <div>
-                                            {{ $orderElement->menuObject->name }}
-                                            <b>({{ $orderElement->amount }} buah)</b>
-                                            {{ $orderElement->preference }}
+                                            {{ $pendingTransaction->menuObject->name }}
+                                            <b>({{ $pendingTransaction->amount }} buah)</b>
+                                            {{ $pendingTransaction->preference }}
                                         </div>
                                     @endforeach
 

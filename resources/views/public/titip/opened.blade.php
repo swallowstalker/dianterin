@@ -56,28 +56,28 @@
 
                             @if (isset($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant]))
 
-                                @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $orderElement)
+                                @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $pendingTransaction)
 
                                     <section class="order-element
 
-                                    @if($orderElement->is_backup) inactive @endif
+                                    @if($pendingTransaction->is_backup) inactive @endif
 
                                     ">
 
                                         <div>
 
-                                            {{ $orderElement->menuObject->name }}
-                                            <b>({{ $orderElement->amount }} buah)</b>
-                                            {{ $orderElement->preference }}
+                                            {{ $pendingTransaction->menuObject->name }}
+                                            <b>({{ $pendingTransaction->amount }} buah)</b>
+                                            {{ $pendingTransaction->preference }}
 
 
                                             <span class="pull-right">
-                                                Rp {{ number_format($orderElement->subtotal, 0, ",", ".") }}
+                                                Rp {{ number_format($pendingTransaction->subtotal, 0, ",", ".") }}
                                             </span>
 
                                         </div>
                                         <div style="font-size: 11pt;">
-                                            {{ $orderElement->order->user->name }}
+                                            {{ $pendingTransaction->order->user->name }}
                                         </div>
                                     </section>
 

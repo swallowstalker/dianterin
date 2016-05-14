@@ -10,10 +10,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\TitipAddRestaurantRequest;
 use App\Order;
 use App\OrderElement;
+use App\PendingTransactionOrder;
 use App\Restaurant;
 use Auth;
 use DB;
 use Event;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Session;
@@ -152,24 +154,38 @@ class TitipController extends Controller
 
     public function showFinished() {
 
+        //@todo jangan lupa handle kalo misalnya ada travel lagi aktif tapi dia mau start lagi.
+
         $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
 
         if (empty($travel)) {
             return redirect()->route("user.titip.start");
         }
 
-        $pendingTransactionGroupedByRestaurant = $this->getPendingTransactionGroupedByRestaurant($travel);
+        $pendingTransactionList = $this->getPendingTransactionByTravel($travel);
+        $pendingTransactionGroupedByRestaurant = $pendingTransactionList->groupBy("restaurant");
+        $deliveryCostTotal = $pendingTransactionList->sum("delivery_cost");
+        $transactionTotal = $pendingTransactionList->sum("price")
+            + $pendingTransactionList->sum("adjustment");
 
         return view("public.titip.finished", [
             "travel" => $travel,
-            "pendingTransactionGroupedByRestaurant" => $pendingTransactionGroupedByRestaurant
+            "pendingTransactionGroupedByRestaurant" => $pendingTransactionGroupedByRestaurant,
+            "deliveryCostTotal" => $deliveryCostTotal,
+            "transactionTotal" => $transactionTotal
         ]);
     }
 
-    private function getPendingTransactionGroupedByRestaurant(CourierTravelRecord $travel) {
+    private function getPendingTransactionByTravel(CourierTravelRecord $travel) {
 
-        //@todo work this out
-        return [];
+        $activeTravelID = $travel->id;
+
+        $pendingTransactionList = PendingTransactionOrder::whereHas("order", function ($query) use ($activeTravelID) {
+            $query->where("travel_id", $activeTravelID)
+                ->whereNotNull("travel_id");
+        })->get();
+
+        return $pendingTransactionList;
 
     }
 
@@ -212,7 +228,8 @@ class TitipController extends Controller
     }
 
     private function getTravelByStatus($status) {
-        $travel = CourierTravelRecord::byCourier(Auth::user()->id)->byStatus($status)->last();
+        $travel = CourierTravelRecord::byCourier(Auth::user()->id)
+            ->byStatus($status)->orderBy("id", "desc")->first();
         return $travel;
     }
 

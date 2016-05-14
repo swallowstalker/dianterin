@@ -25,6 +25,15 @@ class TransactionOrder extends Model
         "final_cost",
     ];
 
+
+    public function order() {
+        return $this->belongsTo('App\Order', 'order_id');
+    }
+
+    public function user() {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
     public function scopeByOwner($query, $ownerID = null) {
 
         if (empty($ownerID)) {

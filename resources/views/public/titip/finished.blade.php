@@ -37,118 +37,41 @@
                 </div>
             </div>
 
-            <form method="POST" class="form-horizontal"
-                  id="finish-form-travel"
-                  action="{{route('user.titip.finish')}}"
-                  enctype="multipart/form-data">
-
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
-                @foreach($travel->visitedRestaurants as $visitedRestaurant)
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-12" style="background: white; padding: 10px; font-size: 12pt;">
-
-                            <section class="head-area">
-                                <span style="font-weight: bold; font-size: 15pt;">
-                                    {{ $visitedRestaurant->restaurant->name }}
-                                </span>
-                                <span class="pull-right">
-                                    Ongkos Rp {{ number_format($visitedRestaurant->delivery_cost, 0, ",", ".") }}
-                                </span>
-                            </section>
-
-                            <section class="order-area" style="font-size: 12pt;">
-
-                                @if (isset($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant]))
-
-                                    @foreach($orderElementListByRestaurant[$visitedRestaurant->allowed_restaurant] as $orderElement)
-
-                                        <section class="order-element">
-
-                                            <div>
-
-                                                <input type="radio"
-                                                       class="element-selector"
-                                                       name="element[{{ $orderElement->order->id }}]"
-                                                       value="{{ $orderElement->id }}"
-                                                       @if (! $orderElement->is_backup) checked="checked" @endif
-                                                >
-                                                <input type="hidden" class="delivery-cost" value="{{ $visitedRestaurant->delivery_cost }}">
-                                                <input type="hidden" class="subtotal" value="{{ $orderElement->subtotal }}">
-
-                                                {{ $orderElement->menuObject->name }}
-                                                <b>({{ $orderElement->amount }} buah)</b>
-                                                {{ $orderElement->preference }}
-
-
-                                                <span class="pull-right">
-                                                    Rp {{ number_format($orderElement->subtotal, 0, ",", ".") }}
-                                                </span>
-
-                                            </div>
-
-                                            <div>
-
-                                                <input name="adjustment[{{ $orderElement->order->id }}]" class="adjustment"
-                                                       placeholder="Penambahan" disabled="disabled">
-
-                                                <input name="info-adjustment[{{ $orderElement->order->id }}]" class="info"
-                                                       placeholder="Info" disabled="disabled">
-
-                                            </div>
-                                            <div style="font-size: 11pt;">
-                                                {{ $orderElement->order->user->name }}
-                                            </div>
-                                        </section>
-
-                                    @endforeach
-
-                                @endif
-
-                            </section>
-
-                        </div>
-                    </div>
-
-                @endforeach
-
-                {{-- bagian penanda "pesanan tidak ada" --}}
+            @foreach($pendingTransactionGroupedByRestaurant as $restaurantName => $pendingTransactionList)
 
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-md-12" style="background: white; padding: 10px; font-size: 12pt;">
 
                         <section class="head-area">
                             <span style="font-weight: bold; font-size: 15pt;">
-                                Pesanan tidak ada
+                                {{ $restaurantName }}
                             </span>
                         </section>
 
                         <section class="order-area" style="font-size: 12pt;">
 
-                            @foreach($orderList as $order)
+                            @foreach($pendingTransactionList as $pendingTransaction)
 
-                                <section class="order-element inactive">
+                                <section class="order-element">
 
                                     <div>
 
-                                        <input type="radio"
-                                               class="element-selector"
-                                               name="element[{{ $order->id }}]" value="0">
+                                        {{ $pendingTransaction->menu }}<br/>
+                                        @if (! empty($pendingTransaction->adjustment))
+                                            tambahan: Rp {{ number_format($pendingTransaction->adjustment, 0, ",", ".") }}
+                                            {{ $pendingTransaction->adjustment_info }}
+                                        @endif
 
-                                        {{ $order->user->name }}
+
+                                        <span class="pull-right">
+                                            Rp {{ number_format($pendingTransaction->price + $pendingTransaction->adjustment, 0, ",", ".") }}
+                                        </span>
 
                                     </div>
 
-                                    @foreach($order->elements as $orderElement)
-                                        <div>
-                                            {{ $orderElement->menuObject->name }}
-                                            <b>({{ $orderElement->amount }} buah)</b>
-                                            {{ $orderElement->preference }}
-                                        </div>
-                                    @endforeach
-
-
+                                    <div style="font-size: 11pt;">
+                                        {{ $pendingTransaction->user->name }}
+                                    </div>
                                 </section>
 
                             @endforeach
@@ -157,138 +80,14 @@
 
                     </div>
                 </div>
-            </form>
+
+            @endforeach
 
         </div>
 
-
         {{-- sidebar order list --}}
-        @include("public.titip.element.sidebar_closed")
+        @include("public.titip.element.sidebar_finished")
 
     </div>
-
-
-    <script type="text/javascript">
-
-        function _countDeliveryCost() {
-
-            var totalCost = 0;
-
-            $("section.order-element").not(".inactive").each(function (key, selector) {
-
-                var input = $(selector).find("input.delivery-cost");
-
-                if (input.length != 0) {
-                    totalCost += parseInt(input.val());
-                }
-
-            });
-
-            return totalCost;
-        }
-
-        function _countExpectedSubtotal() {
-
-            var totalCost = 0;
-
-            $("section.order-element").not(".inactive").each(function (key, selector) {
-
-                var input = $(selector).find("input.subtotal");
-
-                if (input.length != 0) {
-                    totalCost += parseInt(input.val());
-                }
-
-            });
-
-            return totalCost;
-        }
-
-        function _countAdjustment() {
-
-            var totalCost = 0;
-
-            $("section.order-element").not(".inactive").each(function (key, selector) {
-
-                var input = $(selector).find("input.adjustment");
-
-                if (input.length != 0 && input.val() != "") {
-                    totalCost += parseInt(input.val());
-                }
-
-            });
-
-            return totalCost;
-        }
-
-        function updateExpectedIncome() {
-
-            var deliveryCost = _countDeliveryCost();
-            $(".expected-income").html(deliveryCost);
-        }
-
-        function updateExpectedSubtotal() {
-
-            var subtotal = _countExpectedSubtotal() + _countAdjustment();
-            $(".expected-subtotal").html(subtotal);
-        }
-
-        function updateOrderElementActiveness(orderAreaSelector) {
-
-            var elementSelector = orderAreaSelector.find("input.element-selector");
-            var selectorName = elementSelector.prop("name");
-            selectorName = selectorName.replace("[", "\\[");
-            selectorName = selectorName.replace("]", "\\]");
-
-            $("input[name="+ selectorName +"]").each(function (key, selector) {
-
-                var elementAreaSelector = $(selector).closest("section.order-element");
-
-                if ($(selector).is(":checked")) {
-                    elementAreaSelector.removeClass("inactive")
-                } else {
-                    elementAreaSelector.addClass("inactive")
-                }
-
-                updateAdjustmentAndInfoActiveness(elementAreaSelector, ! $(selector).is(":checked") );
-            });
-
-        }
-
-        function updateAdjustmentAndInfoActiveness(elementAreaSelector, disableFlag) {
-
-            elementAreaSelector.find("input.adjustment").prop("disabled", disableFlag);
-            elementAreaSelector.find("input.info").prop("disabled", disableFlag);
-        }
-
-        $(document).ready(function () {
-
-            var orderArea = $("section.order-area");
-            var elementSelector = orderArea.find("input.element-selector");
-            var adjustmentSelector = orderArea.find("input.adjustment");
-
-            elementSelector.each(function (key, selector) {
-                updateOrderElementActiveness($(selector).closest("section.order-area"));
-            });
-
-            updateExpectedIncome();
-            updateExpectedSubtotal();
-
-            elementSelector.change(function () {
-
-                updateOrderElementActiveness($(this).closest("section.order-area"));
-                updateExpectedIncome();
-                updateExpectedSubtotal();
-            });
-
-            adjustmentSelector.keyup(function () {
-
-                updateOrderElementActiveness($(this).closest("section.order-area"));
-                updateExpectedIncome();
-                updateExpectedSubtotal();
-            });
-        });
-
-    </script>
 
 @endsection
