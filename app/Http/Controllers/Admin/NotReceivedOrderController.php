@@ -7,6 +7,7 @@ use App\Events\OrderDelivered;
 use App\Events\OrderLocked;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Http\Requests\Admin\NotReceivedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
 use Auth;
@@ -47,10 +48,10 @@ class NotReceivedOrderController extends Controller
     /**
      * Change order status to "delivered"
      *
-     * @param Request $request
+     * @param NotReceivedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function lock(Request $request) {
+    public function lock(NotReceivedOrderLockRequest $request) {
 
         $adjustmentList = $request->input("adjustment");
         $infoAdjustmentList = $request->input("info_adjustment");
@@ -61,8 +62,6 @@ class NotReceivedOrderController extends Controller
             if ($chosenElementID == 0) {
 
                 // change order status to not found
-
-                //@fixme add conditional for order status
                 $order = Order::find($orderID);
                 $order->status = Order::STATUS_NOT_FOUND;
                 $order->save();

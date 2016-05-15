@@ -27,6 +27,7 @@ class OrderValidator extends Validator
         "sufficient_balance" => "Your balance is not enough.",
         "allow_change_amount" => "Your balance is not enough.",
         "sufficient_balance_for_transfer" => "Your balance is not enough.",
+        "by_order_status" => "Order status is incorrect."
     ];
 
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages, array $customAttributes)
@@ -223,6 +224,29 @@ class OrderValidator extends Validator
             return true;
         } else {
             return false;
+        }
+
+    }
+
+
+    public function validateByOrderStatus($attribute, $value, $parameters) {
+
+        if (empty($parameters)) {
+            return false;
+        }
+
+        $orderStatus = $parameters[0];
+        $orderElementID = $value;
+
+        $orderElement = OrderElement::where("id", $orderElementID)
+            ->whereHas("order", function ($query) use ($orderStatus) {
+                $query->where("status", $orderStatus);
+            });
+
+        if (empty($orderElement)) {
+            return false;
+        } else {
+            return true;
         }
 
     }
