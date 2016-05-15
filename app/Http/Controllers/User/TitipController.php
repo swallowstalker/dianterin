@@ -146,10 +146,11 @@ class TitipController extends Controller
 
     public function finish(Request $request) {
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
+        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
         $this->finishTravel($travel);
         $this->inspectChosenOrderElementToBillTheUser($request);
 
+        return redirect()->route("user.titip.finished");
     }
 
     public function showFinished() {
