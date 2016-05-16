@@ -267,9 +267,9 @@
         /**
          * trying to validate if input menu is empty
          */
-        {{-- @fixme validation should be handled on the server, not here. --}}
-        orderForm.submit(function () {
+        orderForm.submit(function (event) {
 
+            console.log(orderForm.find("input[name=menu]").val());
             if (orderForm.find("input[name=menu]").val() == "") {
 
                 orderForm.find("input[type=submit]").prop("disabled", false);
