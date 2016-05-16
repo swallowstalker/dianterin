@@ -18,7 +18,6 @@
                     <div class="row" style="margin-bottom: 20px;">
                         <div class="col-xs-4">
 
-                            {{-- @todo need to add spinner and disable it for processed order --}}
                             {!! Form::select(
                                 "amount",
                                 [1 => 1, 2 => 2, 3 => 3, 4 => 4],
