@@ -35,6 +35,7 @@ class Order extends Model
     const STATUS_NOT_FOUND = 3;
 
     protected $fillable = ["travel_id", "user_id", "status"];
+
     
     protected static function boot()
     {
@@ -45,8 +46,6 @@ class Order extends Model
             $builder->whereNotNull("travel_id");
         });
     }
-
-    //@todo create auto change status to "processed" if travel limit time has passed
 
     /**
      * Sub element of this order.

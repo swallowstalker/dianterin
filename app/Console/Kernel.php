@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\OrderSweeper::class,
         Commands\TravelCreator::class,
-        Commands\ProfitNotifier::class
+        Commands\ProfitNotifier::class,
+        Commands\OrderProcessor::class,
     ];
 
     /**
