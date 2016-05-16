@@ -4,6 +4,7 @@ namespace App;
 
 use Auth;
 use DB;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
@@ -34,9 +35,16 @@ class Order extends Model
     const STATUS_NOT_FOUND = 3;
 
     protected $fillable = ["travel_id", "user_id", "status"];
+    
+    protected static function boot()
+    {
+        parent::boot();
 
-
-    //@todo add global scope for null travel id
+        // add global scope for null travel id
+        static::addGlobalScope('excludeNullTravelID', function (Builder $builder) {
+            $builder->whereNotNull("travel_id");
+        });
+    }
 
     //@todo create auto change status to "processed" if travel limit time has passed
 

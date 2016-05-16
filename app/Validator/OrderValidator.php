@@ -207,7 +207,8 @@ class OrderValidator extends Validator
     }
 
     /**
-     * @todo is it possible to move this function to DepositValidator?
+     * Validate if user has sufficient balance for transfer deposit
+     *
      * @param $attribute
      * @param $value
      * @return bool
