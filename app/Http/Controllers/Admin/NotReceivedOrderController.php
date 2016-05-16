@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\CourierTravelRecord;
 use App\Events\OrderDelivered;
+use App\Events\OrderLocked;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Http\Requests\Admin\NotReceivedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
 use Auth;
@@ -46,10 +48,10 @@ class NotReceivedOrderController extends Controller
     /**
      * Change order status to "delivered"
      *
-     * @param Request $request
+     * @param NotReceivedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function lock(Request $request) {
+    public function lock(NotReceivedOrderLockRequest $request) {
 
         $adjustmentList = $request->input("adjustment");
         $infoAdjustmentList = $request->input("info_adjustment");
@@ -60,33 +62,30 @@ class NotReceivedOrderController extends Controller
             if ($chosenElementID == 0) {
 
                 // change order status to not found
-
-                //@fixme add conditional for order status
                 $order = Order::find($orderID);
                 $order->status = Order::STATUS_NOT_FOUND;
                 $order->save();
 
-                continue;
+            } else {
+
+                $orderElement = OrderElement::find($chosenElementID);
+
+                Event::fire(new OrderDelivered(
+                    $orderElement,
+                    $adjustmentList[$orderID],
+                    $infoAdjustmentList[$orderID]
+                ));
+
+                Event::fire(new OrderReceived($orderElement->order, Auth::user()));
+                Event::fire(new ProfitChanged(Auth::user()->id));
+
+                $order = $orderElement->order;
+                $order->status = Order::STATUS_RECEIVED_BY_FORCE;
+                $order->save();
             }
-
-            $orderElement = OrderElement::find($chosenElementID);
-
-            Event::fire(new OrderDelivered(
-                $orderElement,
-                $adjustmentList[$orderID],
-                $infoAdjustmentList[$orderID]
-            ));
-
-            // send forced order invoice via email
-            $this->sendInvoices([$orderID]);
-
-            Event::fire(new OrderReceived($orderElement->order, Auth::user()));
-            Event::fire(new ProfitChanged(Auth::user()->id));
-
-            $order = $orderElement->order;
-            $order->status = Order::STATUS_RECEIVED_BY_FORCE;
-            $order->save();
         }
+
+        Event::fire(new OrderLocked($chosenElementList));
 
         return redirect("admin/order/unreceived");
     }

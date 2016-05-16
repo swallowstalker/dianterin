@@ -8,7 +8,7 @@ use App\Events\ProfitChanged;
 use App\Feedback;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Http\Requests\OrderRequest;
+use App\Http\Requests\User\NewOrderRequest;
 use App\Menu;
 use App\Message;
 use App\Order;
@@ -73,36 +73,11 @@ class OrderController extends Controller
     /**
      * Add new order / backup order
      *
-     * @param OrderRequest|Request $request
+     * @param NewOrderRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function add(OrderRequest $request) {
-
-        //@todo if order element has reached total of 2, reset the backup input.
-
-        //@todo move this to "request"
-        $validator = Validator::make($request->all(), [
-            "backup" => "required|in:0,1",
-            "menu" => "required|exists:dimenuin,id|sufficient_balance",
-            "travel" => "required|exists:courier_travel,id",
-            "preference" => "max:1000"
-        ]);
-
-        if ($validator->fails()) {
-
-            if ($request->input("backup") == 1 || $request->input("backup") == 0) {
-                $request->session()->flash("backup_status", $request->input("backup"));
-            } else {
-                $request->session()->flash("backup_status", 0);
-            }
-
-            $errorMessage = implode("<br/>", $validator->errors()->all());
-
-            return redirect("/")
-                ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
-        }
-
-
+    public function add(NewOrderRequest $request) {
+        
         if ($request->input("backup") == 1) {
 
             $orderID = $request->session()->get("latest_order_id");
@@ -113,6 +88,7 @@ class OrderController extends Controller
             }
 
             $request->session()->remove("latest_order_id");
+            // if order element has reached total of 2, reset the backup input.
             $request->session()->flash("backup_status", 0);
 
         } else {

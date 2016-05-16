@@ -18,9 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         Validator::resolver(function($translator, $data, $rules, $messages, $customAttributes) {
-
             return new OrderValidator($translator, $data, $rules, $messages, $customAttributes);
         });
     }

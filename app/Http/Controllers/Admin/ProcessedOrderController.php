@@ -6,6 +6,7 @@ use App\CourierTravelRecord;
 use App\CourierVisitedRestaurant;
 use App\Events\OrderDelivered;
 use App\Events\OrderLocked;
+use App\Http\Requests\Admin\ProcessedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
@@ -51,10 +52,10 @@ class ProcessedOrderController extends Controller
     /**
      * Change order status to "delivered"
      *
-     * @param Request $request
+     * @param ProcessedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function lock(Request $request) {
+    public function lock(ProcessedOrderLockRequest $request) {
 
         $adjustmentList = $request->input("adjustment");
         $infoAdjustmentList = $request->input("info_adjustment");
@@ -65,8 +66,6 @@ class ProcessedOrderController extends Controller
             if ($chosenElementID == 0) {
 
                 // change order status to not found
-
-                //@fixme add conditional for order status
                 $order = Order::find($orderID);
                 $order->status = Order::STATUS_NOT_FOUND;
                 $order->save();
@@ -86,10 +85,7 @@ class ProcessedOrderController extends Controller
                 $order->save();
             }
         }
-
-        // send invoice via email, group order by user.
-//        $this->sendInvoices(array_keys($chosenElementList));
-
+        
         Event::fire(new OrderLocked($chosenElementList));
 
         return redirect("admin/order/processed");

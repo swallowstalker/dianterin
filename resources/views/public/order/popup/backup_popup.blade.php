@@ -20,7 +20,7 @@
 
 <script type="text/javascript">
 
-    var backupStatus = {{ $backupStatus }}; {{-- @todo fill this up with value from controller (session) --}}
+    var backupStatus = {{ $backupStatus }};
 
     /**
      * Showing backup confirmation popup.

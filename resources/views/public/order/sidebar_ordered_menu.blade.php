@@ -19,7 +19,6 @@
     @include("public.order.list.processed")
 
 
-    {{-- @todo add more list to this check (later) --}}
     @if($orderedList->count() == 0 && $processedList->count() == 0 && $pendingTransactionList->count() == 0)
 
         <div class="row" style="margin-bottom: 10px;">
