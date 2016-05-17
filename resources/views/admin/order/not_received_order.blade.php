@@ -83,9 +83,8 @@
 
                                 @foreach($notReceivedOrderList as $order)
 
-                                    {!! Form::open(["url" => "admin/order/unreceived/lock"]) !!}
-
                                     <tr class="transaction-row">
+
                                         <td>{{ $order->id }}</td>
                                         <td>{{ $order->travel_id }}</td>
                                         <td>{{ $order->user->name }}</td>
@@ -142,25 +141,18 @@
                                             <div class="row">
                                                 <div class="col-md-12">
 
-                                                    {{ Form::textarea(
-                                                        "info_adjustment[". $order->id ."]", "",
-                                                        [
-                                                            "class" => "info_adjustment col-md-8",
-                                                            "rows" => 2,
-                                                            "cols" => 20,
-                                                            "placeholder" => "Information"
-                                                        ]) }}
+                                                    <textarea name="info_adjustment[{{ $order->id }}]" class="info_adjustment col-md-8"
+                                                              rows="2" cols="20" placeholder="Information"></textarea>
+
                                                 </div>
                                             </div>
 
                                         </td>
                                         <td class="subtotal">0</td>
                                         <td>
-                                            {!! Form::submit("Force Receive", ["class" => "button-blue-white"]) !!}
+                                            <button type="submit" class="button-blue-white force-receive">Force Receive</button>
                                         </td>
                                     </tr>
-
-                                    {!! Form::close() !!}
 
                                 @endforeach
 
@@ -229,6 +221,35 @@
             updateTotalBudget();
         }
 
+        function submitForceReceiveForm(rowSelector) {
+
+            var formDestination = "{!! url("admin/order/unreceived/lock") !!}";
+            var csrfHash = "{!! csrf_token() !!}";
+
+            var elementChoice = rowSelector.find(".element-choice:checked");
+            var adjustment = rowSelector.find("input.adjustment");
+            var adjustmentInfo = rowSelector.find("textarea.info_adjustment");
+
+            var formData = {
+                _token: csrfHash
+            };
+
+            formData[elementChoice.prop("name")] = elementChoice.val();
+            formData[adjustment.prop("name")] = adjustment.val();
+            formData[adjustmentInfo.prop("name")] = adjustmentInfo.val();
+
+            $.ajax({
+                url: formDestination,
+                type: "POST",
+                data: formData,
+                success: function (data) {
+
+                    location.reload();
+                }
+            });
+
+        }
+
         $(document).ready(function () {
 
             // init all subtotal from checked choice in respective row.
@@ -245,6 +266,10 @@
             $("input.adjustment").on("keyup change", function () {
 
                 updateSubtotal($(this).closest(".transaction-row"));
+            });
+            
+            $("button.force-receive").click(function () {
+                submitForceReceiveForm($(this).closest(".transaction-row"));
             });
 
         });

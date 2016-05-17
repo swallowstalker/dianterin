@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Log;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class NotReceivedOrderController extends Controller
 {
@@ -75,6 +77,8 @@ class NotReceivedOrderController extends Controller
                     $adjustmentList[$orderID],
                     $infoAdjustmentList[$orderID]
                 ));
+                
+                Event::fire(new OrderLocked([$orderID => $chosenElementList]));
 
                 Event::fire(new OrderReceived($orderElement->order, Auth::user()));
                 Event::fire(new ProfitChanged(Auth::user()->id));
@@ -85,8 +89,6 @@ class NotReceivedOrderController extends Controller
             }
         }
 
-        Event::fire(new OrderLocked($chosenElementList));
-
-        return redirect("admin/order/unreceived");
+        return new JsonResponse();
     }
 }
