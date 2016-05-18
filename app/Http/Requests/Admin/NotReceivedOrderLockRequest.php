@@ -25,7 +25,8 @@ class NotReceivedOrderLockRequest extends Request
     public function rules()
     {
         return [
-            "chosen_element.*" => "required|numeric|exists:order_element,id|by_order_status:". Order::STATUS_NOT_RECEIVED,
+//            "chosen_element.*" => "required|numeric|exists:order_element,id|by_order_status:". Order::STATUS_NOT_RECEIVED,
+            "chosen_element.*" => "required|numeric|by_order_status:". Order::STATUS_NOT_RECEIVED,
             "adjustment.*" => "numeric",
             "info_adjustment.*" => "max:300"
         ];

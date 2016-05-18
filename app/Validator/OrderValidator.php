@@ -236,6 +236,11 @@ class OrderValidator extends Validator
             return false;
         }
 
+        //@fixme temporary fix
+        if ($value == 0) {
+            return true;
+        }
+
         $orderStatus = $parameters[0];
         $orderElementID = $value;
 
