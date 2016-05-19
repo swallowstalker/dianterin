@@ -25,8 +25,7 @@ class ProcessedOrderLockRequest extends Request
     public function rules()
     {
         return [
-//            "chosen_element.*" => "required|numeric|exists:order_element,id|by_order_status:". Order::STATUS_PROCESSED,
-            "chosen_element.*" => "required|numeric|by_order_status:". Order::STATUS_PROCESSED,
+            "chosen_element.*" => "required|numeric|allowed_chosen_element|by_order_status:". Order::STATUS_PROCESSED,
             "adjustment.*" => "numeric",
             "info_adjustment.*" => "max:300"
         ];
