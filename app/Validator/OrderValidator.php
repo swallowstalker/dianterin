@@ -27,7 +27,8 @@ class OrderValidator extends Validator
         "sufficient_balance" => "Your balance is not enough.",
         "allow_change_amount" => "Your balance is not enough.",
         "sufficient_balance_for_transfer" => "Your balance is not enough.",
-        "by_order_status" => "Order status is incorrect."
+        "by_order_status" => "Order status is incorrect.",
+        "allowed_chosen_element" => "Order is not chosen correctly."
     ];
 
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages, array $customAttributes)
@@ -236,6 +237,11 @@ class OrderValidator extends Validator
             return false;
         }
 
+        //@fixme temporary fix
+        if ($value == 0) {
+            return true;
+        }
+
         $orderStatus = $parameters[0];
         $orderElementID = $value;
 
@@ -250,5 +256,15 @@ class OrderValidator extends Validator
             return true;
         }
 
+    }
+
+
+    public function validateAllowedChosenElement($attribute, $value) {
+
+        if ($value == 0) {
+            return true;
+        } else {
+            return $this->validateExists($attribute, $value, ["order_element", "id"]);
+        }
     }
 }

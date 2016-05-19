@@ -15,7 +15,7 @@ class OrderLocked extends Event
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param array $orderElementList
      */
     public function __construct(array $orderElementList = [])
     {
