@@ -55,7 +55,8 @@ class Handler extends ExceptionHandler
                 $request->session()->flash("backup_status", 0);
             }
 
-            $errorMessage = implode("<br/>", $e->getMessage());
+            $errorMessage = implode("<br/>", $e->errors()->all());
+//            $errorMessage = $e->errors()->all();
 
             return redirect("/")
                 ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
