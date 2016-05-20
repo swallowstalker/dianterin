@@ -47,7 +47,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
 
-        if ($e instanceof UserBalanceIsNotSufficientException) {
+        if ($e instanceof AddOrderFailedException) {
 
             if ($request->input("backup") == 1 || $request->input("backup") == 0) {
                 $request->session()->flash("backup_status", $request->input("backup"));

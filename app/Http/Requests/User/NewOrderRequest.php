@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\User;
 
-use App\Exceptions\UserBalanceIsNotSufficientException;
+use App\Exceptions\AddOrderFailedException;
 use App\Http\Requests\Request;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -37,6 +37,6 @@ class NewOrderRequest extends FormRequest
     
     protected function failedValidation(Validator $validator)
     {
-        throw new UserBalanceIsNotSufficientException($validator);
+        throw new AddOrderFailedException($validator);
     }
 }
