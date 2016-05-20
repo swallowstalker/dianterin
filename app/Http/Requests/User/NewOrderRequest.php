@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use App\Exceptions\AddOrderFailedException;
 use App\Http\Requests\Request;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
@@ -36,16 +37,6 @@ class NewOrderRequest extends FormRequest
     
     protected function failedValidation(Validator $validator)
     {
-        
-        if ($this->input("backup") == 1 || $this->input("backup") == 0) {
-            $this->session()->flash("backup_status", $this->input("backup"));
-        } else {
-            $this->session()->flash("backup_status", 0);
-        }
-
-        $errorMessage = implode("<br/>", $validator->errors()->all());
-
-        return redirect("/")
-            ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
+        throw new AddOrderFailedException($validator);
     }
 }

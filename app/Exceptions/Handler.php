@@ -46,6 +46,23 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+
+        if ($e instanceof AddOrderFailedException) {
+
+            if ($request->input("backup") == 1 || $request->input("backup") == 0) {
+                $request->session()->flash("backup_status", $request->input("backup"));
+            } else {
+                $request->session()->flash("backup_status", 0);
+            }
+
+            $errorMessage = implode("<br/>", $e->errors()->all());
+
+            return redirect("/")
+                ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
+            
+        } else {
+
+            return parent::render($request, $e);
+        }
     }
 }
