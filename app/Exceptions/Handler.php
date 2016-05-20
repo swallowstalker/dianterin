@@ -56,7 +56,6 @@ class Handler extends ExceptionHandler
             }
 
             $errorMessage = implode("<br/>", $e->errors()->all());
-//            $errorMessage = $e->errors()->all();
 
             return redirect("/")
                 ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
