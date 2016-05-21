@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests\User;
 
-use App\Exceptions\AddOrderFailedException;
+use App\Exceptions\AddOrderElementFailedException;
 use App\Http\Requests\Request;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationServiceProvider;
 
-class NewOrderRequest extends FormRequest
+class NewOrderElementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -37,6 +37,6 @@ class NewOrderRequest extends FormRequest
     
     protected function failedValidation(Validator $validator)
     {
-        throw new AddOrderFailedException($validator);
+        throw new AddOrderElementFailedException($validator);
     }
 }

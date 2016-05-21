@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -47,7 +48,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $e)
     {
 
-        if ($e instanceof AddOrderFailedException) {
+        if ($e instanceof AddOrderElementFailedException) {
 
             if ($request->input("backup") == 1 || $request->input("backup") == 0) {
                 $request->session()->flash("backup_status", $request->input("backup"));
@@ -60,6 +61,10 @@ class Handler extends ExceptionHandler
             return redirect("/")
                 ->with(["errorMessage" => $errorMessage, "errorFlag" => 1]);
             
+        } else if ($e instanceof ChangeOrderElementAmountFailedException) {
+
+            return new JsonResponse(null);
+
         } else {
 
             return parent::render($request, $e);

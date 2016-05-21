@@ -20,15 +20,6 @@ class OrderPolicy
         //
     }
 
-    public function changeAmount(User $user, Order $order) {
-
-        if ($user->id == $order->user_id && $order->status == Order::STATUS_ORDERED) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public function cancel(User $user, Order $order) {
 
         if ($user->id == $order->user_id && $order->status == Order::STATUS_ORDERED) {

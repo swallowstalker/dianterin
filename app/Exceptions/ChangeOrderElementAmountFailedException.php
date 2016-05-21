@@ -12,6 +12,6 @@ namespace App\Exceptions;
 use Illuminate\Contracts\Support\MessageProvider;
 use Illuminate\Contracts\Validation\ValidationException;
 
-class AddOrderFailedException extends ValidationException
+class ChangeOrderElementAmountFailedException extends ValidationException
 {
 }
