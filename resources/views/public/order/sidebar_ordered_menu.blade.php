@@ -40,17 +40,17 @@
 
     $(document).ready(function () {
 
+        var previousValue = $("select[name=amount]").val();
+
         $("select[name=amount]").spinner({
             step: 1,
             min: 0,
             max: 4,
             spin: function(event, ui) {
 
-
                 var orderElementID = $(this).parent().parent().find("input[name=order]").val();
                 var csrfHash = "{!! csrf_token() !!}";
                 var _this = $(this);
-
 
                 $.ajax({
                     url: baseURL + '/order/change/amount',
@@ -62,11 +62,13 @@
                     },
                     success: function (data) {
 
-                        console.log(data);
-
-//                        if (data.status == false) {
+                        if ($.isEmptyObject(data)) {
+                            console.log(data);
+                            _this.spinner("value", previousValue);
+                        } else {
+                            previousValue = data.amount_response;
                             _this.spinner("value", data.amount_response);
-//                        }
+                        }
                     }
                 });
             }

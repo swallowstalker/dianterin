@@ -23,7 +23,7 @@ class ChangeOrderElementAmountRequest extends FormRequest
     {
         $user = Auth::user();
         $orderElement = OrderElement::find($this->input("order_element_id"));
-        $order = $orderElement;
+        $order = $orderElement->order;
 
         if ($user->id == $order->user_id && $order->status == Order::STATUS_ORDERED) {
             return true;
