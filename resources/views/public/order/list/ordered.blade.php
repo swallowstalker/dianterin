@@ -1,7 +1,7 @@
 
 @foreach($orderedList as $orderKey => $order)
 
-    <div class="row" style="margin-bottom: 10px;">
+    <div class="row order" style="margin-bottom: 10px;">
         <div class="col-xs-12">
             <div style="background-color: white; padding: 10px;">
 
@@ -15,7 +15,7 @@
 
                 @foreach($order->elements as $orderElement)
 
-                    <div class="row" style="margin-bottom: 20px;">
+                    <div class="row order-element" style="margin-bottom: 20px;">
                         <div class="col-xs-4">
 
                             {!! Form::select(
@@ -32,7 +32,12 @@
                         <div class="col-xs-8">
                             <div class="row">
                                 <div class="col-xs-12" style="color: black;">
+
                                     <b>{{ $orderElement->restaurantObject->name }}</b>
+
+                                    <button class="pull-right button-red-white cancel-order-element" style="padding: 2px;">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="row">
@@ -77,3 +82,32 @@
     </div>
 
 @endforeach
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var cancelElementRoute = "{{ route("user.order.element.delete") }}";
+        var csrfHash = "{{ csrf_token() }}";
+
+        $("button.cancel-order-element").click(function () {
+
+            var elementID = $(this).closest(".order-element")
+                    .find("input[name=order]").val();
+
+            $.ajax({
+                url: cancelElementRoute,
+                type: "POST",
+                data: {
+                    _token: csrfHash,
+                    id: elementID
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>

@@ -40,6 +40,7 @@ Route::group(['middleware' => 'web'], function () {
 
         Route::post('/order/add', ['as' => 'order.element.add', 'uses' => 'User\OrderElementController@add']);
         Route::post('/order/change/amount', ['as' => 'order.element.amount.change', 'uses' => 'User\OrderElementController@changeAmount']);
+        Route::post('/order/backup/delete', ['as' => 'order.element.delete', 'uses' => 'User\OrderElementController@delete']);
 
 
         Route::get('/transaction/history', 'User\TransactionController@history');

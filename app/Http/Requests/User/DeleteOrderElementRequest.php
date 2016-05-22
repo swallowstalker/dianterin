@@ -12,7 +12,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationServiceProvider;
 
-class ChangeOrderElementAmountRequest extends FormRequest
+class DeleteOrderElementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,7 @@ class ChangeOrderElementAmountRequest extends FormRequest
     public function authorize()
     {
         $user = Auth::user();
-        $orderElement = OrderElement::find($this->input("order_element_id"));
+        $orderElement = OrderElement::find($this->input("id"));
         $order = $orderElement->order;
 
         if ($user->id == $order->user_id) {
@@ -40,14 +40,8 @@ class ChangeOrderElementAmountRequest extends FormRequest
     public function rules()
     {
         return [
-            "order_element_id" => "bail|required|exists:order_element,id|".
-                "allow_change_amount|element_parent_status:". Order::STATUS_ORDERED,
-            "amount" => "bail|required|numeric|min:1|max:7"
+            "id" => "required|numeric|exists:order_element,id|".
+                "element_parent_status:". Order::STATUS_ORDERED
         ];
-    }
-
-    protected function failedValidation(Validator $validator)
-    {
-        throw new ChangeOrderElementAmountFailedException($validator);
     }
 }

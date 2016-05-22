@@ -9,6 +9,7 @@ use App\Feedback;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\User\ChangeOrderElementAmountRequest;
+use App\Http\Requests\User\DeleteOrderElementRequest;
 use App\Http\Requests\User\NewOrderElementRequest;
 use App\Menu;
 use App\Message;
@@ -26,13 +27,32 @@ use Validator;
 
 class OrderElementController extends Controller
 {
-    public function delete() {
 
-        //@todo delete backup by order
-        //@todo delete only backup whose parent order has "ordered" status
+    public function delete(DeleteOrderElementRequest $request) {
 
-        //@todo if all element is deleted, delete the order too
+        $orderElement = OrderElement::find($request->input("id"));
+        $order = $orderElement->order;
+        $orderElement->delete();
+
+        $this->deleteEmptyOrderParent($order);
+
+        return new JsonResponse();
     }
+
+    /**
+     * If order elements is empty, delete order parent.
+     * @param Order $order
+     * @throws \Exception
+     */
+    private function deleteEmptyOrderParent(Order $order) {
+
+        if (count($order->elements) == 0) {
+            $order->delete();
+        }
+    }
+
+
+
 
     /**
      * Add new order / backup order
@@ -83,6 +103,9 @@ class OrderElementController extends Controller
 
         return redirect("/");
     }
+
+
+
 
     /**
      * Change order element amount

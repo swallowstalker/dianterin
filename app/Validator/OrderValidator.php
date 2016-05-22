@@ -28,7 +28,8 @@ class OrderValidator extends Validator
         "allow_change_amount" => "Your balance is not enough.",
         "sufficient_balance_for_transfer" => "Your balance is not enough.",
         "by_order_status" => "Order status is incorrect.",
-        "allowed_chosen_element" => "Order is not chosen correctly."
+        "allowed_chosen_element" => "Order is not chosen correctly.",
+        "element_parent_status" => "Order status is incorrect."
     ];
 
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages, array $customAttributes)
@@ -237,7 +238,6 @@ class OrderValidator extends Validator
             return false;
         }
 
-        //@fixme temporary fix
         if ($value == 0) {
             return true;
         }
@@ -266,5 +266,24 @@ class OrderValidator extends Validator
         } else {
             return $this->validateExists($attribute, $value, ["order_element", "id"]);
         }
+    }
+
+    public function validateElementParentStatus($attribute, $value, $parameters) {
+
+        if (empty($parameters)) {
+            return false;
+        }
+
+        $expectedStatus = $parameters[0];
+
+        $element = OrderElement::find($value);
+        $order = $element->order;
+
+        if ($order->status == $expectedStatus) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }
