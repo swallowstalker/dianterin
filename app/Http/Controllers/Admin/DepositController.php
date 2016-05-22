@@ -9,11 +9,13 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\Events\DepositChanged;
 use App\GeneralTransaction;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Validator\OrderValidator;
 use Auth;
+use Event;
 use Hash;
 use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Http\Request;
@@ -66,6 +68,8 @@ class DepositController extends Controller
         $generalTransaction->action = "DEPO: ". $request->input("reason");
         $generalTransaction->save();
 
+        Event::fire(new DepositChanged($generalTransaction));
+
         return redirect("admin/user");
     }
 
@@ -105,19 +109,23 @@ class DepositController extends Controller
             return redirect("admin/transfer")->withErrors("Password not match");
         }
 
-        $generalTransaction = new GeneralTransaction();
-        $generalTransaction->author_id = Auth::user()->id;
-        $generalTransaction->user_id = $request->input("sender");
-        $generalTransaction->movement = -1 * $request->input("amount");
-        $generalTransaction->action = "TRANSFER: ". $request->input("reason");
-        $generalTransaction->save();
+        $senderTransaction = new GeneralTransaction();
+        $senderTransaction->author_id = Auth::user()->id;
+        $senderTransaction->user_id = $request->input("sender");
+        $senderTransaction->movement = -1 * $request->input("amount");
+        $senderTransaction->action = "TRANSFER: ". $request->input("reason");
+        $senderTransaction->save();
 
-        $generalTransaction = new GeneralTransaction();
-        $generalTransaction->author_id = Auth::user()->id;
-        $generalTransaction->user_id = $request->input("receiver");
-        $generalTransaction->movement = $request->input("amount");
-        $generalTransaction->action = "TRANSFER: ". $request->input("reason");
-        $generalTransaction->save();
+        $receiverTransaction = new GeneralTransaction();
+        $receiverTransaction->author_id = Auth::user()->id;
+        $receiverTransaction->user_id = $request->input("receiver");
+        $receiverTransaction->movement = $request->input("amount");
+        $receiverTransaction->action = "TRANSFER: ". $request->input("reason");
+        $receiverTransaction->save();
+
+
+        Event::fire(new DepositChanged($senderTransaction));
+        Event::fire(new DepositChanged($receiverTransaction));
 
         return redirect("admin/user");
     }
