@@ -33,21 +33,24 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => 'auth', 'as' => 'user.'], function() {
 
         Route::get('/', 'User\OrderController@index');
-        Route::post('/order/add', 'User\OrderController@add');
-        Route::post('/order/change/amount', 'User\OrderController@changeAmount');
         Route::post('/order/cancel', 'User\OrderController@cancel');
-
         Route::post('/order/received', 'User\OrderController@received');
         Route::post('/order/unreceived', 'User\OrderController@notReceived');
+
+
+        Route::post('/order/add', ['as' => 'order.element.add', 'uses' => 'User\OrderElementController@add']);
+        Route::post('/order/change/amount', ['as' => 'order.element.amount.change', 'uses' => 'User\OrderElementController@changeAmount']);
+        Route::post('/order/backup/delete', ['as' => 'order.element.delete', 'uses' => 'User\OrderElementController@delete']);
+
 
         Route::get('/transaction/history', 'User\TransactionController@history');
         Route::get('/transaction/history/data', 'User\TransactionController@data');
 
-        Route::get('/restaurant', 'User\RestaurantController@showList');
 
         Route::get('/menu/list', 'User\MenuController@listForOrder');
         Route::get('/menu/previous/preference', 'User\MenuController@getLastPreference');
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
+
 
         Route::post('/notification/dismiss', 'User\MessageController@dismiss');
 
@@ -64,12 +67,12 @@ Route::group(['middleware' => 'web'], function () {
             Route::post('/finish', ['uses' => 'User\TitipController@finish', 'as' => 'finish']);
 
             Route::get('/finished', ['uses' => 'User\TitipController@showFinished', 'as' => 'finished']);
-            
-        });
 
+        });
+        
     });
 
-    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
+    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin'], function() {
 
         Route::group(['prefix' => 'order'], function() {
 

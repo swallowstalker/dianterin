@@ -1,7 +1,7 @@
 
 @foreach($orderedList as $orderKey => $order)
 
-    <div class="row" style="margin-bottom: 10px;">
+    <div class="row order" style="margin-bottom: 10px;">
         <div class="col-xs-12">
             <div style="background-color: white; padding: 10px;">
 
@@ -13,36 +13,41 @@
                     </div>
                 </div>
 
-                @foreach($order->elements as $pendingTransaction)
+                @foreach($order->elements as $orderElement)
 
-                    <div class="row" style="margin-bottom: 20px;">
+                    <div class="row order-element" style="margin-bottom: 20px;">
                         <div class="col-xs-4">
 
                             {!! Form::select(
                                 "amount",
                                 [1 => 1, 2 => 2, 3 => 3, 4 => 4],
-                                $pendingTransaction->amount,
+                                $orderElement->amount,
                                 ["class" => "col-xs-12"]
                             ) !!}
 
-                            {!! Form::hidden("order", $pendingTransaction->id) !!}
+                            {!! Form::hidden("order", $orderElement->id) !!}
                             {!! Form::hidden("status", $order->status) !!}
 
                         </div>
                         <div class="col-xs-8">
                             <div class="row">
                                 <div class="col-xs-12" style="color: black;">
-                                    <b>{{ $pendingTransaction->restaurantObject->name }}</b>
+
+                                    <b>{{ $orderElement->restaurantObject->name }}</b>
+
+                                    <button class="pull-right button-red-white cancel-order-element" style="padding: 2px;">
+                                        <i class="fa fa-times"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    {{ $pendingTransaction->menuObject->name }}
+                                    {{ $orderElement->menuObject->name }}
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    ({{ $pendingTransaction->preference }})
+                                    ({{ $orderElement->preference }})
                                 </div>
                             </div>
                         </div>
@@ -77,3 +82,32 @@
     </div>
 
 @endforeach
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var cancelElementRoute = "{{ route("user.order.element.delete") }}";
+        var csrfHash = "{{ csrf_token() }}";
+
+        $("button.cancel-order-element").click(function () {
+
+            var elementID = $(this).closest(".order-element")
+                    .find("input[name=order]").val();
+
+            $.ajax({
+                url: cancelElementRoute,
+                type: "POST",
+                data: {
+                    _token: csrfHash,
+                    id: elementID
+                },
+                success: function (data) {
+                    location.reload();
+                },
+                error: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>

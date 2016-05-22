@@ -30,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\ProfitChanged' => [
             'App\Listeners\UpdateProfit'
+        ],
+        'App\Events\DepositChanged' => [
+            'App\Listeners\NotifyDepositChangeToUser'
         ]
     ];
 

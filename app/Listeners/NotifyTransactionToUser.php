@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
+use Log;
 use Mail;
 
 class NotifyTransactionToUser
@@ -44,7 +45,6 @@ class NotifyTransactionToUser
         // transaction list of user who receive his/her order.
         $transactionByUser = PendingTransactionOrder::whereIn("order_id", array_keys($orderElementIDList))
             ->get()->groupBy("user_id");
-
 
         $userListWhoReceivedInvoices = array_unique(array_merge(
             array_keys($notFoundOrderListByUser->toArray()), array_keys($transactionByUser->toArray())

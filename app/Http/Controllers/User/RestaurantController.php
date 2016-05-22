@@ -16,11 +16,13 @@ class RestaurantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    //@fixme no one called this
     public function index()
     {
         return view('public.order.order');
     }
 
+    //@fixme no one called this
     public function showList() {
 
         $viewData = [];

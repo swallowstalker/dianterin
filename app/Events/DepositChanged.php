@@ -3,23 +3,24 @@
 namespace App\Events;
 
 use App\Events\Event;
+use App\GeneralTransaction;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class OrderLocked extends Event
+class DepositChanged extends Event
 {
     use SerializesModels;
 
-    public $orderElementList = [];
+    public $transaction;
 
     /**
      * Create a new event instance.
      *
-     * @param array $orderElementList
+     * @param GeneralTransaction $transaction
      */
-    public function __construct(array $orderElementList = [])
+    public function __construct(GeneralTransaction $transaction)
     {
-        $this->orderElementList = $orderElementList;
+        $this->transaction = $transaction;
     }
 
     /**
