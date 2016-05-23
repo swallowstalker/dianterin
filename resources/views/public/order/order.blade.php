@@ -90,16 +90,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="row" style="margin-top: 10px;">
-                                                    <div class="col-xs-5" style="font-size: 10pt;">
+                                                    <div class="col-xs-3" style="font-size: 10pt;">
                                                         <a href="#food-popup" class="food-popup-button open-popup">
                                                             <button class="button-orange-black">
-                                                                Lihat Menu
+                                                                Menu
                                                             </button>
                                                         </a>
                                                         <input type="hidden" value="{{ $restaurant->id }}" />
                                                         <input type="hidden" value="{{ $restaurant->name }}" />
                                                     </div>
-                                                    <div class="col-xs-7" style="font-size: 10pt; padding-left: 0;">
+                                                    <div class="col-xs-9" style="font-size: 10pt;">
 
                                                         @if ($restaurant->open_status)
 
@@ -108,11 +108,11 @@
                                                             </div>
 
                                                             @if (in_array($restaurant->id, $restaurantWhoseCourierIsAvailable))
-                                                                <div style="color: green;">
+                                                                <div style="color: green; margin-top: 3px;">
                                                                     <i class="fa fa-user"></i> Pengantar Tersedia
                                                                 </div>
                                                             @else
-                                                                <div style="color: lightgrey;">
+                                                                <div style="color: lightgrey; margin-top: 3px;">
                                                                     <i class="fa fa-user"></i> Pengantar Tidak Ada
                                                                 </div>
                                                             @endif
