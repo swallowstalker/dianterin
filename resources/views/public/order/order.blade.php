@@ -87,16 +87,43 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-xs-12" style="font-size: 10pt; color: black;">
-                                                        <b>{{ $restaurant->total_menu }} menu</b>
                                                     </div>
                                                 </div>
                                                 <div class="row" style="margin-top: 10px;">
-                                                    <div class="col-xs-12" style="font-size: 10pt;">
-                                                        <a href="#food-popup" class="food-popup-button open-popup button-orange-black">
-                                                            Lihat Menu
+                                                    <div class="col-xs-5" style="font-size: 10pt;">
+                                                        <a href="#food-popup" class="food-popup-button open-popup">
+                                                            <button class="button-orange-black">
+                                                                Lihat Menu
+                                                            </button>
                                                         </a>
                                                         <input type="hidden" value="{{ $restaurant->id }}" />
                                                         <input type="hidden" value="{{ $restaurant->name }}" />
+                                                    </div>
+                                                    <div class="col-xs-7" style="font-size: 10pt; padding-left: 0;">
+
+                                                        @if ($restaurant->open_status)
+
+                                                            <div style="color: green;">
+                                                                <i class="fa fa-home"></i> Restoran Buka
+                                                            </div>
+
+                                                            @if (in_array($restaurant->id, $restaurantWhoseCourierIsAvailable))
+                                                                <div style="color: green;">
+                                                                    <i class="fa fa-user"></i> Pengantar Tersedia
+                                                                </div>
+                                                            @else
+                                                                <div style="color: lightgrey;">
+                                                                    <i class="fa fa-user"></i> Pengantar Tidak Ada
+                                                                </div>
+                                                            @endif
+
+                                                        @else
+
+                                                            <div style="color: lightgrey;">
+                                                                <i class="fa fa-home"></i> Restoran Tutup
+                                                            </div>
+
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
@@ -59,5 +60,24 @@ class Restaurant extends Model
 
         return $image;
 
+    }
+
+    public function getOpenAttribute($value) {
+        return Carbon::createFromFormat("H:i:s", $value, "Asia/Jakarta");
+    }
+
+    public function getCloseAttribute($value) {
+        return Carbon::createFromFormat("H:i:s", $value, "Asia/Jakarta");
+    }
+
+    public function getOpenStatusAttribute($value) {
+
+        $now = Carbon::now("Asia/Jakarta")->getTimestamp();
+
+        if ($this->open->getTimestamp() <= $now && $now <= $this->close->getTimestamp()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\CourierVisitedRestaurant;
 use App\Events\OrderNotReceived;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
@@ -36,6 +37,15 @@ class OrderController extends Controller
     {
         $viewData = $this->getOrderSidebar();
         $viewData["restaurantList"] = Restaurant::active()->orderBy("name", "asc")->get();
+
+        $restaurantWhoseCourierIsAvailable = CourierVisitedRestaurant::whereHas("travel",
+            function ($query) {
+                $query->isOpen();
+            })
+            ->get()
+            ->pluck("allowed_restaurant")->toArray();
+
+        $viewData["restaurantWhoseCourierIsAvailable"] = $restaurantWhoseCourierIsAvailable;
 
         $backupStatus = $request->session()->get("backup_status");
 
