@@ -26,8 +26,7 @@ class TravelController extends Controller
         $activeTravel = CourierTravelRecord::whereHas("visitedRestaurants", function($query) use ($restaurantID) {
                 $query->where("allowed_restaurant", $restaurantID);
             })
-            ->where("limit_time", ">", DB::raw("NOW()"))
-            ->get();
+            ->isOpen()->get();
 
         $responseList = [];
         foreach ($activeTravel as $travel) {

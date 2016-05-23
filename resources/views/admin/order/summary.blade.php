@@ -23,10 +23,10 @@
 
             <b>{{ $orderElementByRestaurant[0]->restaurantObject->name }}</b><br/>
 
-            @foreach($orderElementByRestaurant as $orderElement)
+            @foreach($orderElementByRestaurant as $pendingTransaction)
 
-                &bull; (#{{ $orderElement->order->id }}) {{ $orderElement->menuObject->name }}
-                ({{ $orderElement->amount }} buah) {{ $orderElement->preference }}<br/>
+                &bull; (#{{ $pendingTransaction->order->id }}) {{ $pendingTransaction->menuObject->name }}
+                ({{ $pendingTransaction->amount }} buah) {{ $pendingTransaction->preference }}<br/>
 
             @endforeach
 

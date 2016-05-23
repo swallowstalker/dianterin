@@ -91,24 +91,24 @@
                                         <td class="menu">
 
                                              {{--loop all order element, let admin choose one of this--}}
-                                            @foreach($order->elements as $key => $orderElement)
+                                            @foreach($order->elements as $key => $pendingTransaction)
 
                                                 <div>
 
                                                     @if ($key == 0)
-                                                        {!! Form::radio("chosen_element[". $order->id ."]", $orderElement->id, true, ["class" => "element-choice"]) !!}
+                                                        {!! Form::radio("chosen_element[". $order->id ."]", $pendingTransaction->id, true, ["class" => "element-choice"]) !!}
                                                     @else
-                                                        {!! Form::radio("chosen_element[". $order->id ."]", $orderElement->id, false, ["class" => "element-choice"]) !!}
+                                                        {!! Form::radio("chosen_element[". $order->id ."]", $pendingTransaction->id, false, ["class" => "element-choice"]) !!}
                                                     @endif
 
-                                                    {!! Form::hidden("subtotal", $orderElement->subtotal) !!}
+                                                    {!! Form::hidden("subtotal", $pendingTransaction->subtotal) !!}
 
                                                     &nbsp;
 
-                                                    {{ $orderElement->restaurantObject->name }},
-                                                    {{ $orderElement->menuObject->name }},
-                                                    {{ $orderElement->preference }},
-                                                    ({{ $orderElement->amount }} buah)
+                                                    {{ $pendingTransaction->restaurantObject->name }},
+                                                    {{ $pendingTransaction->menuObject->name }},
+                                                    {{ $pendingTransaction->preference }},
+                                                    ({{ $pendingTransaction->amount }} buah)
 
                                                 </div>
 

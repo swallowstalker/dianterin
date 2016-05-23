@@ -13,6 +13,9 @@ class CourierVisitedRestaurant extends Model
 
     protected $fillable = ["travel_id", "allowed_restaurant", "delivery_cost"];
 
+    public function restaurant() {
+        return $this->belongsTo('App\Restaurant', "allowed_restaurant");
+    }
     public function travel() {
         return $this->belongsTo('App\CourierTravelRecord', 'travel_id');
     }

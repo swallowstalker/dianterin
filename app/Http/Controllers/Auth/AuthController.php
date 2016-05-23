@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use Auth;
 use Log;
+use Session;
 use Socialite;
 use Validator;
 use App\Http\Controllers\Controller;
@@ -103,5 +104,14 @@ class AuthController extends Controller
         Auth::login($user, true);
 
         return redirect("/");
+    }
+
+    public function logout() {
+
+        Session::flush();
+
+        Auth::guard($this->getGuard())->logout();
+
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 }

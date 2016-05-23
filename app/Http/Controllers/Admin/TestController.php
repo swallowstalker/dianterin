@@ -9,6 +9,7 @@ use App\Events\OrderLocked;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
+use App\TransactionOrder;
 use App\User;
 use Datatables;
 use DB;
@@ -34,6 +35,31 @@ class TestController extends Controller
 
     public function seeBillingEmail() {
         return view("email.billing_raw");
+    }
+
+    //@fixme should not allow any nullable in travel ID (in order parent and in transactions)
+    public function fixPendingAndActiveTransactionTravelID() {
+
+        // pending transaction
+        $transactionList = PendingTransactionOrder::all();
+
+        foreach ($transactionList as $transaction) {
+
+            $order = Order::find($transaction->order_id);
+            $transaction->travel_id = $order->travel_id;
+            $transaction->save();
+        }
+
+        // pending transaction
+        $transactionList = TransactionOrder::all();
+
+        foreach ($transactionList as $transaction) {
+
+            $order = Order::find($transaction->order_id);
+            $transaction->travel_id = $order->travel_id;
+            $transaction->save();
+        }
+
     }
 
 }

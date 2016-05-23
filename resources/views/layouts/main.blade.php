@@ -119,7 +119,7 @@
         </div>
 
         {{-- notification list --}}
-        @include("layouts.main.notifications")
+{{--        @include("layouts.main.notifications")--}}
 
         @yield("content")
 

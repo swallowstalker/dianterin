@@ -28,6 +28,18 @@ class OrderElement extends Model
         return $this->menuObject->price * $this->amount;
     }
 
+    public function getIsBackupAttribute() {
+
+        $elements = $this->order->elements->pluck("id")->toArray();
+        $index = array_search($this->id, $elements);
+        
+        if ($index != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Retrieve order element owned by logged-in user.
      *
