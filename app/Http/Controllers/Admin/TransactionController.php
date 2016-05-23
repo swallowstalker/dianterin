@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CourierTravelRecord;
+use App\Events\TravelProfitChanged;
 use App\GeneralTransaction;
 use App\Order;
 use App\TransactionOrder;
@@ -10,6 +11,7 @@ use App\User;
 use Auth;
 use Datatables;
 use DB;
+use Event;
 use Form;
 use Illuminate\Http\Request;
 
@@ -97,9 +99,12 @@ class TransactionController extends Controller
         // delete transaction order
         TransactionOrder::where("order_id", $request->input("id"))->delete();
 
-        // revert order status
         $revertedOrder = Order::find($request->input("id"));
 
+        // recalculate courier's profit
+        Event::fire(new TravelProfitChanged($revertedOrder->travel));
+        
+        // revert order status
         if ($revertedOrder->status == Order::STATUS_RECEIVED) {
             $revertedOrder->status = Order::STATUS_PROCESSED;
         } else if ($revertedOrder->status == Order::STATUS_RECEIVED_BY_FORCE) {

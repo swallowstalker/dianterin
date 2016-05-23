@@ -6,6 +6,7 @@ use App\CourierVisitedRestaurant;
 use App\Events\OrderNotReceived;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Events\TravelProfitChanged;
 use App\Feedback;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -36,7 +37,8 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $viewData = $this->getOrderSidebar();
-        $viewData["restaurantList"] = Restaurant::active()->orderBy("name", "asc")->get();
+        $restaurantList = Restaurant::active()->orderBy("name", "asc")->get();
+        $viewData["restaurantList"] = $restaurantList;
 
         $restaurantWhoseCourierIsAvailable = CourierVisitedRestaurant::whereHas("travel",
             function ($query) {
@@ -127,6 +129,7 @@ class OrderController extends Controller
 
         Event::fire(new OrderReceived($order, Auth::user()));
         Event::fire(new ProfitChanged(Auth::user()->id));
+        Event::fire(new TravelProfitChanged($order->travel));
 
         $this->saveFeedback($order->id, $request->input("feedback"));
 

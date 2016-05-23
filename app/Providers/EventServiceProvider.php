@@ -33,6 +33,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\DepositChanged' => [
             'App\Listeners\NotifyDepositChangeToUser'
+        ],
+        'App\Events\TravelProfitChanged' => [
+            'App\Listeners\CreateTransactionProfitForCourier'
         ]
     ];
 

@@ -2,25 +2,25 @@
 
 namespace App\Events;
 
+use App\CourierTravelRecord;
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class OrderLocked extends Event
+class TravelProfitChanged extends Event
 {
     use SerializesModels;
 
-    public $orderElementList = [];
+    public $travel;
 
     /**
      * Create a new event instance.
      *
-     * @param array $orderElementList
+     * @param CourierTravelRecord $travel
      */
-    public function __construct(array $orderElementList = [])
+    public function __construct(CourierTravelRecord $travel)
     {
-        //@todo should move function in send invoices here.
-        $this->orderElementList = $orderElementList;
+        $this->travel = $travel;
     }
 
     /**

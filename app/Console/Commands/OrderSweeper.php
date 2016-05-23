@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\CourierTravelRecord;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Events\TravelProfitChanged;
 use App\Order;
 use App\Profit;
 use App\User;
@@ -70,12 +72,19 @@ class OrderSweeper extends Command
             )
             ->get();
 
+        $affectedTravels = [];
         foreach ($unconfirmedOrderList as $order) {
 
             $order->status = Order::STATUS_RECEIVED;
             $order->save();
 
+            $affectedTravels[$order->travel->id] = CourierTravelRecord::find($order->travel_id);
+
             Event::fire(new OrderReceived($order, User::find($order->user_id)));
+        }
+
+        foreach ($affectedTravels as $travel) {
+            Event::fire(new TravelProfitChanged($travel));
         }
 
         $this->info("Order changed from delivered to received: ".

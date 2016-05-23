@@ -7,6 +7,7 @@ use App\Events\OrderDelivered;
 use App\Events\OrderLocked;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Events\TravelProfitChanged;
 use App\Http\Requests\Admin\NotReceivedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
@@ -48,7 +49,7 @@ class NotReceivedOrderController extends Controller
     }
 
     /**
-     * Change order status to "delivered"
+     * Change order status to "received by force"
      *
      * @param NotReceivedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
@@ -82,6 +83,7 @@ class NotReceivedOrderController extends Controller
 
                 Event::fire(new OrderReceived($orderElement->order, Auth::user()));
                 Event::fire(new ProfitChanged(Auth::user()->id));
+                Event::fire(new TravelProfitChanged($orderElement->order->travel));
 
                 $order = $orderElement->order;
                 $order->status = Order::STATUS_RECEIVED_BY_FORCE;
