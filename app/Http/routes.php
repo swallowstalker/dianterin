@@ -79,7 +79,7 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/', 'Admin\OverallOrderController@index');
             Route::get('/data', 'Admin\OverallOrderController@data');
             Route::post('/delete', 'Admin\OverallOrderController@delete');
-            Route::post('/ordered/lock', 'Admin\OverallOrderController@lock');
+            Route::post('/ordered/lock', 'Admin\OverallOrderController@closeTravel');
 
             Route::get('/processed', 'Admin\ProcessedOrderController@index');
             Route::post('/processed/lock', 'Admin\ProcessedOrderController@lock');
