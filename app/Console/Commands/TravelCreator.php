@@ -53,7 +53,8 @@ class TravelCreator extends Command
             $travel = CourierTravelRecord::create([
                 "courier_id" => User::SYSTEM_DEFAULT_COURIER,
                 "quota" => 0,
-                "limit_time" => date("Y-m-d") ." ". $time
+                "limit_time" => date("Y-m-d") ." ". $time,
+                "status" => CourierTravelRecord::STATUS_OPENED
             ]);
 
             // add available restaurant for this newly created travel

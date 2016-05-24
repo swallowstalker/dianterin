@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\CourierTravelRecord;
 use App\CourierVisitedRestaurant;
 use App\Events\OrderNotReceived;
 use App\Events\OrderReceived;
@@ -40,7 +41,7 @@ class OrderController extends Controller
 
         $restaurantWhoseCourierIsAvailable = CourierVisitedRestaurant::whereHas("travel",
             function ($query) {
-                $query->isOpen();
+                $query->byStatus(CourierTravelRecord::STATUS_OPENED);
             })
             ->get()
             ->pluck("allowed_restaurant")->toArray();

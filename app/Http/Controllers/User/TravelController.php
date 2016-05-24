@@ -8,6 +8,7 @@ use App\Restaurant;
 use DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Log;
 
 class TravelController extends Controller
 {
@@ -26,7 +27,7 @@ class TravelController extends Controller
         $activeTravel = CourierTravelRecord::whereHas("visitedRestaurants", function($query) use ($restaurantID) {
                 $query->where("allowed_restaurant", $restaurantID);
             })
-            ->isOpen()->get();
+            ->byStatus(CourierTravelRecord::STATUS_OPENED)->get();
 
         $responseList = [];
         foreach ($activeTravel as $travel) {
