@@ -107,22 +107,22 @@
                                                                 <i class="fa fa-home"></i> Restoran Buka
                                                             </div>
 
-                                                            @if (in_array($restaurant->id, $restaurantWhoseCourierIsAvailable))
-                                                                <div style="color: green; margin-top: 3px;">
-                                                                    <i class="fa fa-user"></i> Pengantar Tersedia
-                                                                </div>
-                                                            @else
-                                                                <div style="color: lightgrey; margin-top: 3px;">
-                                                                    <i class="fa fa-user"></i> Pengantar Tidak Ada
-                                                                </div>
-                                                            @endif
-
                                                         @else
 
                                                             <div style="color: lightgrey;">
                                                                 <i class="fa fa-home"></i> Restoran Tutup
                                                             </div>
 
+                                                        @endif
+
+                                                        @if (in_array($restaurant->id, $restaurantWhoseCourierIsAvailable))
+                                                            <div style="color: green; margin-top: 3px;">
+                                                                <i class="fa fa-user"></i> Pengantar Tersedia
+                                                            </div>
+                                                        @else
+                                                            <div style="color: lightgrey; margin-top: 3px;">
+                                                                <i class="fa fa-user"></i> Pengantar Tidak Ada
+                                                            </div>
                                                         @endif
                                                     </div>
                                                 </div>
