@@ -56,7 +56,7 @@
                             {!! Form::select("travel", $openTravels, $openTravels->first(), ["class" => "button-blue-white"]) !!}
 
                             <button type="submit" class="button-blue-white">
-                                <i class="fa fa-lock fa-fw"></i> Process Order
+                                <i class="fa fa-lock fa-fw"></i> Close Travel
                             </button>
 
                             {!! Form::close() !!}

@@ -14,6 +14,9 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
 
+        'App\Events\TravelIsClosing' => [
+            'App\Listeners\CloseTravel'
+        ],
         'App\Events\OrderDelivered' => [
             'App\Listeners\CreatePendingTransaction'
         ],

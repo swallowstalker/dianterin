@@ -100,8 +100,13 @@ class OverallOrderController extends Controller
             "travel" => "required|exists:courier_travel,id"
         ]);
 
-        Order::where("status", Order::STATUS_ORDERED)
-            ->where("travel_id", $request->input("travel"))
+        $travel = CourierTravelRecord::byStatus(CourierTravelRecord::STATUS_OPENED)
+            ->where("id", $request->input("travel"))->first();
+
+        $travel->status = CourierTravelRecord::STATUS_CLOSED;
+        $travel->save();
+        
+        $travel->orders()->where("status", Order::STATUS_ORDERED)
             ->update(["status" => Order::STATUS_PROCESSED]);
 
         return redirect("/admin/order");

@@ -26,6 +26,10 @@ class CourierTravelRecord extends Model
         return $this->belongsTo('App\User');
     }
 
+    public function orders() {
+        return $this->hasMany('App\Order', 'travel_id');
+    }
+
     public function scopeByStatus($query, $status) {
 
         $query->where("status", $status);

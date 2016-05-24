@@ -51,7 +51,7 @@ class ProcessedOrderController extends Controller
 
     /**
      * Change order status to "delivered"
-     *
+     * @todo change travel status too
      * @param ProcessedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
