@@ -26,20 +26,6 @@ class CourierTravelRecord extends Model
         return $this->belongsTo('App\User');
     }
 
-    // @deprecated
-    public function scopeIsOpen($query) {
-
-        $query->where("status", self::STATUS_OPENED);
-        return $query;
-    }
-
-    // @deprecated
-    public function scopeIsClosed($query) {
-
-        $query->where("status", self::STATUS_CLOSED);
-        return $query;
-    }
-
     public function scopeByStatus($query, $status) {
 
         $query->where("status", $status);
@@ -49,7 +35,6 @@ class CourierTravelRecord extends Model
     public function scopeByCourier($query, $courierID) {
 
         $query->where("courier_id", $courierID);
-
         return $query;
     }
 }
