@@ -101,6 +101,7 @@ class OrderController extends Controller
         $this->authorize($order);
         $order->delete();
 
+        //@todo coba diganti dengan menggunakan nama route
         return redirect("/");
     }
 

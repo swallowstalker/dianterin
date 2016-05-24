@@ -17,8 +17,6 @@ use App\Http\Controllers\Controller;
 
 class ProcessedOrderController extends Controller
 {
-    use OrderInvoices;
-
     /**
      * Show list of processed order, ready to mark "delivered"
      *

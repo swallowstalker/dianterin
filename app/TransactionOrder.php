@@ -11,6 +11,8 @@ class TransactionOrder extends Model
 {
     use DisableUpdatedAt;
 
+    //@todo buat hubungan antara transaction order dengan order element (yang terpilih), bisa bikin pivot
+
     protected $table = "transaction_order";
 
     protected $fillable = [

@@ -8,6 +8,8 @@ class GeneralTransaction extends Model
 {
     use DisableUpdatedAt;
 
+    //@todo coba tambah kolom status di transaction general (kode juga boleh)
+
     protected $table = "transaction_general";
 
     protected $fillable = ["author_id", "user_id", "movement", "action"];

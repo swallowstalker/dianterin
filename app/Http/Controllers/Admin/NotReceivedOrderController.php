@@ -22,8 +22,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class NotReceivedOrderController extends Controller
 {
-    use OrderInvoices;
-
     /**
      * Show order which is not received by user.
      *
