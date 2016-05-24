@@ -6,6 +6,8 @@ use App\CourierTravelRecord;
 use App\CourierVisitedRestaurant;
 use App\Events\OrderDelivered;
 use App\Events\OrderLocked;
+use App\Events\Travel\TravelIsClosing;
+use App\Events\Travel\TravelIsFinishing;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\TitipAddRestaurantRequest;
 use App\Order;
@@ -93,7 +95,7 @@ class TitipController extends Controller
 
     public function showOpened() {
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_OPENED);
+        $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_OPENED);
 
         if (empty($travel)) {
             return redirect()->route("user.titip.start");
@@ -116,8 +118,9 @@ class TitipController extends Controller
 
     public function close() {
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_OPENED);
-        $this->closeTravel($travel);
+        $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_OPENED);
+        Event::fire(new TravelIsClosing($travel));
+
         $this->markOrderInsideTravelAsProcessed($travel);
 
         return redirect()->route("user.titip.closed");
@@ -125,7 +128,7 @@ class TitipController extends Controller
 
     public function showClosed() {
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
+        $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
 
         if (empty($travel)) {
             return redirect()->route("user.titip.start");
@@ -146,8 +149,9 @@ class TitipController extends Controller
 
     public function finish(Request $request) {
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
-        $this->finishTravel($travel);
+        $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
+        Event::fire(new TravelIsFinishing($travel));
+
         $this->inspectChosenOrderElementToBillTheUser($request);
 
         return redirect()->route("user.titip.finished");
@@ -157,7 +161,7 @@ class TitipController extends Controller
 
         //@todo jangan lupa handle kalo misalnya ada travel lagi aktif tapi dia mau start lagi.
 
-        $travel = $this->getTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
+        $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
 
         if (empty($travel)) {
             return redirect()->route("user.titip.start");
@@ -228,27 +232,15 @@ class TitipController extends Controller
         return redirect()->route("user.titip.finished");
     }
 
-    private function getTravelByStatus($status) {
+    private function getOwnTravelByStatus($status) {
         $travel = CourierTravelRecord::byCourier(Auth::user()->id)
             ->byStatus($status)->orderBy("id", "desc")->first();
         return $travel;
     }
 
-    private function closeTravel(CourierTravelRecord $travel) {
-        $travel->limit_time = DB::raw("NOW()");
-        $travel->status = CourierTravelRecord::STATUS_CLOSED;
-        $travel->save();
-    }
-
     private function markOrderInsideTravelAsProcessed(CourierTravelRecord $travel) {
         Order::byTravel($travel->id)
             ->update(["status" => Order::STATUS_PROCESSED]);
-    }
-
-    private function finishTravel(CourierTravelRecord $travel) {
-
-        $travel->status = CourierTravelRecord::STATUS_FINISHED;
-        $travel->save();
     }
 
     private function getOrderElementListGroupedByRestaurant(CourierTravelRecord $travel) {

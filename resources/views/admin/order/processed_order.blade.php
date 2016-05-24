@@ -52,7 +52,7 @@
                             {!! Form::open(["url" => "admin/order/processed", "method" => "GET"]) !!}
 
                             Travel
-                            {!! Form::select("travel", $openTravels, $travel, ["class" => "button-blue-white"]) !!}
+                            {!! Form::select("travel", $openTravels, $travelID, ["class" => "button-blue-white"]) !!}
                             <button type="submit" class="button-blue-white">
                                 Filter
                             </button>
@@ -65,6 +65,7 @@
                         <div class="col-lg-12">
 
                             {!! Form::open(["url" => "admin/order/processed/lock"]) !!}
+                            <input type="hidden" name="travel" value="{{ $travelID }}">
 
                             <table id="data" width="100%" border="1" style="border: 1px solid #E8E8E8; margin-bottom: 10px;">
                                 <thead>

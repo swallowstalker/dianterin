@@ -36,6 +36,13 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\TravelProfitChanged' => [
             'App\Listeners\CreateTransactionProfitForCourier'
+        ],
+        
+        'App\Events\Travel\TravelIsClosing' => [
+            'App\Listeners\Travel\CloseTravel'
+        ],
+        'App\Events\Travel\TravelIsFinishing' => [
+            'App\Listeners\Travel\FinishTravel'
         ]
     ];
 

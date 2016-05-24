@@ -3,23 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CourierTravelRecord;
-use App\CourierVisitedRestaurant;
 use App\Events\OrderDelivered;
 use App\Events\OrderLocked;
+use App\Events\Travel\TravelIsFinishing;
 use App\Http\Requests\Admin\ProcessedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
-use App\PendingTransactionOrder;
-use App\User;
-use Datatables;
-use DB;
 use Event;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Log;
-use Mail;
 
 class ProcessedOrderController extends Controller
 {
@@ -37,21 +31,21 @@ class ProcessedOrderController extends Controller
         $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
             ->get()->pluck("id", "id");
 
-        $travel = $viewData["openTravels"]->first();
+        $travelID = $viewData["openTravels"]->first();
         if ($request->has("travel")) {
-            $travel = $request->input("travel");
+            $travelID = $request->input("travel");
         }
-        $viewData["travel"] = $travel;
+        $viewData["travelID"] = $travelID;
 
         $viewData["processedOrderList"] = Order::byStatus(Order::STATUS_PROCESSED)
-            ->byTravel($travel)->get();
+            ->byTravel($travelID)->get();
 
         return view("admin.order.processed_order", $viewData);
     }
 
     /**
      * Change order status to "delivered"
-     *
+     * @todo change travel status too
      * @param ProcessedOrderLockRequest $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
@@ -87,6 +81,9 @@ class ProcessedOrderController extends Controller
         }
         
         Event::fire(new OrderLocked($chosenElementList));
+
+        $travel = CourierTravelRecord::find($request->input("travel"));
+        Event::fire(new TravelIsFinishing($travel));
 
         return redirect("admin/order/processed");
     }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\CourierTravelRecord;
+use App\Events\Travel\TravelIsClosing;
 use App\Order;
 use App\User;
 use Datatables;
 use DB;
+use Event;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -94,14 +96,18 @@ class OverallOrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function lock(Request $request) {
+    public function closeTravel(Request $request) {
 
         $this->validate($request, [
             "travel" => "required|exists:courier_travel,id"
         ]);
 
-        Order::where("status", Order::STATUS_ORDERED)
-            ->where("travel_id", $request->input("travel"))
+        $travel = CourierTravelRecord::byStatus(CourierTravelRecord::STATUS_OPENED)
+            ->where("id", $request->input("travel"))->first();
+
+        Event::fire(new TravelIsClosing($travel));
+        
+        $travel->orders()->where("status", Order::STATUS_ORDERED)
             ->update(["status" => Order::STATUS_PROCESSED]);
 
         return redirect("/admin/order");
