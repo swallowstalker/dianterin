@@ -4,11 +4,13 @@ namespace App\Listeners;
 
 use App\Events\OrderReceived;
 use App\Events\TravelProfitChanged;
+use App\GeneralTransaction;
 use App\TransactionOrder;
 use App\TransactionProfit;
 use App\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Log;
 
 class CreateTransactionProfitForCourier
 {
@@ -31,28 +33,33 @@ class CreateTransactionProfitForCourier
         $travelID = $event->travel->id;
 
         $totalProfitForCourier = TransactionOrder::whereHas("order.travel", function ($query) use ($travelID) {
-
             $query->where("id", $travelID);
-
         })->sum("delivery_cost");
 
-        $transactionProfit = TransactionProfit::firstOrNew([
-            "travel_id" => $event->travel->id]);
+        $generalTransaction = GeneralTransaction::whereHas("profit", function ($query) use ($travelID) {
+            $query->where("travel_id", $travelID);
+        })->first();
 
-        if ($transactionProfit->exists) {
+        if (empty($generalTransaction)) { // create
 
-            $generalTransaction = $transactionProfit->generalTransaction;
-            $generalTransaction->movement = $totalProfitForCourier;
-            $generalTransaction->save();
-
-        } else {
-
-            $transactionProfit->generalTransaction()->create([
+            $generalTransaction = GeneralTransaction::create([
                 "author_id" => User::SYSTEM_USER,
                 "user_id" => $event->travel->courier_id,
                 "movement" => $totalProfitForCourier,
                 "action" => "PROFIT: travel #". $event->travel->id
             ]);
+
+            TransactionProfit::create([
+                "general_id" => $generalTransaction->id,
+                "travel_id" => $event->travel->id
+            ]);
+
+        } else { // update
+
+            $generalTransaction->movement = $totalProfitForCourier;
+            $generalTransaction->save();
+
         }
+
     }
 }

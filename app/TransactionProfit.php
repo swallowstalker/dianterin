@@ -11,7 +11,7 @@ class TransactionProfit extends Model
 {
     public $timestamps = false;
 
-    protected $table = "transaction_order";
+    protected $table = "transaction_profit";
 
     protected $fillable = [
         "general_id",

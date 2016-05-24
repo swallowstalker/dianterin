@@ -24,6 +24,10 @@ class GeneralTransaction extends Model
         return $this->belongsTo('App\User', 'user_id');
     }
 
+    public function profit() {
+        return $this->hasOne('App\TransactionProfit', 'general_id');
+    }
+
     public function scopeByOwner($query, $id) {
 
         $query->where("user_id", $id);
