@@ -134,5 +134,7 @@ Route::group(['middleware' => 'web'], function () {
 //Route::group(['prefix' => 'fix'], function() {
 //
 //    Route::get('/travel/in/transaction', 'Admin\TestController@fixPendingAndActiveTransactionTravelID');
+//    Route::get('/deposit/action', 'Admin\TestController@fixTransactionGeneralAction');
+//    Route::get('/deposit/code', 'Admin\TestController@fixDepositCode');
 //
 //});

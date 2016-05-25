@@ -62,4 +62,36 @@ class TestController extends Controller
 
     }
 
+    public function fixTransactionGeneralAction() {
+
+        $allTransactionData = DB::table("transaction_general")->get();
+
+        foreach ($allTransactionData as $transaction) {
+
+            $actions = explode(":", $transaction->action);
+            if (count($actions) > 1) {
+                DB::table("transaction_general")
+                    ->where("id", $transaction->id)
+                    ->update(
+                        ["action" => trim($actions[1])]
+                    );
+            }
+        }
+    }
+    
+    public function fixDepositCode() {
+
+        $allTransactionData = DB::table("transaction_general")->get();
+
+        foreach ($allTransactionData as $transaction) {
+
+            DB::table("transaction_general")
+                ->where("id", $transaction->id)
+                ->where("code", "DEPO")
+                ->update(
+                    ["code" => "DEPOSIT"]
+                );
+        }
+    }
+
 }
