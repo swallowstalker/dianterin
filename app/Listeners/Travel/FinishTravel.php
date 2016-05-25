@@ -27,7 +27,8 @@ class FinishTravel
      */
     public function handle(TravelIsFinishing $event)
     {
-        $event->travel->status = CourierTravelRecord::STATUS_FINISHED;
-        $event->travel->save();
+        $travel = $event->travel;
+        $travel->status = CourierTravelRecord::STATUS_FINISHED;
+        $travel->save();
     }
 }

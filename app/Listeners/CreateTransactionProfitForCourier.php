@@ -46,7 +46,8 @@ class CreateTransactionProfitForCourier
                 "author_id" => User::SYSTEM_USER,
                 "user_id" => $event->travel->courier_id,
                 "movement" => $totalProfitForCourier,
-                "action" => "PROFIT: travel #". $event->travel->id
+                "action" => "Travel #". $event->travel->id,
+                "code" => "PROFIT"
             ]);
 
             TransactionProfit::create([

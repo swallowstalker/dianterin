@@ -2,16 +2,10 @@
 
 namespace App\Listeners;
 
-use App\CourierVisitedRestaurant;
-use App\Events\Event;
 use App\Events\OrderForceReceived;
 use App\Events\OrderReceived;
-use App\GeneralTransaction;
 use App\PendingTransactionOrder;
 use App\TransactionOrder;
-use Auth;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateRealTransaction
 {

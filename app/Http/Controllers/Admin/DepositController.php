@@ -66,7 +66,8 @@ class DepositController extends Controller
         $generalTransaction->author_id = Auth::user()->id;
         $generalTransaction->user_id = $request->input("id");
         $generalTransaction->movement = $request->input("adjustment");
-        $generalTransaction->action = "DEPO: ". $request->input("reason");
+        $generalTransaction->action = $request->input("reason");
+        $generalTransaction->code = "DEPOSIT";
         $generalTransaction->save();
 
         Event::fire(new DepositChanged($generalTransaction));
@@ -114,14 +115,16 @@ class DepositController extends Controller
         $senderTransaction->author_id = Auth::user()->id;
         $senderTransaction->user_id = $request->input("sender");
         $senderTransaction->movement = -1 * $request->input("amount");
-        $senderTransaction->action = "TRANSFER: ". $request->input("reason");
+        $senderTransaction->action = $request->input("reason");
+        $senderTransaction->code = "TRANSFER";
         $senderTransaction->save();
 
         $receiverTransaction = new GeneralTransaction();
         $receiverTransaction->author_id = Auth::user()->id;
         $receiverTransaction->user_id = $request->input("receiver");
         $receiverTransaction->movement = $request->input("amount");
-        $receiverTransaction->action = "TRANSFER: ". $request->input("reason");
+        $receiverTransaction->action = $request->input("reason");
+        $senderTransaction->code = "TRANSFER";
         $receiverTransaction->save();
 
 

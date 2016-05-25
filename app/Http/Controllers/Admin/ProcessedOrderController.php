@@ -76,7 +76,7 @@ class ProcessedOrderController extends Controller
                 $order->save();
             }
         }
-        
+
         Event::fire(new OrderLocked($chosenElementList));
 
         $travel = CourierTravelRecord::find($request->input("travel"));

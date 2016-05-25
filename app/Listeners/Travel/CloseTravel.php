@@ -4,6 +4,7 @@ namespace App\Listeners\Travel;
 
 use App\CourierTravelRecord;
 use App\Events\Travel\TravelIsClosing;
+use DB;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 

@@ -37,7 +37,8 @@ class DebitUserBalance
             "author_id" => $event->author->id,
             "user_id" => $event->order->user_id,
             "movement" => -1 * $pendingTransaction->final_cost,
-            "action" => "ORDER: Payment for #". $event->order->id
+            "action" => "Payment for #". $event->order->id,
+            "code" => "ORDER"
         ]);
 
         $generalTransaction->save();

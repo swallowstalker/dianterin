@@ -132,7 +132,8 @@ class TransactionController extends Controller
             "author_id" => Auth::user()->id,
             "user_id" => $transaction->user_id,
             "movement" => $transaction->final_cost,
-            "action" => "REVERT: Payment for #". $orderID
+            "action" => "Payment for #". $orderID,
+            "code" => "REVERT"
         ]);
 
         $generalTransaction->save();
