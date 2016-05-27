@@ -16,9 +16,8 @@ class ProfitController extends Controller
 
         return view("admin.profit.graph");
     }
-
-    //@fixme ubah nama function agar lebih representatif
-    public function data() {
+    
+    public function getChartData() {
 
         $labels = [];
         $values = [];

@@ -52,6 +52,8 @@ class Restaurant extends Model
     public function getImageAttribute($value) {
 
         $image = "img_default_restaurant.png";
+
+        //@todo change IMAGE_LOCATION, using folder linking instead
         if (! empty($value) && file_exists(base_path(env("IMAGE_LOCATION") .
                 "img/restaurant/". $value))) {
 
