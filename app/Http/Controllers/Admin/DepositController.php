@@ -51,7 +51,7 @@ class DepositController extends Controller
     public function editDeposit(Request $request) {
 
         $this->validate($request, [
-            "id" => "required|exists:user_customer,id",
+            "id" => "required|numeric|exists:user_customer,id",
             "adjustment" => "required|numeric",
             "reason" => "required|max:500",
         ]);
