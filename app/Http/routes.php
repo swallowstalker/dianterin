@@ -72,7 +72,7 @@ Route::group(['middleware' => 'web'], function () {
         
     });
 
-    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin'], function() {
+    Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
 
         Route::group(['prefix' => 'order'], function() {
 
@@ -91,11 +91,11 @@ Route::group(['middleware' => 'web'], function () {
 
         });
 
-        Route::get('user', 'Admin\UserController@index');
+        Route::get('user', ['as' => 'user', 'uses' => 'Admin\UserController@index']);
         Route::get('user/data', 'Admin\UserController@data');
 
-        Route::get('deposit', 'Admin\DepositController@showEditDeposit');
-        Route::post('deposit/edit', 'Admin\DepositController@editDeposit');
+        Route::get('deposit', ['as' => 'deposit', 'uses' => 'Admin\DepositController@showEditDeposit']);
+        Route::post('deposit/edit', ['as' => 'deposit.edit', 'uses' => 'Admin\DepositController@editDeposit']);
 
         Route::get('transfer', 'Admin\DepositController@showTransfer');
         Route::post('transfer/action', 'Admin\DepositController@transfer');
