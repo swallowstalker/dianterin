@@ -59,7 +59,7 @@ class DepositController extends Controller
         $adminPasswordCheck = Hash::check($request->input("password"), Auth::user()->password);
 
         if (! $adminPasswordCheck) {
-            return redirect("admin/deposit")->withErrors("Password not match");
+            return redirect()->route("admin.deposit")->withErrors("Password not match");
         }
 
         $generalTransaction = new GeneralTransaction();
@@ -72,7 +72,7 @@ class DepositController extends Controller
 
         Event::fire(new DepositChanged($generalTransaction));
 
-        return redirect("admin/user");
+        return redirect()->route("admin.user");
     }
 
     /**

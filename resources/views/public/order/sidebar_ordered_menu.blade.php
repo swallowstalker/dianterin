@@ -46,6 +46,12 @@
             step: 1,
             min: 0,
             max: 4,
+            stop: function (event, ui) {
+
+                var _this = $(this);
+                _this.spinner("disable");
+
+            },
             spin: function(event, ui) {
 
                 var orderElementID = $(this).parent().parent().find("input[name=order]").val();
@@ -63,9 +69,10 @@
                     success: function (data) {
 
                         if ($.isEmptyObject(data)) {
-                            console.log(data);
+                            _this.spinner("enable");
                             _this.spinner("value", previousValue);
                         } else {
+                            _this.spinner("enable");
                             previousValue = data.amount_response;
                             _this.spinner("value", data.amount_response);
                         }

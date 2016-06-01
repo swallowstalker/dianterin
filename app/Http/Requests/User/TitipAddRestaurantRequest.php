@@ -25,6 +25,7 @@ class TitipAddRestaurantRequest extends Request
     public function rules()
     {
         //@todo add active restaurant
+        //@todo add only un-added restaurant
         return [
             "restaurant" => "required|exists:direstoranin,id",
             "cost" => "required|numeric|min:0|max:2000000"

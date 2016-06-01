@@ -29,12 +29,28 @@ class TitipController extends Controller
 
         $restaurantList = Restaurant::active()->orderBy("name")->get();
         $restaurantListDropdown = $restaurantList->pluck("name", "id");
+        $restaurantListDropdown = $this->excludeAddedRestaurantFromList($restaurantListDropdown);
 
         $viewData = [
             "restaurantList" => $restaurantListDropdown
         ];
 
         return view("public.titip.start", $viewData);
+    }
+
+    private function excludeAddedRestaurantFromList(Collection $restaurantListDropdown) {
+
+        if (Session::has("titipRestaurantList")) {
+
+            $chosenRestaurantListForTitip = new Collection(Session::get("titipRestaurantList"));
+            $chosenRestaurantListID = $chosenRestaurantListForTitip->pluck("data.id");
+
+            foreach ($chosenRestaurantListID as $addedRestaurantID) {
+                $restaurantListDropdown->forget($addedRestaurantID);
+            }
+        }
+
+        return $restaurantListDropdown;
     }
     
     public function addRestaurant(TitipAddRestaurantRequest $request) {

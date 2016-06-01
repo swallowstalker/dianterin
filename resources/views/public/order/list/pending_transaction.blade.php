@@ -35,15 +35,16 @@
                         {!! Form::open(["url" => "order/unreceived", "class" => "not-received"]) !!}
 
                         {!! Form::hidden("id", $transaction->order_id) !!}
-                        {!! Form::submit("BELUM TERIMA", ["class" => "button-orange-white"]) !!}
+                        <button type="submit" class="button-orange-white">BELUM TERIMA</button>
 
                         {!! Form::close() !!}
                     </div>
 
-                    <div class="col-xs-12 col-md-6" style="padding-left: 6px; margin-top: 10px;">
+                    <div class="col-xs-12 col-md-6" style="padding-left: 6px;">
 
-                        <a href="#feedback-popup" class="feedback-popup-button open-popup button-green-white">
-                            SUDAH TERIMA
+                        <a href="#feedback-popup" class="feedback-popup-button open-popup">
+                            <button class="button-green-white">SUDAH TERIMA</button>
+
                         </a>
                         {!! Form::hidden("id", $transaction->order_id) !!}
 

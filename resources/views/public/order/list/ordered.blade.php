@@ -15,7 +15,17 @@
 
                 @foreach($order->elements as $orderElement)
 
-                    <div class="row order-element" style="margin-bottom: 20px;">
+                    @if ($orderElement->is_backup)
+
+                        <div class="row" style="margin-bottom: 5px;">
+                            <div class="col-xs-12" style="font-weight: bold; color: red;">
+                                Cadangan
+                            </div>
+                        </div>
+
+                    @endif
+
+                    <div class="row order-element" style="margin-bottom: 15px;">
                         <div class="col-xs-4">
 
                             {!! Form::select(
@@ -31,11 +41,13 @@
                         </div>
                         <div class="col-xs-8">
                             <div class="row">
-                                <div class="col-xs-12" style="color: black;">
+                                <div class="col-xs-10" style="color: black;">
 
                                     <b>{{ $orderElement->restaurantObject->name }}</b>
 
-                                    <button class="pull-right button-red-white cancel-order-element" style="padding: 2px;">
+                                </div>
+                                <div class="col-xs-2" style="padding: 0;">
+                                    <button class="button-red-white cancel-order-element" style="padding: 2px;">
                                         <i class="fa fa-times"></i>
                                     </button>
                                 </div>
@@ -45,11 +57,15 @@
                                     {{ $orderElement->menuObject->name }}
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    ({{ $orderElement->preference }})
+
+                            @if (! empty($orderElement->preference))
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        ({{ $orderElement->preference }})
+                                    </div>
                                 </div>
-                            </div>
+                            @endif
+
                         </div>
                     </div>
 
