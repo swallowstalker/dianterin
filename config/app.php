@@ -165,7 +165,8 @@ return [
         Laravel\Socialite\SocialiteServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
         
-        App\Providers\DropboxFilesystemServiceProvider::class
+        App\Providers\DropboxFilesystemServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class
 
     ],
 

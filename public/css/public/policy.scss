@@ -1,0 +1,27 @@
+.policy-element {
+  margin-bottom: 10px;
+  padding: 5px;
+}
+
+.policy-links {
+  color: black;
+
+  ul {
+    li{
+
+      a {
+        color: black;
+        background-color: transparent;
+      }
+
+      &.active a {
+        color: white;
+        background-color: black;
+      }
+    }
+  }
+}
+
+.default-wrapper ol {
+  padding-left: 30px;
+}

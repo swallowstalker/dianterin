@@ -69,7 +69,13 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('/finished', ['uses' => 'User\TitipController@showFinished', 'as' => 'finished']);
 
         });
-        
+
+        Route::get('/policy/service', ['as' => 'policy.service', 'uses' => 'User\UsagePolicyController@showServicePage', 'policyName' => 'service']);
+        Route::get('/policy/user', ['as' => 'policy.user', 'uses' => 'User\UsagePolicyController@showUserPage', 'policyName' => 'user']);
+        Route::get('/policy/courier', ['as' => 'policy.courier', 'uses' => 'User\UsagePolicyController@showCourierPage', 'policyName' => 'courier']);
+        Route::get('/policy/transaction', ['as' => 'policy.transaction', 'uses' => 'User\UsagePolicyController@showTransactionPage', 'policyName' => 'transaction']);
+        Route::get('/policy/sanction', ['as' => 'policy.sanction', 'uses' => 'User\UsagePolicyController@showSanctionPage', 'policyName' => 'sanction']);
+
     });
 
     Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
