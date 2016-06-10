@@ -1,13 +1,14 @@
 <?php
 
 use App\User;
+use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutEvents;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class EditDepositTest extends TestCase
 {
-    use DatabaseTransactions, WithoutMiddleware, WithoutEvents;
+    use DatabaseTransactions, WithoutMiddleware, WithoutEvents, InteractsWithDatabase;
 
     public function testCorrectEdit()
     {
@@ -18,12 +19,20 @@ class EditDepositTest extends TestCase
             [
                 "id" => 1,
                 "adjustment" => 900,
-                "reason" => "INI TEST",
+                "reason" => "XXXXXXX",
                 "password" => "123456"
             ]
         );
 
         $this->assertRedirectedToRoute("admin.user");
+
+        $this->seeInDatabase("transaction_general", [
+            "author_id" => 1,
+            "user_id" => 1,
+            "movement" => 900,
+            "action" => "XXXXXXX",
+            "code" => "DEPOSIT"
+        ]);
     }
 
     public function testIncorrectIDEdit()
@@ -35,12 +44,17 @@ class EditDepositTest extends TestCase
             [
                 "id" => -99,
                 "adjustment" => -1000,
-                "reason" => "INI TEST",
+                "reason" => "XXXXXXX",
                 "password" => "123456"
             ]
         );
 
         $this->assertRedirectedTo("/");
+
+        $this->dontSeeInDatabase("transaction_general", [
+            "action" => "XXXXXXX",
+            "code" => "DEPOSIT"
+        ]);
     }
 
     public function testEmptyField() {

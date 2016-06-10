@@ -57,6 +57,7 @@
                                 <th>Name</th>
                                 <th>Author</th>
                                 <th>Movement</th>
+                                <th>Code</th>
                                 <th>Reason</th>
                                 <th>Time</th>
                             </tr>
@@ -105,6 +106,7 @@
             { visible: true, searchable: true, orderable: true, data: "owner"},
             { visible: true, searchable: true, orderable: true, data: "author"},
             { visible: true, searchable: true, orderable: true, data: "movement"},
+            { visible: true, searchable: true, orderable: true, data: "code"},
             { visible: true, searchable: true, orderable: true, data: "action"},
             { visible: true, searchable: true, orderable: true, data: "created_at"}
         ],

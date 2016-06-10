@@ -108,7 +108,7 @@ class DepositController extends Controller
         $adminPasswordCheck = Hash::check($request->input("password"), Auth::user()->password);
 
         if (! $adminPasswordCheck) {
-            return redirect("admin/transfer")->withErrors("Password not match");
+            return redirect()->route("admin.transfer")->withErrors("Password not match");
         }
 
         $senderTransaction = new GeneralTransaction();
@@ -124,13 +124,13 @@ class DepositController extends Controller
         $receiverTransaction->user_id = $request->input("receiver");
         $receiverTransaction->movement = $request->input("amount");
         $receiverTransaction->action = $request->input("reason");
-        $senderTransaction->code = "TRANSFER";
+        $receiverTransaction->code = "TRANSFER";
         $receiverTransaction->save();
 
 
         Event::fire(new DepositChanged($senderTransaction));
         Event::fire(new DepositChanged($receiverTransaction));
 
-        return redirect("admin/user");
+        return redirect()->route("admin.user");
     }
 }

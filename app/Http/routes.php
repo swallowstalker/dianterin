@@ -103,8 +103,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('deposit', ['as' => 'deposit', 'uses' => 'Admin\DepositController@showEditDeposit']);
         Route::post('deposit/edit', ['as' => 'deposit.edit', 'uses' => 'Admin\DepositController@editDeposit']);
 
-        Route::get('transfer', 'Admin\DepositController@showTransfer');
-        Route::post('transfer/action', 'Admin\DepositController@transfer');
+        Route::get('transfer', ['as' => 'transfer', 'uses' => 'Admin\DepositController@showTransfer']);
+        Route::post('transfer/action', ['as' => 'transfer.action', 'uses' => 'Admin\DepositController@transfer']);
 
         Route::group(['prefix' => 'transaction'], function() {
 
