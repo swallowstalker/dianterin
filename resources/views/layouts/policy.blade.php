@@ -32,6 +32,10 @@
 
         <section class="col-md-9 default-wrapper" style="margin-bottom: 20px; ">
 
+            <section class="policy-title" style="border-bottom: 1px solid #E8E8E8; font-size: 20pt; padding: 10px 10px; margin-bottom: 20px;">
+                @yield("policy-title")
+            </section>
+
             @yield("policy-content")
 
         </section>

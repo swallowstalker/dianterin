@@ -129,6 +129,11 @@
 
     <div class="container-fluid footer">
         <div class="row">
+            <div class="col-md-12" style="text-align: center; margin-bottom: 10px;">
+                <a href="{{ route("user.policy.service") }}" style="color: white;">
+                    Aturan Penggunaan
+                </a>
+            </div>
             <div class="col-md-12" style="text-align: center;">
                 Copyright &copy; 2014 - {!! date("Y") !!} Dianterin
             </div>

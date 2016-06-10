@@ -20,6 +20,7 @@ class ComposerServiceProvider extends ServiceProvider
             $route = Route::current();
             $routeNameFractions = explode(".", $route->getName());
             $policyType = last($routeNameFractions);
+            
             $view->with("activeness", $policyType);
         });
     }

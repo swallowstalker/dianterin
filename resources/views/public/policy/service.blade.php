@@ -1,5 +1,9 @@
 @extends("layouts.policy")
 
+@section("policy-title")
+    LAYANAN
+@endsection
+
 @section("policy-content")
 
     <ol>
@@ -24,7 +28,7 @@
         </li>
         <li class="policy-element">
             Hati-hati terhadap penipuan yang mengatasnamakan Dianter.in.
-            Untuk informasi lebih lanjut, silakan hubungi xxxxx@dianter.in
+            Untuk informasi lebih lanjut, silakan hubungi nganterin@dianter.in
         </li>
     </ol>
 

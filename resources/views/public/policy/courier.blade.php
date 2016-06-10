@@ -1,5 +1,11 @@
 @extends("layouts.policy")
 
+
+@section("policy-title")
+    PENGANTAR
+@endsection
+
+
 @section("policy-content")
 
     <ol>
