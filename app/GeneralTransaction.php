@@ -10,7 +10,7 @@ class GeneralTransaction extends Model
 
     protected $table = "transaction_general";
 
-    protected $fillable = ["author_id", "user_id", "movement", "action"];
+    protected $fillable = ["author_id", "user_id", "movement", "action", "code"];
 
     const TRANSACTION_PAY_ORDER = 1;
     const TRANSACTION_DEPOSIT = 2;

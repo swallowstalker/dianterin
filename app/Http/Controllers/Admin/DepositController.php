@@ -124,7 +124,7 @@ class DepositController extends Controller
         $receiverTransaction->user_id = $request->input("receiver");
         $receiverTransaction->movement = $request->input("amount");
         $receiverTransaction->action = $request->input("reason");
-        $senderTransaction->code = "TRANSFER";
+        $receiverTransaction->code = "TRANSFER";
         $receiverTransaction->save();
 
 

@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,eAAgB;EACd,aAAa,EAAE,IAAI;EACnB,OAAO,EAAE,GAAG;;AAGd,aAAc;EACZ,KAAK,EAAE,KAAK;EAKR,qBAAE;IACA,KAAK,EAAE,KAAK;IACZ,gBAAgB,EAAE,WAAW;EAG/B,4BAAW;IACT,KAAK,EAAE,KAAK;IACZ,gBAAgB,EAAE,KAAK;;AAM/B,mBAAoB;EAClB,YAAY,EAAE,IAAI",
+"sources": ["policy.scss"],
+"names": [],
+"file": "policy.css"
+}
