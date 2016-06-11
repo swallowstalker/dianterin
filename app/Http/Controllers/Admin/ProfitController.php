@@ -17,21 +17,37 @@ class ProfitController extends Controller
         return view("admin.profit.graph");
     }
     
-    public function getChartData() {
+    public function getChartData($dateFilter = "") {
+
+        $month = 0;
+        $year = 0;
+        $totalDayInCheckedMonth = 0;
+        $lastDayWithProfitData = 0;
+        if (empty($dateFilter)) {
+            $lastDayWithProfitData = date("j");
+            $totalDayInCheckedMonth = date("t");
+            $month = date("m");
+            $year = date("Y");
+        } else {
+            $totalDayInCheckedMonth = date("t", strtotime($dateFilter ."-01"));
+            $lastDayWithProfitData = $totalDayInCheckedMonth;
+            $month = date("m", strtotime($dateFilter ."-01"));
+            $year = date("Y", strtotime($dateFilter ."-01"));
+        }
 
         $labels = [];
         $values = [];
 
-        for ($day = 1; $day <= date("t"); $day++) {
+        for ($day = 1; $day <= $totalDayInCheckedMonth; $day++) {
 
-            $profit = Profit::where("date", date("Y") ."-". date("m") ."-". $day)->first();
+            $profit = Profit::where("date", $year ."-". $month ."-". $day)->first();
 
             if (! empty($profit)) {
                 $labels[] = $day;
                 $values[] = $profit->total;
             } else {
 
-                if ($day <= date("j")) {
+                if ($day <= $lastDayWithProfitData) {
                     $labels[] = $day;
                     $values[] = 0;
                 } else {
