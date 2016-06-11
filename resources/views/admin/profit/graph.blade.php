@@ -15,11 +15,20 @@
 
 <script src="{!! asset("/") !!}bower_components/Chart.js/Chart.min.js"></script>
 
+<script src="{!! asset("/") !!}bower_components/jquery.mtz.monthpicker/jquery.mtz.monthpicker.js"></script>
+
 <script type="text/javascript">
-    $(document).ready(function() {
+
+    var chart;
+
+    function loadGraph(monthYearData) {
+
+        if (chart != null) {
+            chart.destroy();
+        }
 
         $.ajax({
-            url: baseURL + '/admin/profit/data',
+            url: baseURL + '/admin/profit/data/'+ monthYearData,
             type: "GET",
             success: function (data) {
 
@@ -40,8 +49,23 @@
                 };
 
                 var ctx = document.getElementById("profit-graph").getContext("2d");
-                var chart = new Chart(ctx).Line(graphData);
+                chart = new Chart(ctx).Line(graphData);
             }
+        });
+    }
+
+    $(document).ready(function() {
+
+        loadGraph("");
+
+        $("input[name=month-filter]").monthpicker({
+            pattern: "yyyy-mm",
+            selectedYear: "{{ date("Y") }}",
+            startYear: 2014
+        });
+
+        $("input[name=month-filter]").change(function () {
+            loadGraph($(this).val());
         });
     });
 </script>
@@ -67,7 +91,8 @@
 
 
                 <div class="panel-heading">
-                    Profit {{ date("F") }} {{ date("Y") }}
+                    Profit
+                    <input name="month-filter" value="{{ date("Y-m") }}" />
                 </div>
                 <div class="panel-body">
                     <canvas id="profit-graph" style="width: 100%; height: 350px;"></canvas>

@@ -123,7 +123,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('message/broadcast', 'Admin\MessageController@broadcast');
 
         Route::get('profit', 'Admin\ProfitController@index');
-        Route::get('profit/data', 'Admin\ProfitController@getChartData');
+        Route::get('profit/data/{dateFilter?}', 'Admin\ProfitController@getChartData');
 
     });
 
