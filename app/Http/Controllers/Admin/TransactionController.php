@@ -19,6 +19,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Log;
+use Psy\Util\Json;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TransactionController extends Controller
 {
@@ -37,11 +39,24 @@ class TransactionController extends Controller
     /**
      * Show DT list data
      *
+     * @param Request $request
      * @return mixed
+     * @internal param string $dateFilter
      */
-    public function overallData() {
+    public function overallData(Request $request) {
 
-        $overallTransaction = GeneralTransaction::get();
+        $this->validate($request, ["dateFilter" => "date_format:Y-m-d"]);
+
+        $dateFilter = $request->input("dateFilter");
+
+        $overallTransaction = GeneralTransaction::select(["id", "user_id",
+            "author_id", "movement", "code", "action", "created_at"]);
+
+        if (! empty($dateFilter)) {
+            $overallTransaction = $overallTransaction->where(
+                DB::raw("DATE(created_at)"), "<=", $dateFilter);
+        }
+
         $owner = '{!! App\GeneralTransaction::where("user_id", $user_id)->first()->owner->name !!}';
         $author = '{!! App\GeneralTransaction::where("author_id", $author_id)->first()->author->name !!}';
 
@@ -137,5 +152,19 @@ class TransactionController extends Controller
         ]);
 
         $generalTransaction->save();
+    }
+
+    public function getTotalTransactionUntilDate(Request $request) {
+
+        $dateFilter = $request->input("dateFilter");
+
+        if (empty($request->input("dateFilter"))) {
+            $dateFilter = date("Y-m-d");
+        }
+
+        $total = GeneralTransaction::where(
+            DB::raw("DATE(created_at)"), "<=", $dateFilter)->sum("movement");
+
+        return new JsonResponse(["total" => number_format($total, 0, ",", ".")]);
     }
 }

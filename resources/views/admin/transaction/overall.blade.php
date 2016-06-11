@@ -11,6 +11,10 @@
 <!-- JQuery-UI Theme CSS -->
 <link href="{!! asset("/") !!}bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
 
+
+<link href="{!! asset("/") !!}bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet" type="text/css">
+
+
 @endsection
 
 
@@ -21,9 +25,11 @@
 <script src="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
 <script src="{!! asset("/") !!}bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
 
-
 <!-- JQuery-UI JavaScript -->
 <script src="{!! asset("/") !!}bower_components/jquery-ui/jquery-ui.min.js"></script>
+
+<script src="{!! asset("/") !!}bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+
 
 @endsection
 
@@ -44,9 +50,16 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    Total transaction until [] is []
+                    Overall transaction
                 </div>
                 <div class="panel-body">
+
+                    <section class="date-filter">
+                        Total transaction until
+                        <input name="date-filter" value="{{ date("Y-m-d") }}" />
+                        is <span id="total-transaction"></span>
+                    </section>
+
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover"
                                cellpadding="0" cellspacing="0" id="data" width="100%">
@@ -77,6 +90,7 @@
 <script type="text/javascript">
 
     var source = '{{ url("/") }}/admin/transaction/data';
+    var sourceTotal = '{{ url("/") }}/admin/transaction/total';
     var csrfHash = "{!! csrf_token() !!}";
 
 
@@ -88,6 +102,7 @@
             type: "GET",
             data: function(data) {
                 data._token = csrfHash;
+                data.dateFilter = $("input[name=date-filter]").val();
             }
         },
         serverSide: true,
@@ -112,9 +127,36 @@
         ],
         responsive: true
     };
+    
+    function getTotalTransactionByDateFilter() {
+
+        $.ajax({
+            url: sourceTotal,
+            type: "GET",
+            data: {
+                dateFilter: $("input[name=date-filter]").val()
+            },
+            beforeSubmit: function () {
+                $("span#total-transaction").html("retrieving total transaction...");
+            },
+            success: function (data) {
+                $("span#total-transaction").html(data.total);
+            }
+        });
+    }
 
     $(document).ready(function () {
         var oTable = $('#data').DataTable(settings);
+        getTotalTransactionByDateFilter();
+
+        $("input[name=date-filter]").datepicker({
+            format: "yyyy-mm-dd"
+        });
+        
+        $("input[name=date-filter]").change(function () {
+            oTable.ajax.reload(null, false).draw();
+            getTotalTransactionByDateFilter();
+        });
     });
 </script>
 

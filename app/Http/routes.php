@@ -110,6 +110,7 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('/', 'Admin\TransactionController@overall');
             Route::get('/data', 'Admin\TransactionController@overallData');
+            Route::get('/total', 'Admin\TransactionController@getTotalTransactionUntilDate');
 
             Route::get('/order', 'Admin\TransactionController@order');
             Route::get('/order/data', 'Admin\TransactionController@orderData');
