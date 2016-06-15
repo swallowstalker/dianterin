@@ -6,9 +6,6 @@
     <!-- JQuery-UI Theme CSS -->
     <link href="{!! asset("/") !!}bower_components/jquery-ui/themes/ui-lightness/jquery-ui.css" rel="stylesheet" type="text/css">
 
-    <!-- Magnific Popup CSS -->
-    <link href="{!! asset("/") !!}bower_components/magnific-popup/dist/magnific-popup.css" rel="stylesheet" type="text/css">
-
 @endsection
 
 
@@ -16,9 +13,6 @@
 
     <!-- JQuery-UI JavaScript -->
     <script src="{!! asset("/") !!}bower_components/jquery-ui/jquery-ui.min.js"></script>
-
-    <!-- Magnific Popup JavaScript -->
-    <script src="{!! asset("/") !!}bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 
 @endsection
 

@@ -28,9 +28,9 @@ class NewOrderElementRequest extends FormRequest
     public function rules()
     {
         return [
-            "backup" => "required|in:0,1",
-            "menu" => "required|exists:dimenuin,id|sufficient_balance",
-            "travel" => "required|exists:courier_travel,id",
+            "travel" => "required|numeric|exists:courier_travel,id",
+            "backup" => "required|numeric|in:0,1",
+            "menu" => "required|numeric|exists:dimenuin,id|sufficient_balance",
             "preference" => "max:1000"
         ];
     }

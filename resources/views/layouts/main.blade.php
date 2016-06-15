@@ -42,6 +42,10 @@
     <link href="{!! asset("/") !!}css/public.css" rel="stylesheet" type="text/css">
     <link href="{!! asset("/") !!}css/public-override.css" rel="stylesheet" type="text/css">
 
+
+    <!-- Magnific Popup CSS -->
+    <link href="{!! asset("/") !!}bower_components/magnific-popup/dist/magnific-popup.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -57,6 +61,9 @@
 
     <!-- Metis Menu Plugin JavaScript -->
     <script src="{!! asset("/") !!}plugins/sb-admin-2/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+    <!-- Magnific Popup JavaScript -->
+    <script src="{!! asset("/") !!}bower_components/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 
 
     {{-- JS init for all js used in this layout. --}}

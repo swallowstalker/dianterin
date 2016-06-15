@@ -111,8 +111,7 @@ class OrderValidator extends Validator
      * @return int
      */
     private function getCurrentOrderSubtotalFromAddOrder($latestOrderID, $backup = 0) {
-
-
+        
         $latestOrderPrice = 0;
 
         if ($this->data["backup"] == 1 && ! empty($latestOrderID)) {
@@ -123,10 +122,18 @@ class OrderValidator extends Validator
         // new order's price
         $chosenMenu = Menu::find($this->data["menu"]);
 
+        if (empty($chosenMenu)) {
+            return false;
+        }
+
         // get delivery cost of visited restaurant
         $visitedRestaurant = CourierVisitedRestaurant::where("allowed_restaurant", $chosenMenu->restaurant->id)
             ->where("travel_id", $this->data["travel"])
             ->first();
+
+        if (empty($visitedRestaurant)) {
+            return false;
+        }
 
         $currentOrderPrice = $chosenMenu->price + $visitedRestaurant->delivery_cost;
 
@@ -219,6 +226,9 @@ class OrderValidator extends Validator
 
         $ownerID = $this->data["sender"];
         $sender = User::find($ownerID);
+        if (empty($sender)) {
+            return false;
+        }
 
         $pendingTransactionTotal = $this->getTotalPendingTransaction($ownerID);
         $uncheckedOrderSubtotal = $this->getPreviousOrderTotal([], $ownerID);
