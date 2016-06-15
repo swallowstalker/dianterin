@@ -130,6 +130,8 @@
 
         @yield("content")
 
+        @include("public.info.popup.info_popup");
+
     </div>
     <!-- /#container-fluid -->
 
