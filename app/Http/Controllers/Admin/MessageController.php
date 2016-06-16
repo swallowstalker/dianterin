@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Message;
+use App\MessageOwnedByUser;
 use App\Notification;
 use App\User;
+use App\UserMessageStatus;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -33,19 +36,20 @@ class MessageController extends Controller
             "message" => "required|max:1000"
         ]);
 
-        $userList = User::all();
-        $messageList = [];
+        $message = new Message([
+            "content" => $request->input("message"),
+            "type" => $request->input("type")
+        ]);
+        $message->save();
 
+        $userList = User::all();
         foreach ($userList as $user) {
 
-            $message = [
+            $message->users()->save(new MessageOwnedByUser([
                 "sender" => Auth::user()->id,
                 "receiver" => $user->id,
-                "status" => 0,
-                "message" => $request->input("message")
-            ];
-
-            Notification::create($message);
+                "status" => UserMessageStatus::Unread
+            ]));
         }
 
         return redirect("admin/message");

@@ -10,6 +10,8 @@ class MessageOwnedByUser extends Model
 {
     protected $table = "message_user";
 
+    protected $fillable = ["sender", "receiver", "status"];
+
     protected $casts = [
         "status" => "boolean"
     ];
@@ -19,7 +21,7 @@ class MessageOwnedByUser extends Model
     }
 
     public function scopeNewest($query) {
-        return $query->where("status", MessageStatus::Unread)
+        return $query->where("status", UserMessageStatus::Unread)
             ->orderBy("id", "DESC");
     }
 
@@ -28,7 +30,7 @@ class MessageOwnedByUser extends Model
     }
 }
 
-abstract class MessageStatus {
+abstract class UserMessageStatus {
     const Unread = 0;
     const Read = 1;
 }

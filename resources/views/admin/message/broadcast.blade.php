@@ -59,22 +59,28 @@
 
                         {!! Form::open(["url" => "admin/message/broadcast"]) !!}
 
-
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-6">
-                                {!! Form::textarea("message", "",
-                                    ["class" => "col-md-12", "style" => "height: 500px;"]) !!}
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-6">
+                                    {!! Form::select("type", [0 => "Notification Bar", 1 => "Popup"], 0,
+                                        ["class" => "col-md-12"]) !!}
+                                </div>
                             </div>
-                        </div>
 
-
-                        <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-6">
-
-                                {!! Form::submit("Broadccast", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
-
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-6">
+                                    {!! Form::textarea("message", "",
+                                        ["class" => "col-md-12", "style" => "height: 500px;"]) !!}
+                                </div>
                             </div>
-                        </div>
+
+
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-6">
+
+                                    {!! Form::submit("Broadcast", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
+
+                                </div>
+                            </div>
 
                         {!! Form::close() !!}
                     </div>
