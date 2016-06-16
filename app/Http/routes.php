@@ -52,7 +52,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
 
-        Route::post('/notification/dismiss', 'User\MessageController@dismiss');
+        Route::post('/notification/dismiss', 'User\MessageController@notificationDismiss');
 
         Route::group(['prefix' => 'titip', 'as' => 'titip.'], function() {
 
@@ -75,6 +75,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/policy/courier', ['as' => 'policy.courier', 'uses' => 'User\UsagePolicyController@showCourierPage', 'policyName' => 'courier']);
         Route::get('/policy/transaction', ['as' => 'policy.transaction', 'uses' => 'User\UsagePolicyController@showTransactionPage', 'policyName' => 'transaction']);
         Route::get('/policy/sanction', ['as' => 'policy.sanction', 'uses' => 'User\UsagePolicyController@showSanctionPage', 'policyName' => 'sanction']);
+
+        Route::get('/message/last', ['as' => 'message.last', 'uses' => 'User\MessageController@last']);
+        Route::post('/message/dismiss', ['as' => 'message.dismiss', 'uses' => 'User\MessageController@dismiss']);
 
     });
 

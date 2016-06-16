@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Requests\User\NewOrderElementRequest;
 use App\Menu;
-use App\Message;
+use App\Notification;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;
@@ -58,7 +58,7 @@ class OrderController extends Controller
 
         $viewData["backupStatus"] = $backupStatus;
 
-        $viewData["notifications"] = Message::active()
+        $viewData["notifications"] = Notification::active()
             ->byOwner()->byNewest()->get();
 
         return view('public.order.order', $viewData);

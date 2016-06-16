@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Message;
+use App\MessageOwnedByUser;
+use App\Notification;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,15 +18,42 @@ class MessageController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function dismiss(Request $request) {
+    public function notificationDismiss(Request $request) {
 
         $this->validate($request, [
             "id" => "required|numeric|exists:notification,id"
         ]);
 
-        $message = Message::where("id", $request->input("id"))->first();
+        $message = Notification::where("id", $request->input("id"))->first();
         $message->status = true;
         $message->save();
+
+        return new JsonResponse();
+    }
+
+    public function last(Request $request) {
+
+        $lastMessage = MessageOwnedByUser::owner()->newest()->first();
+
+        if (empty($lastMessage)) {
+            return new JsonResponse();
+        } else {
+            return new JsonResponse([
+                "message" => $lastMessage->message->content,
+                "id" => $lastMessage->id
+            ]);
+        }
+    }
+
+    public function dismiss(Request $request) {
+
+        $this->validate($request, [
+            "id" => "required|numeric|exists:message_user,id"
+        ]);
+
+        $messageOwnedByUser = MessageOwnedByUser::where("id", $request->input("id"))->first();
+        $messageOwnedByUser->status = true;
+        $messageOwnedByUser->save();
 
         return new JsonResponse();
     }

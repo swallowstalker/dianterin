@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Message;
+use App\Notification;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class MessageController extends Controller
                 "message" => $request->input("message")
             ];
 
-            Message::create($message);
+            Notification::create($message);
         }
 
         return redirect("admin/message");

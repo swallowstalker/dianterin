@@ -12,7 +12,7 @@ use App\Http\Requests\User\ChangeOrderElementAmountRequest;
 use App\Http\Requests\User\DeleteOrderElementRequest;
 use App\Http\Requests\User\NewOrderElementRequest;
 use App\Menu;
-use App\Message;
+use App\Notification;
 use App\Order;
 use App\OrderElement;
 use App\PendingTransactionOrder;

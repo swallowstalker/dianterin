@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
-use App\Message;
+use App\Notification;
 use App\Order;
 use App\PendingTransactionOrder;
 use App\TransactionOrder;
@@ -23,7 +23,7 @@ class TransactionController extends Controller
 
         $viewData = $this->getOrderSidebar();
 
-        $viewData["notifications"] = Message::active()
+        $viewData["notifications"] = Notification::active()
             ->byOwner()->byNewest()->get();
 
         return view("public.transaction.history", $viewData);
