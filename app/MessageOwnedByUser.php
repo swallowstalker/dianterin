@@ -25,6 +25,12 @@ class MessageOwnedByUser extends Model
             ->orderBy("id", "DESC");
     }
 
+    public function scopeType($query, $type) {
+        return $query->whereHas("message", function ($query) use ($type) {
+            $query->where("type", $type);
+        });
+    }
+
     public function message() {
         return $this->belongsTo('App\Message', 'message_id');
     }

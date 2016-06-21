@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\MessageOwnedByUser;
+use App\Models\Constants\MessageType;
 use App\Notification;
 use Illuminate\Http\Request;
 
@@ -30,10 +31,11 @@ class MessageController extends Controller
 
         return new JsonResponse();
     }
-
+    
     public function last(Request $request) {
 
-        $lastMessage = MessageOwnedByUser::owner()->newest()->first();
+        $lastMessage = MessageOwnedByUser::owner()->newest()
+            ->type(MessageType::Popup)->first();
 
         if (empty($lastMessage)) {
             return new JsonResponse();
@@ -57,5 +59,4 @@ class MessageController extends Controller
 
         return new JsonResponse();
     }
-
 }

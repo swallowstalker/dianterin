@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\MessageOwnedByUser;
+use App\Models\Constants\MessageType;
 use Illuminate\Support\ServiceProvider;
 use Log;
 use Route;
@@ -22,6 +24,14 @@ class ComposerServiceProvider extends ServiceProvider
             $policyType = last($routeNameFractions);
             
             $view->with("activeness", $policyType);
+        });
+
+        view()->composer("layouts.main.notifications", function ($view) {
+
+            $messages = MessageOwnedByUser::owner()->newest()
+                ->type(MessageType::NotificationBar)->get();
+
+            $view->with("notificationBarMessages", $messages);
         });
     }
 

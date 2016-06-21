@@ -2,7 +2,8 @@
 <div class="row">
     <div class="col-md-12">
 
-        @foreach($notifications as $notification)
+        {{-- comes from view composer --}}
+        @foreach($notificationBarMessages as $messageOwnedByUser)
 
             <div class="notification-element">
                 <div style="" class="alert alert-info alert-dismissible notification-row">
@@ -10,14 +11,14 @@
                         <i class="fa fa-bell"></i>
                     </div>
                     <div class="notification-content">
-                        {!! $notification->message !!}
+                        {!! $messageOwnedByUser->message->content !!}
                     </div>
                     <div>
                         <button type="button" class="close notification-dismiss"
                                 data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        {!! Form::hidden("notification_id", $notification->id) !!}
+                        {!! Form::hidden("user-info-popup-notification-id", $messageOwnedByUser->id) !!}
                     </div>
                 </div>
             </div>
@@ -26,24 +27,23 @@
 
         <script type="text/javascript">
 
-            var baseURL = '{!! url("/") !!}';
+            var messageDismissURL = "{{ route("user.message.dismiss") }}";
             var csrfHash = '{!! csrf_token() !!}';
 
             // if user dismiss the notif, system will make it disappear.
             $(".notification-dismiss").click(function () {
 
-                var notifID = $(this).next().val();
-                console.log(notifID);
+                // dismissing popup notification
+                var notifID = $(".notification-element")
+                        .find("input[name=user-info-popup-notification-id]")
+                        .val();
 
                 $.ajax({
-                    url: baseURL + '/notification/dismiss',
+                    url: messageDismissURL,
                     type: "POST",
                     data: {
                         _token: csrfHash,
                         id: notifID
-                    },
-                    success: function (data) {
-
                     }
                 });
             });

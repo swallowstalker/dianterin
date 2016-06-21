@@ -126,10 +126,11 @@
         </div>
 
         {{-- notification list --}}
-{{--        @include("layouts.main.notifications")--}}
+        @include("layouts.main.notifications")
 
         @yield("content")
 
+        {{-- @todo ganti ini jadi pake view composer aja --}}
         @include("public.info.popup.info_popup");
 
     </div>

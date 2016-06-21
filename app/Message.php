@@ -13,9 +13,8 @@ class Message extends Model
     public function users() {
         return $this->hasMany('App\MessageOwnedByUser', 'message_id');
     }
-}
 
-abstract class MessageType {
-    const NotificationBar = 0;
-    const Popup = 1;
+    public function scopeType($query, $type) {
+        return $query->where("type", $type);
+    }
 }
