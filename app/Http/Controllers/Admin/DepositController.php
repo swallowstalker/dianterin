@@ -28,16 +28,19 @@ class DepositController extends Controller
      * Show edit deposit form
      * @todo coba mulai bikin unit test dari sini
      * @param Request $request
-     * @param User $user
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @internal param User $user
      */
-    public function showEditDeposit(Request $request, User $user) {
+    public function showEditDeposit(Request $request, $id) {
+
+        $request->merge(["id" => $id]);
 
         $this->validate($request, [
-            "id" => "required|exists:user_customer,id"
+            "id" => "required|numeric|exists:user_customer,id"
         ]);
 
-        $userData = $user->find($request->input("id"));
+        $userData = User::find($id);
         $viewData = ["user" => $userData];
 
         return view("admin.deposit.edit", $viewData);
@@ -59,7 +62,7 @@ class DepositController extends Controller
         $adminPasswordCheck = Hash::check($request->input("password"), Auth::user()->password);
 
         if (! $adminPasswordCheck) {
-            return redirect()->route("admin.deposit")->withErrors("Password not match");
+            return back()->withErrors("Password not match");
         }
 
         $generalTransaction = new GeneralTransaction();
@@ -108,7 +111,7 @@ class DepositController extends Controller
         $adminPasswordCheck = Hash::check($request->input("password"), Auth::user()->password);
 
         if (! $adminPasswordCheck) {
-            return redirect()->route("admin.transfer")->withErrors("Password not match");
+            return back()->withErrors("Password not match");
         }
 
         $senderTransaction = new GeneralTransaction();

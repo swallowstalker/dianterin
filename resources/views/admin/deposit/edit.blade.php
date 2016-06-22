@@ -1,14 +1,5 @@
 @extends("layouts.admin")
 
-@section("style")
-
-@endsection
-
-
-@section("javascript")
-
-@endsection
-
 
 @section("content")
 
@@ -30,101 +21,104 @@
                 </div>
                 <div class="panel-body">
 
-                    {!! Form::open(["url" => "admin/deposit/edit"]) !!}
-                    {!! Form::hidden("id", $user->id) !!}
+                    <form class="form-horizontal" role="form" method="POST"
+                          action="{{ url('/admin/deposit/edit') }}">
 
-                    @if (! empty($errors))
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}" />
+                        <input type="hidden" name="id" value="{!! $user->id !!}" />
+
+                        @if (! empty($errors))
+                            <div class="row" style="margin-bottom: 10px;">
+                                <div class="col-md-5">
+                                    {!! implode("<br/>", $errors->all()) !!}
+                                </div>
+                            </div>
+                        @endif
+
                         <div class="row" style="margin-bottom: 10px;">
-                            <div class="col-md-5">
-                                {!! implode("<br/>", $errors->all()) !!}
+                            <div class="col-md-2">
+                                Name
+                            </div>
+                            <div class="col-md-3">
+
+                                {!! Form::text("name", $user->name, [
+                                    "class" => "col-md-12",
+                                    "disabled" => "disabled"
+                                ]) !!}
+
                             </div>
                         </div>
-                    @endif
 
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Name
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                                Email
+                            </div>
+                            <div class="col-md-3">
+
+                                {!! Form::text("email", $user->email, [
+                                    "class" => "col-md-12",
+                                    "disabled" => "disabled"
+                                ]) !!}
+
+                            </div>
                         </div>
-                        <div class="col-md-3">
 
-                            {!! Form::text("name", $user->name, [
-                                "class" => "col-md-12",
-                                "disabled" => "disabled"
-                            ]) !!}
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                                Current Balance
+                            </div>
+                            <div class="col-md-3">
 
+                                {!! Form::text("balance", $user->balance, [
+                                    "class" => "col-md-12",
+                                    "disabled" => "disabled"
+                                ]) !!}
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Email
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                                Password
+                            </div>
+                            <div class="col-md-3">
+
+                                {!! Form::password("password", ["class" => "col-md-12"]) !!}
+
+                            </div>
                         </div>
-                        <div class="col-md-3">
 
-                            {!! Form::text("email", $user->email, [
-                                "class" => "col-md-12",
-                                "disabled" => "disabled"
-                            ]) !!}
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                                Adjustment
+                            </div>
+                            <div class="col-md-3">
 
+                                {!! Form::text("adjustment", old("adjustment", ""), ["class" => "col-md-12"]) !!}
+
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Current Balance
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-2">
+                                Reason
+                            </div>
+                            <div class="col-md-3">
+
+                                {!! Form::textarea("reason", old("reason", ""), ["class" => "col-md-12"]) !!}
+
+                            </div>
                         </div>
-                        <div class="col-md-3">
 
-                            {!! Form::text("balance", $user->balance, [
-                                "class" => "col-md-12",
-                                "disabled" => "disabled"
-                            ]) !!}
+
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="col-md-5">
+
+                                {!! Form::submit("Edit", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
+
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Password
-                        </div>
-                        <div class="col-md-3">
-
-                            {!! Form::password("password", ["class" => "col-md-12"]) !!}
-
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Adjustment
-                        </div>
-                        <div class="col-md-3">
-
-                            {!! Form::text("adjustment", old("adjustment", ""), ["class" => "col-md-12"]) !!}
-
-                        </div>
-                    </div>
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-2">
-                            Reason
-                        </div>
-                        <div class="col-md-3">
-
-                            {!! Form::textarea("reason", old("reason", ""), ["class" => "col-md-12"]) !!}
-
-                        </div>
-                    </div>
-
-
-                    <div class="row" style="margin-bottom: 10px;">
-                        <div class="col-md-5">
-
-                            {!! Form::submit("Edit", ["class" => "col-md-3 pull-right button-blue-white"]) !!}
-
-                        </div>
-                    </div>
-
-                    {!! Form::close() !!}
+                    </form>
                 </div>
 
             </div>

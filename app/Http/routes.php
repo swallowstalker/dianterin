@@ -51,9 +51,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/menu/previous/preference', 'User\MenuController@getLastPreference');
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
-
-        Route::post('/notification/dismiss', 'User\MessageController@notificationDismiss');
-
         Route::group(['prefix' => 'titip', 'as' => 'titip.'], function() {
 
             Route::get('/start', ['uses' => 'User\TitipController@showStartPage', 'as' => 'start']);
@@ -103,7 +100,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('user', ['as' => 'user', 'uses' => 'Admin\UserController@index']);
         Route::get('user/data', 'Admin\UserController@data');
 
-        Route::get('deposit', ['as' => 'deposit', 'uses' => 'Admin\DepositController@showEditDeposit']);
+        Route::get('deposit/{id?}', ['as' => 'deposit', 'uses' => 'Admin\DepositController@showEditDeposit']);
         Route::post('deposit/edit', ['as' => 'deposit.edit', 'uses' => 'Admin\DepositController@editDeposit']);
 
         Route::get('transfer', ['as' => 'transfer', 'uses' => 'Admin\DepositController@showTransfer']);

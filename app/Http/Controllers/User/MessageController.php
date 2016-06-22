@@ -14,23 +14,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class MessageController extends Controller
 {
-    /**
-     * Mark as read for given notification
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function notificationDismiss(Request $request) {
-
-        $this->validate($request, [
-            "id" => "required|numeric|exists:notification,id"
-        ]);
-
-        $message = Notification::where("id", $request->input("id"))->first();
-        $message->status = true;
-        $message->save();
-
-        return new JsonResponse();
-    }
     
     public function last(Request $request) {
 
