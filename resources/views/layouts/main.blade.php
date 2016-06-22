@@ -69,6 +69,24 @@
     {{-- JS init for all js used in this layout. --}}
     <script type="text/javascript">
         var baseURL = '{{ url("/") }}';
+        var messageDismissURL = "{{ route("user.message.dismiss") }}";
+        var csrfHash = "{!! csrf_token() !!}";
+
+        function sendMessageDismissRequest(scope) {
+
+            // dismissing popup notification
+            var notifID = scope.find("input[name=user-info-popup-notification-id]").val();
+
+            $.ajax({
+                url: messageDismissURL,
+                type: "POST",
+                data: {
+                    _token: csrfHash,
+                    id: notifID
+                }
+            });
+        }
+
     </script>
 
 
@@ -127,11 +145,10 @@
 
         {{-- notification list --}}
         @include("layouts.main.notifications")
+        
+        @include("layouts.main.info_popup")
 
         @yield("content")
-
-        {{-- @todo ganti ini jadi pake view composer aja --}}
-        @include("public.info.popup.info_popup");
 
     </div>
     <!-- /#container-fluid -->

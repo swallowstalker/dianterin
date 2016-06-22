@@ -32,20 +32,7 @@
 
             // if user dismiss the notif, system will make it disappear.
             $(".notification-dismiss").click(function () {
-
-                // dismissing popup notification
-                var notifID = $(".notification-element")
-                        .find("input[name=user-info-popup-notification-id]")
-                        .val();
-
-                $.ajax({
-                    url: messageDismissURL,
-                    type: "POST",
-                    data: {
-                        _token: csrfHash,
-                        id: notifID
-                    }
-                });
+                sendMessageDismissRequest($(".notification-element"));
             });
         </script>
 

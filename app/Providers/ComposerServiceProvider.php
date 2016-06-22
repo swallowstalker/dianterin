@@ -33,6 +33,14 @@ class ComposerServiceProvider extends ServiceProvider
 
             $view->with("notificationBarMessages", $messages);
         });
+        
+        view()->composer("layouts.main.info_popup", function ($view) {
+
+            $message = MessageOwnedByUser::owner()->newest()
+                ->type(MessageType::Popup)->first();
+
+            $view->with("popupMessage", $message);
+        });
     }
 
     /**
