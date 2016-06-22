@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\MessageOwnedByUser;
 use App\Models\Constants\MessageType;
+use App\TransactionOrder;
+use Auth;
 use Illuminate\Support\ServiceProvider;
 use Log;
 use Route;
@@ -40,6 +42,12 @@ class ComposerServiceProvider extends ServiceProvider
                 ->type(MessageType::Popup)->first();
 
             $view->with("popupMessage", $message);
+        });
+
+        view()->composer("layouts.main.navigation_top", function ($view) {
+
+            $orderTransactionTotal = TransactionOrder::byOwner(Auth::user()->id)->count();
+            $view->with("orderTransactionTotal", $orderTransactionTotal);
         });
     }
 

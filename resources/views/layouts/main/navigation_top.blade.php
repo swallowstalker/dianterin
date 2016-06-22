@@ -10,6 +10,11 @@
 <!-- /.navbar-header -->
 
 <ul class="nav navbar-top-links navbar-right" style="text-align: right;">
+    <li class="dropdown" style="margin-right: 20px; color: #FFC335;">
+        <img src="{!! url("/img") !!}/ic_grey.png" />
+        {!! number_format($orderTransactionTotal, 0, ",", ".") !!}
+    </li>
+
     <li class="dropdown" style="margin-right: 20px;">
         {!! Html::link("/", "Pesan Baru", ["style" => 'line-height: 40px;']) !!}
     </li>
