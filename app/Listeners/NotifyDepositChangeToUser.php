@@ -4,9 +4,13 @@ namespace App\Listeners;
 
 use App\Events\DepositChanged;
 use App\Events\OrderLocked;
+use App\Message;
+use App\MessageOwnedByUser;
+use App\Models\Constants\MessageType;
 use App\Order;
 use App\PendingTransactionOrder;
 use App\User;
+use App\UserMessageStatus;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
@@ -33,6 +37,12 @@ class NotifyDepositChangeToUser
     {
         $user = User::find($event->transaction->user_id);
 
+        $this->sendEmail($event, $user);
+        $this->setNotificationBar($event);
+    }
+
+    private function sendEmail($event, $user) {
+
         $movement = $event->transaction->movement;
         $movementSign = "penambahan";
 
@@ -58,5 +68,30 @@ class NotifyDepositChangeToUser
                 $mail->subject($subject);
             }
         );
+    }
+
+    private function setNotificationBar($event) {
+
+        $movement = $event->transaction->movement;
+        $movementSign = "penambahan";
+
+        if ($event->transaction->movement < 0) {
+            $movementSign = "pengurangan";
+            $movement = -1 * $movement;
+        }
+
+        $message = new Message();
+        $message->content = "Telah dilakukan ". $movementSign .
+            " pada deposit akun anda, sebesar Rp ".
+            number_format($movement, 0, ",", ".");
+        $message->type = MessageType::NotificationBar;
+        $message->save();
+
+        $message->users()->create([
+            "sender" => $event->transaction->author_id,
+            "receiver" => $event->transaction->user_id,
+            "status" => UserMessageStatus::Unread
+        ]);
+
     }
 }
