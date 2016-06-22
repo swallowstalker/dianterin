@@ -10,8 +10,8 @@
 <!-- /.navbar-header -->
 
 <ul class="nav navbar-top-links navbar-right" style="text-align: right;">
-    <li class="dropdown" style="margin-right: 20px; color: #FFC335;">
-        <img src="{!! url("/img") !!}/ic_grey.png" />
+    <li class="dropdown" style="margin-right: 20px; color: {!! $color !!};">
+        <i class="fa fa-circle" aria-hidden="true"></i>
         {!! number_format($orderTransactionTotal, 0, ",", ".") !!}
     </li>
 

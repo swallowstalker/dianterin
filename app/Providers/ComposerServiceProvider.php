@@ -47,7 +47,16 @@ class ComposerServiceProvider extends ServiceProvider
         view()->composer("layouts.main.navigation_top", function ($view) {
 
             $orderTransactionTotal = TransactionOrder::byOwner(Auth::user()->id)->count();
+            $color = "white";
+
+            if (100 <= $orderTransactionTotal && $orderTransactionTotal < 200) {
+                $color = "lightgrey";
+            } else if ($orderTransactionTotal >= 200) {
+                $color = "#FFC335";
+            }
+
             $view->with("orderTransactionTotal", $orderTransactionTotal);
+            $view->with("color", $color);
         });
     }
 
