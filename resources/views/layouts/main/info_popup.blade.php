@@ -17,7 +17,8 @@
         <div class="row">
             <div class="col-md-12 right">
                 <button class="button-orange-black" id="user-info-yes-confirm">OK</button>
-                <input type="hidden" name="user-info-popup-notification-id" value="" />
+                <input type="hidden" name="user-info-popup-notification-id"
+                       value="{!! $popupMessage->id !!}" />
             </div>
         </div>
     </div>

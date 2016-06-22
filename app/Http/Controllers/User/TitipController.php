@@ -109,6 +109,10 @@ class TitipController extends Controller
         }
     }
 
+
+
+
+
     public function showOpened() {
 
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_OPENED);
@@ -142,6 +146,10 @@ class TitipController extends Controller
         return redirect()->route("user.titip.closed");
     }
 
+
+
+
+
     public function showClosed() {
 
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
@@ -173,10 +181,12 @@ class TitipController extends Controller
         return redirect()->route("user.titip.finished");
     }
 
+
+
+
+
     public function showFinished() {
-
-        //@todo jangan lupa handle kalo misalnya ada travel lagi aktif tapi dia mau start lagi.
-
+        
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
 
         if (empty($travel)) {

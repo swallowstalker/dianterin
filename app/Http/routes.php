@@ -51,7 +51,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/menu/previous/preference', 'User\MenuController@getLastPreference');
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
-        Route::group(['prefix' => 'titip', 'as' => 'titip.'], function() {
+        Route::group(['prefix' => 'titip', 'as' => 'titip.', 'middleware' => 'titip'], function() {
 
             Route::get('/start', ['uses' => 'User\TitipController@showStartPage', 'as' => 'start']);
             Route::post('/restaurant/add', ['uses' => 'User\TitipController@addRestaurant', 'as' => 'restaurant.add']);
