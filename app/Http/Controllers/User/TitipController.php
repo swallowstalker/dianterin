@@ -117,10 +117,6 @@ class TitipController extends Controller
 
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_OPENED);
 
-        if (empty($travel)) {
-            return redirect()->route("user.titip.start");
-        }
-
         $orderElementListByRestaurant = $this->getOrderElementListGroupedByRestaurant($travel);
 
         $expectedIncome = $this->getTotalIncome($orderElementListByRestaurant, $travel);
@@ -154,10 +150,6 @@ class TitipController extends Controller
 
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_CLOSED);
 
-        if (empty($travel)) {
-            return redirect()->route("user.titip.start");
-        }
-
         $orderElementListByRestaurant = $this->getOrderElementListGroupedByRestaurant($travel);
         $orderList = Order::where("travel_id", $travel->id)
             ->whereNotNull("travel_id")
@@ -188,10 +180,6 @@ class TitipController extends Controller
     public function showFinished() {
         
         $travel = $this->getOwnTravelByStatus(CourierTravelRecord::STATUS_FINISHED);
-
-        if (empty($travel)) {
-            return redirect()->route("user.titip.start");
-        }
 
         $pendingTransactionList = $this->getPendingTransactionByTravel($travel);
         $pendingTransactionGroupedByRestaurant = $pendingTransactionList->groupBy("restaurant");
