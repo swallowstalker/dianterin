@@ -15,7 +15,8 @@
         "greggilbert/recaptcha": "dev-master",
         "laravel/socialite": "^2.0",
         "spatie/laravel-backup": "^3.3",
-        "league/flysystem-dropbox": "^1.0"
+        "league/flysystem-dropbox": "^1.0",
+        "barryvdh/laravel-dompdf": "0.6.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

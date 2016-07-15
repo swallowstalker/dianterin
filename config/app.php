@@ -166,7 +166,9 @@ return [
         Spatie\Backup\BackupServiceProvider::class,
         
         App\Providers\DropboxFilesystemServiceProvider::class,
-        App\Providers\ComposerServiceProvider::class
+        App\Providers\ComposerServiceProvider::class,
+
+        Barryvdh\DomPDF\ServiceProvider::class,
 
     ],
 
@@ -221,6 +223,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Recaptcha' => Greggilbert\Recaptcha\Facades\Recaptcha::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

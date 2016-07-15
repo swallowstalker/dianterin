@@ -11,6 +11,7 @@ use App\Order;
 use App\OrderElement;
 use Event;
 use Illuminate\Http\Request;
+use PDF;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -89,9 +90,18 @@ class ProcessedOrderController extends Controller
      * Show processed order summary for courier
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function showSummary(Request $request) {
+
+        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
+            ->get()->pluck("id", "id");
+        $travel = $viewData["openTravels"]->first();
+
+        if ($request->has("travel")) {
+            $travel = $request->input("travel");
+        }
 
         $processedOrderList = Order::byStatus(Order::STATUS_PROCESSED)
             ->byTravel($request->input("travel"))->get();
@@ -133,15 +143,10 @@ class ProcessedOrderController extends Controller
 
         $viewData = ["orderElementByPriorityAndRestaurant" => $orderElementByPriorityAndRestaurant];
 
-        $viewData["openTravels"] = CourierTravelRecord::orderBy("id", "desc")
-            ->get()->pluck("id", "id");
 
-        $travel = $viewData["openTravels"]->first();
-        if ($request->has("travel")) {
-            $travel = $request->input("travel");
-        }
         $viewData["travel"] = $travel;
 
-        return view("admin.order.summary", $viewData);
+        $pdf = PDF::loadView("admin.order.pdf.summary", $viewData);
+        return $pdf->stream();
     }
 }

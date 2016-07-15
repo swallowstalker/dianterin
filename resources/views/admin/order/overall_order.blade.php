@@ -51,12 +51,25 @@
                         <div class="col-lg-12" style="margin-bottom: 20px;">
 
 
-                            {!! Form::open(["url" => "admin/order/ordered/lock"]) !!}
+                            {!! Form::open(["url" => "admin/order/ordered/lock", "style" => "display: inline-block;", "id" => "close-travel"]) !!}
 
                             {!! Form::select("travel", $openTravels, $openTravels->first(), ["class" => "button-blue-white"]) !!}
 
                             <button type="submit" class="button-blue-white">
                                 <i class="fa fa-lock fa-fw"></i> Close Travel
+                            </button>
+
+                            {!! Form::close() !!}
+
+                            {!! Form::open(["url" => "admin/order/summary",
+                                "id" => "print-summary-form",
+                                "method" => "GET",
+                                "style" => "display: inline-block;"]) !!}
+
+                            <input type="hidden" name="travel" value="{!! $openTravels->first() !!}" />
+
+                            <button type="submit" class="button-blue-white">
+                                <i class="fa fa-lock fa-fw"></i> Print Summary
                             </button>
 
                             {!! Form::close() !!}
@@ -141,7 +154,10 @@
 
         $("select[name=travel]").on("change", function () {
             oTable.draw();
+            $("form#print-summary-form input[name=travel]").val($(this).val());
         });
+
+        $("form#print-summary-form input[name=travel]").val($("form#close-travel select[name=travel]").val());
 
     });
 </script>
