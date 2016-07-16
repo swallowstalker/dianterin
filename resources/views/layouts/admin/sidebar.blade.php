@@ -47,7 +47,7 @@
                     </li>
                     <li>
                         <a href="{{ url("/") }}/admin/transaction/order">
-                            Order
+                            Finished
                         </a>
                     </li>
                 </ul>
@@ -59,11 +59,6 @@
                 </a>
             </li>
 
-            <li>
-                <a href="{{ url("/") }}/admin/order/summary">
-                    <i class="fa fa-briefcase fa-fw"></i> Order Summary
-                </a>
-            </li>
             <li>
                 <a href="{{ url("/") }}/admin/message">
                     <i class="fa fa-bullhorn fa-fw"></i> Broadcast Message

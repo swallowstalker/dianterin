@@ -69,7 +69,7 @@
                             <input type="hidden" name="travel" value="{!! $openTravels->first() !!}" />
 
                             <button type="submit" class="button-blue-white">
-                                <i class="fa fa-lock fa-fw"></i> Print Summary
+                                <i class="fa fa-print fa-fw"></i> Print Summary
                             </button>
 
                             {!! Form::close() !!}
