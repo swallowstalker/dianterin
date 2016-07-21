@@ -6,6 +6,7 @@ use App\CourierTravelRecord;
 use App\Events\TravelProfitChanged;
 use App\GeneralTransaction;
 use App\Order;
+use App\PendingTransactionOrder;
 use App\TransactionOrder;
 use App\User;
 use Auth;
@@ -166,5 +167,32 @@ class TransactionController extends Controller
             DB::raw("DATE(created_at)"), "<=", $dateFilter)->sum("movement");
 
         return new JsonResponse(["total" => number_format($total, 0, ",", ".")]);
+    }
+
+
+
+    /**
+     * Show transaction order pending list.
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function pendingOrder() {
+
+        $viewData = [];
+        return view("admin.transaction.pending_order", $viewData);
+
+    }
+
+    /**
+     * Prepare DT data for order transaction, for current date.
+     * @return mixed
+     */
+    public function pendingOrderData() {
+
+        $orderTransaction = PendingTransactionOrder::where(DB::raw("DATE(created_at)"), DB::raw("CURDATE()"))->get();
+        $owner = '{!! App\GeneralTransaction::where("user_id", $user_id)->first()->owner->name !!}';
+
+        return Datatables::of($orderTransaction)
+            ->addColumn("owner", $owner)
+            ->make(true);
     }
 }

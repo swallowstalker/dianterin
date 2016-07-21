@@ -114,8 +114,10 @@ Route::group(['middleware' => 'web'], function () {
 
             Route::get('/order', 'Admin\TransactionController@order');
             Route::get('/order/data', 'Admin\TransactionController@orderData');
-
             Route::post('/order/revert', 'Admin\TransactionController@revert');
+
+            Route::get('/order/pending', 'Admin\TransactionController@pendingOrder');
+            Route::get('/order/pending/data', 'Admin\TransactionController@pendingOrderData');
         });
 
 

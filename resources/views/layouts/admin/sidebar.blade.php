@@ -46,6 +46,11 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{ url("/") }}/admin/transaction/order/pending">
+                            Pending
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ url("/") }}/admin/transaction/order">
                             Finished
                         </a>
