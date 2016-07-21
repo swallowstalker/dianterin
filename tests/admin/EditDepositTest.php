@@ -88,6 +88,6 @@ class EditDepositTest extends TestCase
             ]
         );
 
-        $this->assertRedirectedToRoute("admin.deposit");
+        $this->assertRedirectedTo("/");
     }
 }

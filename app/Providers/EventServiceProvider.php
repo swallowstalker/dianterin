@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\DepositChanged;
+use App\GeneralTransaction;
+use Event;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -32,7 +35,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\UpdateProfit'
         ],
         'App\Events\DepositChanged' => [
-            'App\Listeners\NotifyDepositChangeToUser'
+            'App\Listeners\NotifyDepositChangeToUser',
+            'App\Listeners\NotifyDepositIfNegative'
         ],
         'App\Events\TravelProfitChanged' => [
             'App\Listeners\CreateTransactionProfitForCourier'
@@ -56,6 +60,8 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot($events);
 
-        //
+        GeneralTransaction::created(function($transaction) {
+            Event::fire(new DepositChanged($transaction));
+        });
     }
 }
