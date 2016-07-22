@@ -73,8 +73,6 @@ class DepositController extends Controller
         $generalTransaction->code = "DEPOSIT";
         $generalTransaction->save();
 
-        Event::fire(new DepositChanged($generalTransaction));
-
         return redirect()->route("admin.user");
     }
 
@@ -129,10 +127,6 @@ class DepositController extends Controller
         $receiverTransaction->action = $request->input("reason");
         $receiverTransaction->code = "TRANSFER";
         $receiverTransaction->save();
-
-
-        Event::fire(new DepositChanged($senderTransaction));
-        Event::fire(new DepositChanged($receiverTransaction));
 
         return redirect()->route("admin.user");
     }
