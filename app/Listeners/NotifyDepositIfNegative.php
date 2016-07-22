@@ -58,7 +58,7 @@ class NotifyDepositIfNegative
 
         $message = new Message();
         $message->content = "Saldo ". $transactionOwner->name .
-            "(". $transactionOwner->email .") negatif.";
+            " (". $transactionOwner->email .") negatif.";
         $message->type = MessageType::NotificationBar;
         $message->save();
 

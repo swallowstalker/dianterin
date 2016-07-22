@@ -2,6 +2,8 @@
 
 @section("content")
 
+    @include("layouts.login.error")
+
     {!! Form::open(["url" => "password/email"]) !!}
 
     <div class="row" style="margin-bottom: 10px;">
