@@ -1,16 +1,13 @@
 <?php
 
-use App\Admin;
 use App\GeneralTransaction;
-use App\Models\Constants\MessageType;
 use App\User;
-use App\UserMessageStatus;
 use Illuminate\Foundation\Testing\Concerns\InteractsWithDatabase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class DepositChangeNotifierTest extends TestCase
 {
-    use /*DatabaseTransactions, */InteractsWithDatabase;
+    use DatabaseTransactions, InteractsWithDatabase;
 
     protected function setUp()
     {

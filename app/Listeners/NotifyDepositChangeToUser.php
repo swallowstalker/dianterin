@@ -71,9 +71,6 @@ class NotifyDepositChangeToUser
             "sent" => false
         ]);
 
-
-
-
 //        Mail::send("email.deposit", $viewData,
 //            function ($mail) use ($user, $movementSign) {
 //

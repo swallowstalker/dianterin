@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Admin;
 use App\Events\OrderReceived;
 use App\Events\ProfitChanged;
+use App\Models\EmailQueue;
 use App\Order;
 use App\Profit;
 use App\User;
@@ -51,7 +53,7 @@ class ProfitNotifier extends Command
 
     public function sendProfitEmail() {
 
-        $adminList = User::whereIn("id", [14, 30])->get();
+        $adminList = Admin::all();
 
         $profit = Profit::where("date", date("Y-m-d"))->first();
         $total = 0;
@@ -62,16 +64,26 @@ class ProfitNotifier extends Command
         $this->info("Profit for ". date("Y-m-d") ." is: ". $total);
 
         $viewData = ["profit" => $total];
+        $subject = "Profit ". date("d") ."-". date("m") ."-". date("Y");
+        $profitEmail = view()->make("email.profit", $viewData);
 
         foreach ($adminList as $admin) {
 
-            Mail::send("email.profit", $viewData, function ($mail) use ($admin) {
+//            Mail::send("email.profit", $viewData, function ($mail) use ($admin) {
+//
+//                $mail->from("strato@dianter.in", 'Dianterin');
+//                $mail->to($admin->email, $admin->name);
+//                $mail->subject();
+//
+//            });
 
-                $mail->from("strato@dianter.in", 'Dianterin');
-                $mail->to($admin->email, $admin->name);
-                $mail->subject("Profit ". date("d") ."-". date("m") ."-". date("Y"));
-
-            });
+            EmailQueue::create([
+                "destination_name" => $admin->name,
+                "destination_email" => $admin->email,
+                "subject" => $subject,
+                "content" => $profitEmail,
+                "sent" => false
+            ]);
         }
 
 
