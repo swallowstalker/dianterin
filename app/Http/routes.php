@@ -51,21 +51,21 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('/menu/previous/preference', 'User\MenuController@getLastPreference');
         Route::get('/courier/list', 'User\TravelController@getActiveCourierByRestaurant');
 
-        Route::group(['prefix' => 'titip', 'as' => 'titip.', 'middleware' => 'titip'], function() {
-
-            Route::get('/start', ['uses' => 'User\TitipController@showStartPage', 'as' => 'start']);
-            Route::post('/restaurant/add', ['uses' => 'User\TitipController@addRestaurant', 'as' => 'restaurant.add']);
-            Route::get('/open', ['uses' => 'User\TitipController@open', 'as' => 'open']);
-
-            Route::get('/opened', ['uses' => 'User\TitipController@showOpened', 'as' => 'opened']);
-            Route::get('/close', ['uses' => 'User\TitipController@close', 'as' => 'close']);
-
-            Route::get('/closed', ['uses' => 'User\TitipController@showClosed', 'as' => 'closed']);
-            Route::post('/finish', ['uses' => 'User\TitipController@finish', 'as' => 'finish']);
-
-            Route::get('/finished', ['uses' => 'User\TitipController@showFinished', 'as' => 'finished']);
-
-        });
+//        Route::group(['prefix' => 'titip', 'as' => 'titip.', 'middleware' => 'titip'], function() {
+//
+//            Route::get('/start', ['uses' => 'User\TitipController@showStartPage', 'as' => 'start']);
+//            Route::post('/restaurant/add', ['uses' => 'User\TitipController@addRestaurant', 'as' => 'restaurant.add']);
+//            Route::get('/open', ['uses' => 'User\TitipController@open', 'as' => 'open']);
+//
+//            Route::get('/opened', ['uses' => 'User\TitipController@showOpened', 'as' => 'opened']);
+//            Route::get('/close', ['uses' => 'User\TitipController@close', 'as' => 'close']);
+//
+//            Route::get('/closed', ['uses' => 'User\TitipController@showClosed', 'as' => 'closed']);
+//            Route::post('/finish', ['uses' => 'User\TitipController@finish', 'as' => 'finish']);
+//
+//            Route::get('/finished', ['uses' => 'User\TitipController@showFinished', 'as' => 'finished']);
+//
+//        });
 
         Route::get('/policy/service', ['as' => 'policy.service', 'uses' => 'User\UsagePolicyController@showServicePage', 'policyName' => 'service']);
         Route::get('/policy/user', ['as' => 'policy.user', 'uses' => 'User\UsagePolicyController@showUserPage', 'policyName' => 'user']);
