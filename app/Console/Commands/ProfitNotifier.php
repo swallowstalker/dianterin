@@ -67,7 +67,7 @@ class ProfitNotifier extends Command
 
         foreach ($adminList as $admin) {
 
-            Mail::send("email.profit", $viewData, function ($mail) use ($admin, $subject) {
+            Mail::queue("email.profit", $viewData, function ($mail) use ($admin, $subject) {
 
                 $mail->to($admin->email, $admin->name);
                 $mail->subject($subject);

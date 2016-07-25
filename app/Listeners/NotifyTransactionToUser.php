@@ -74,7 +74,7 @@ class NotifyTransactionToUser
                 "total" => $transactionListTotal
             ];
 
-            Mail::send("email.billing_inline", $viewData, function ($mail) use (
+            Mail::queue("email.billing_inline", $viewData, function ($mail) use (
                 $user, $transactionList, $notFoundOrderListCurrentUser) {
 
                 $subject = $user->name .", ".
