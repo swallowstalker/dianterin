@@ -8,18 +8,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-
-use App\Events\DepositChanged;
 use App\GeneralTransaction;
 use App\Http\Controllers\Controller;
 use App\User;
-use App\Validator\OrderValidator;
 use Auth;
-use Event;
 use Hash;
-use Illuminate\Hashing\BcryptHasher;
 use Illuminate\Http\Request;
-use Validator;
 
 class DepositController extends Controller
 {

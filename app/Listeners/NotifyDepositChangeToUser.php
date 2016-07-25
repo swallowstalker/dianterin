@@ -3,21 +3,12 @@
 namespace App\Listeners;
 
 use App\Events\DepositChanged;
-use App\Events\OrderLocked;
 use App\Message;
-use App\MessageOwnedByUser;
 use App\Models\Constants\MessageType;
-use App\Models\EmailQueue;
-use App\Order;
-use App\PendingTransactionOrder;
 use App\User;
 use App\UserMessageStatus;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Support\Collection;
 use Log;
 use Mail;
-use View;
 
 class NotifyDepositChangeToUser
 {
@@ -60,27 +51,17 @@ class NotifyDepositChangeToUser
             "currentBalance" => $user->balance
         ];
 
-        $depositChangeMail = view()->make("email.deposit", $viewData);
         $subject = "Telah dilakukan ". $movementSign ." pada deposit akun anda.";
 
-        EmailQueue::create([
-            "destination_name" => $user->name,
-            "destination_email" => $user->email,
-            "subject" => $subject,
-            "content" => $depositChangeMail,
-            "sent" => false
-        ]);
+        Mail::queue("email.deposit", $viewData,
+            function ($mail) use ($user, $movementSign, $subject) {
 
-//        Mail::send("email.deposit", $viewData,
-//            function ($mail) use ($user, $movementSign) {
-//
-//                $subject = "Telah dilakukan ". $movementSign ." pada deposit akun anda.";
-//
-//                $mail->from("strato@dianter.in", 'Dianterin');
-//                $mail->to($user->email, $user->name);
-//                $mail->subject($subject);
-//            }
-//        );
+                $subject = "Telah dilakukan ". $movementSign ." pada deposit akun anda.";
+
+                $mail->to($user->email, $user->name);
+                $mail->subject($subject);
+            }
+        );
     }
 
     private function setNotificationBar($event) {
