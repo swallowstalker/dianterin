@@ -6,6 +6,8 @@
 
     {!! Form::open(["url" => "password/reset"]) !!}
 
+    <input type="hidden" name="token" value="{{ $token }}">
+
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-12">
 
