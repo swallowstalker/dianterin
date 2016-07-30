@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use App\Events\DepositChanged;
+use App\Events\MessageIsCreated;
 use App\GeneralTransaction;
+use App\Message;
+use App\MessageOwnedByUser;
 use Event;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -47,6 +50,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\Travel\TravelIsFinishing' => [
             'App\Listeners\Travel\FinishTravel'
+        ],
+        'App\Events\MessageIsCreated' => [
+            'App\Listeners\MessageMarkAsReadOtherThanTwoNewest'
         ]
     ];
 
@@ -62,6 +68,10 @@ class EventServiceProvider extends ServiceProvider
 
         GeneralTransaction::created(function($transaction) {
             Event::fire(new DepositChanged($transaction));
+        });
+
+        MessageOwnedByUser::created(function ($messageOwnedByUser) {
+            Event::fire(new MessageIsCreated($messageOwnedByUser));
         });
     }
 }
