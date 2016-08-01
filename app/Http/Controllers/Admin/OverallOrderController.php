@@ -105,10 +105,13 @@ class OverallOrderController extends Controller
         $travel = CourierTravelRecord::byStatus(CourierTravelRecord::STATUS_OPENED)
             ->where("id", $request->input("travel"))->first();
 
-        Event::fire(new TravelIsClosing($travel));
-        
-        $travel->orders()->where("status", Order::STATUS_ORDERED)
-            ->update(["status" => Order::STATUS_PROCESSED]);
+        if (! empty($travel)) {
+
+            Event::fire(new TravelIsClosing($travel));
+
+            $travel->orders()->where("status", Order::STATUS_ORDERED)
+                ->update(["status" => Order::STATUS_PROCESSED]);
+        }
 
         return redirect("/admin/order");
     }
@@ -122,22 +125,27 @@ class OverallOrderController extends Controller
     public static function unifyElements($orderID) {
 
         $order = Order::find($orderID);
-        $orderDesc = "";
+        $orderDescription = '<ul style="padding-left: 10px;">';
 
         foreach ($order->elements as $key => $element) {
 
             $description = "(". $element->amount ." buah) ". $element->restaurantObject->name .", ".
                 $element->menuObject->name;
 
+            if (! empty($element->preference)) {
+                $description .= " (". $element->preference .")";
+            }
+
             if ($key != 0) {
                 $description = '<span style="color: lightgrey;">'. $description .'</span>';
             }
 
-            $orderDesc .= $description;
-            $orderDesc .= '<br/>';
+            $orderDescription .= "<li>". $description ."</li>";
         }
 
-        return $orderDesc;
+        $orderDescription .= "</ul>";
+
+        return $orderDescription;
 
     }
 
