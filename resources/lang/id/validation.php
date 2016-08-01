@@ -82,6 +82,14 @@ return [
     'unique'               => 'Isian :attribute sudah ada sebelumnya.',
     'url'                  => 'Format isian :attribute tidak valid.',
 
+
+    "sufficient_balance" => "Saldo anda tidak cukup. <br/>Silakan melakukan pengisian saldo.",
+    "allow_change_amount" => "Saldo anda tidak cukup. <br/>Silakan melakukan pengisian saldo.",
+    "sufficient_balance_for_transfer" => "Saldo anda tidak cukup. <br/>Silakan melakukan pengisian saldo.",
+    "by_order_status" => "Status order anda tidak tepat.",
+    "allowed_chosen_element" => "Silakan mengulang pesanan anda.",
+    "element_parent_status" => "Status order anda tidak tepat.",
+
     /*
     |---------------------------------------------------------------------------------------
     | Baris Bahasa untuk Validasi Kustom
@@ -110,8 +118,7 @@ return [
     |
     */
 
-    'attributes'           => [
-        //
+    'attributes' => [
     ],
 
 ];

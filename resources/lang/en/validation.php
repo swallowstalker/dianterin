@@ -77,6 +77,15 @@ return [
     'unique'               => 'The :attribute has already been taken.',
     'url'                  => 'The :attribute format is invalid.',
 
+
+
+    "sufficient_balance" => "Your balance is not enough.",
+    "allow_change_amount" => "Your balance is not enough.",
+    "sufficient_balance_for_transfer" => "Your balance is not enough.",
+    "by_order_status" => "Order status is incorrect.",
+    "allowed_chosen_element" => "Order is not chosen correctly.",
+    "element_parent_status" => "Order status is incorrect.",
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -105,6 +114,7 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+    ],
 
 ];

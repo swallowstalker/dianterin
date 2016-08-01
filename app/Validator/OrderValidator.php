@@ -23,20 +23,9 @@ use Symfony\Component\Translation\TranslatorInterface;
 class OrderValidator extends Validator
 {
 
-    private $orderCustomMessages = [
-        "sufficient_balance" => "Your balance is not enough.",
-        "allow_change_amount" => "Your balance is not enough.",
-        "sufficient_balance_for_transfer" => "Your balance is not enough.",
-        "by_order_status" => "Order status is incorrect.",
-        "allowed_chosen_element" => "Order is not chosen correctly.",
-        "element_parent_status" => "Order status is incorrect."
-    ];
-
     public function __construct(TranslatorInterface $translator, array $data, array $rules, array $messages, array $customAttributes)
     {
         parent::__construct($translator, $data, $rules, $messages, $customAttributes);
-
-        $this->setCustomMessages($this->orderCustomMessages);
     }
 
     /**
