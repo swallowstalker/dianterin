@@ -9,9 +9,9 @@ use App\Events\Travel\TravelIsFinishing;
 use App\Http\Requests\Admin\ProcessedOrderLockRequest;
 use App\Order;
 use App\OrderElement;
+use PDF;
 use Event;
 use Illuminate\Http\Request;
-use PDF;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -36,8 +36,17 @@ class ProcessedOrderController extends Controller
         }
         $viewData["travelID"] = $travelID;
 
-        $viewData["processedOrderList"] = Order::byStatus(Order::STATUS_PROCESSED)
+        $processedOrderList = Order::byStatus(Order::STATUS_PROCESSED)
             ->byTravel($travelID)->get();
+
+        $orderElementByPriorityAndRestaurant = $this->groupOrderElementByPriorityAndRestaurant($processedOrderList);
+        $firstPriorityRestaurantIDList = array_keys($orderElementByPriorityAndRestaurant[0]);
+
+        $processedOrderList = $processedOrderList->sortBy(function ($order, $key) use ($firstPriorityRestaurantIDList) {
+            return array_search($order->elements->first()->restaurant, $firstPriorityRestaurantIDList);
+        });
+
+        $viewData["processedOrderList"] = $processedOrderList;
 
         return view("admin.order.processed_order", $viewData);
     }
@@ -106,6 +115,19 @@ class ProcessedOrderController extends Controller
         $processedOrderList = Order::byStatus(Order::STATUS_PROCESSED)
             ->byTravel($request->input("travel"))->get();
 
+        $orderElementByPriorityAndRestaurant = $this->groupOrderElementByPriorityAndRestaurant($processedOrderList);
+
+        $viewData = [
+            "orderElementByPriorityAndRestaurant" => $orderElementByPriorityAndRestaurant,
+            "travel" => $travel
+        ];
+
+        $pdf = PDF::loadView("admin.order.pdf.summary", $viewData);
+        return $pdf->stream();
+    }
+
+    private function groupOrderElementByPriorityAndRestaurant($processedOrderList) {
+
         // first, separate order element into priority list
 
         $orderElementByPriority = [];
@@ -141,12 +163,6 @@ class ProcessedOrderController extends Controller
             }
         }
 
-        $viewData = ["orderElementByPriorityAndRestaurant" => $orderElementByPriorityAndRestaurant];
-
-
-        $viewData["travel"] = $travel;
-
-        $pdf = PDF::loadView("admin.order.pdf.summary", $viewData);
-        return $pdf->stream();
+        return $orderElementByPriorityAndRestaurant;
     }
 }
