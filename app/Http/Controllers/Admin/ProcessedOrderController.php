@@ -39,12 +39,15 @@ class ProcessedOrderController extends Controller
         $processedOrderList = Order::byStatus(Order::STATUS_PROCESSED)
             ->byTravel($travelID)->get();
 
-        $orderElementByPriorityAndRestaurant = $this->groupOrderElementByPriorityAndRestaurant($processedOrderList);
-        $firstPriorityRestaurantIDList = array_keys($orderElementByPriorityAndRestaurant[0]);
+        if (count($processedOrderList) > 0) {
 
-        $processedOrderList = $processedOrderList->sortBy(function ($order, $key) use ($firstPriorityRestaurantIDList) {
-            return array_search($order->elements->first()->restaurant, $firstPriorityRestaurantIDList);
-        });
+            $orderElementByPriorityAndRestaurant = $this->groupOrderElementByPriorityAndRestaurant($processedOrderList);
+            $firstPriorityRestaurantIDList = array_keys($orderElementByPriorityAndRestaurant[0]);
+
+            $processedOrderList = $processedOrderList->sortBy(function ($order, $key) use ($firstPriorityRestaurantIDList) {
+                return array_search($order->elements->first()->restaurant, $firstPriorityRestaurantIDList);
+            });
+        }
 
         $viewData["processedOrderList"] = $processedOrderList;
 

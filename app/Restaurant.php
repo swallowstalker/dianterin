@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Log;
 
@@ -10,15 +11,13 @@ class Restaurant extends Model
 {
     protected $table = "direstoranin";
 
-    /**
-     * Filter active restaurant
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeActive($query) {
+    protected static function boot()
+    {
+        parent::boot();
 
-        return $query->where("status", 1);
+        static::addGlobalScope("active", function (Builder $builder) {
+            $builder->where("status", true);
+        });
     }
 
     public function scopeOpenAt($query, $time) {

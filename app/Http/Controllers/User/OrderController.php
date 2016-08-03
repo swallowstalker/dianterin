@@ -38,7 +38,7 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $viewData = $this->getOrderSidebar();
-        $restaurantList = Restaurant::active()->orderBy("name", "asc")->get();
+        $restaurantList = Restaurant::orderBy("name", "asc")->get();
         $viewData["restaurantList"] = $restaurantList;
 
         $restaurantWhoseCourierIsAvailable = CourierVisitedRestaurant::whereHas("travel",

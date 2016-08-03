@@ -27,7 +27,7 @@ class TitipController extends Controller
 
     public function showStartPage() {
 
-        $restaurantList = Restaurant::active()->orderBy("name")->get();
+        $restaurantList = Restaurant::orderBy("name")->get();
         $restaurantListDropdown = $restaurantList->pluck("name", "id");
         $restaurantListDropdown = $this->excludeAddedRestaurantFromList($restaurantListDropdown);
 

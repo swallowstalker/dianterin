@@ -53,7 +53,7 @@ class TravelController extends Controller
     public function showList() {
 
         $viewData = [];
-        $viewData["restaurantList"] = Restaurant::active()->get();
+        $viewData["restaurantList"] = Restaurant::get();
 
         return view('public.restaurant.list_restaurant', $viewData);
     }
