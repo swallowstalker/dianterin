@@ -26,9 +26,33 @@ class Restaurant extends Model
             ->where("close", ">=", $time);
     }
 
+    public function scopeHavingActiveCourier($query, $active = true) {
+
+        if ($active) {
+            $query->whereHas("travels", function ($query) {
+                $query->where("status", CourierTravelRecord::STATUS_OPENED);
+            });
+        } else {
+            $query->whereDoesntHave("travels", function ($query) {
+                $query->where("status", CourierTravelRecord::STATUS_OPENED);
+            });
+        }
+
+        return $query;
+    }
+
     public function menus() {
 
         return $this->hasMany('App\Menu');
+    }
+
+    public function travels() {
+        return $this->belongsToMany(
+            'App\CourierTravelRecord',
+            'courier_restaurant',
+            'allowed_restaurant',
+            'travel_id'
+        );
     }
 
     public function getMaxPriceAttribute() {

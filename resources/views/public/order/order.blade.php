@@ -40,14 +40,13 @@
             <div class="row">
                 <div class="col-md-12">
                     {!! Html::image("img/ic_grey.png") !!}
-                    Menu pesanan
+                    Restoran tersedia
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12" style="padding: 10px; background-color: white;">
 
-
-                    @foreach($restaurantList as $key => $restaurant)
+                    @foreach($restaurantWithActiveCourierList as $key => $restaurant)
 
                         @if ($key % 2 == 0)
                             <div class="row">
@@ -125,14 +124,121 @@
                                     </div>
                                 </div>
 
-                        @if($key % 2 == 1 || $key == count($restaurantList) - 1)
+                        @if($key % 2 == 1 || $key == count($restaurantWithActiveCourierList) - 1)
                             </div>
                         @endif
 
                     @endforeach
 
+                    @if(count($restaurantWithActiveCourierList) == 0)
+                        Belum ada restoran yang tersedia
+                    @endif
+
                 </div>
             </div>
+
+            <div class="row" style="margin-top: 20px;">
+                <div class="col-md-12">
+                    {!! Html::image("img/ic_grey.png") !!}
+                    Restoran tidak tersedia
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12" style="padding: 10px; background-color: white;">
+
+                    @foreach($restaurantWithNoActiveCourierList as $key => $restaurant)
+
+                        @if ($key % 2 == 0)
+                            <div class="row">
+                                @endif
+
+                                <div class="col-md-6" style="margin-bottom: 10px;">
+                                    <div style="border: 1px solid #FFC335;">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+
+                                                {!! Html::image(
+                                                    env("DEFAULT_PATH") ."img/". $restaurant->image,
+                                                    $restaurant->name,
+                                                    ["style" => "width: 100%;"]
+                                                    ) !!}
+                                            </div>
+                                            <div class="col-sm-8" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px;">
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="color: black;">
+                                                        <b>
+                                                            {{ $restaurant->name }}
+                                                        </b>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="font-size: 10pt;">
+                                                        Rp {!! number_format($restaurant->min_price, 0, ",", ".") !!}
+                                                        &nbsp;-&nbsp;
+                                                        Rp {!! number_format($restaurant->max_price, 0, ",", ".") !!}
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-xs-12" style="font-size: 10pt; color: black;">
+                                                    </div>
+                                                </div>
+                                                <div class="row" style="margin-top: 10px;">
+                                                    <div class="col-xs-3" style="font-size: 10pt;">
+                                                        <a href="#food-popup" class="food-popup-button open-popup">
+                                                            <button class="button-orange-black">
+                                                                Menu
+                                                            </button>
+                                                        </a>
+                                                        <input type="hidden" value="{{ $restaurant->id }}" />
+                                                        <input type="hidden" value="{{ $restaurant->name }}" />
+                                                    </div>
+                                                    <div class="col-xs-9" style="font-size: 10pt;">
+
+                                                        @if ($restaurant->open_status)
+
+                                                            <div style="color: green;">
+                                                                <i class="fa fa-home"></i> Restoran Buka
+                                                            </div>
+
+                                                        @else
+
+                                                            <div style="color: lightgrey;">
+                                                                <i class="fa fa-home"></i> Restoran Tutup
+                                                            </div>
+
+                                                        @endif
+
+                                                        @if (in_array($restaurant->id, $restaurantWhoseCourierIsAvailable))
+                                                            <div style="color: green; margin-top: 3px;">
+                                                                <i class="fa fa-user"></i> Pengantar Tersedia
+                                                            </div>
+                                                        @else
+                                                            <div style="color: lightgrey; margin-top: 3px;">
+                                                                <i class="fa fa-user"></i> Pengantar Tidak Ada
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if($key % 2 == 1 || $key == count($restaurantWithNoActiveCourierList) - 1)
+                            </div>
+                        @endif
+
+                    @endforeach
+
+                    @if(count($restaurantWithNoActiveCourierList) == 0)
+                        Semua restoran tersedia
+                    @endif
+
+                </div>
+            </div>
+
+
+
         </div>
 
 

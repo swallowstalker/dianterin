@@ -41,6 +41,9 @@ class OrderController extends Controller
         $restaurantList = Restaurant::orderBy("name", "asc")->get();
         $viewData["restaurantList"] = $restaurantList;
 
+        $viewData["restaurantWithActiveCourierList"] = Restaurant::havingActiveCourier()->get();
+        $viewData["restaurantWithNoActiveCourierList"] = Restaurant::havingActiveCourier(false)->get();
+
         $restaurantWhoseCourierIsAvailable = CourierVisitedRestaurant::whereHas("travel",
             function ($query) {
                 $query->byStatus(CourierTravelRecord::STATUS_OPENED);
