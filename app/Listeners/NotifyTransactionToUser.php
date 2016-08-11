@@ -34,6 +34,7 @@ class NotifyTransactionToUser
         $this->sendInvoices($event->orderElementList);
     }
 
+    //@fixme if problem persists, we must check how Mail::queue perform
     private function sendInvoices($orderElementIDList = []) {
 
         $notFoundOrderIDList = $this->findNotFoundOrder($orderElementIDList);

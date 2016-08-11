@@ -55,19 +55,19 @@
 
                                                                 <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                                     <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;" valign="top">
-                                                                        {{ $transaction->restaurant .", ". $transaction->menu }}<br style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
+                                                                        {{ $transaction["restaurant"] .", ". $transaction["menu"] }}<br style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" />
 
-                                                                        @if (! empty($transaction->adjustment))
+                                                                        @if (! empty($transaction["adjustment"]))
 
                                                                             (
-                                                                            {{ $transaction->adjustment_info .", " }}
-                                                                            Rp {{ number_format((float) $transaction->adjustment, 0, ",", ".") }}
+                                                                            {{ $transaction["adjustment_info"] .", " }}
+                                                                            Rp {{ number_format((float) $transaction["adjustment"], 0, ",", ".") }}
                                                                             )
 
                                                                         @endif
                                                                     </td>
                                                                     <td class="alignright" style="text-align: right; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; border-top-width: 1px; border-top-color: #eee; border-top-style: solid; margin: 0; padding: 5px 0;" align="right" valign="top">
-                                                                        Rp {{ number_format((float) $transaction->final_cost, 0, ",", ".") }}
+                                                                        Rp {{ number_format((float) $transaction["final_cost"], 0, ",", ".") }}
                                                                     </td>
                                                                 </tr>
 
