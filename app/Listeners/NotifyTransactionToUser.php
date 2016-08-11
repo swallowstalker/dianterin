@@ -34,7 +34,7 @@ class NotifyTransactionToUser
         $this->sendInvoices($event->orderElementList);
     }
 
-    //@fixme if problem persists, we must check how Mail::queue perform
+
     private function sendInvoices($orderElementIDList = []) {
 
         $notFoundOrderIDList = $this->findNotFoundOrder($orderElementIDList);
@@ -64,14 +64,22 @@ class NotifyTransactionToUser
             }
 
             $notFoundOrderListCurrentUser = new Collection();
+            $notFoundOrderList = [];
             if (isset($notFoundOrderListByUser[$userID])) {
                 $notFoundOrderListCurrentUser = $notFoundOrderListByUser[$userID];
+
+                foreach ($notFoundOrderListCurrentUser as $notFoundOrder) {
+                    $notFoundOrderList[] = [
+                        "restaurant" => $notFoundOrder->elements()->first()->restaurantObject->name,
+                        "menu" => $notFoundOrder->elements()->first()->menuObject->name
+                    ];
+                }
             }
 
             $viewData = [
                 "user" => $user,
-                "transactionList" => $transactionList,
-                "notFoundOrderList" => $notFoundOrderListCurrentUser,
+                "transactionList" => $transactionList->toArray(),
+                "notFoundOrderList" => $notFoundOrderList,
                 "total" => $transactionListTotal
             ];
 
@@ -81,7 +89,6 @@ class NotifyTransactionToUser
                 $subject = $user->name .", ".
                     $this->decideSubject($transactionList->toArray(), $notFoundOrderListCurrentUser->toArray());
 
-                $mail->from("strato@dianter.in", 'Dianterin');
                 $mail->to($user->email, $user->name);
                 $mail->subject($subject);
             });

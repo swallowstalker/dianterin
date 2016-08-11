@@ -97,8 +97,8 @@
                                                 @foreach($notFoundOrderList as $notFoundOrder)
                                                     <tr style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                         <td style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0;" valign="top">
-                                                            {{ $notFoundOrder->elements()->first()->restaurantObject->name }},
-                                                            {{ $notFoundOrder->elements()->first()->menuObject->name }}
+                                                            {{ $notFoundOrder["restaurant"] }},
+                                                            {{ $notFoundOrder["menu"] }}
                                                         </td>
                                                     </tr>
                                                 @endforeach
