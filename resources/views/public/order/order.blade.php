@@ -131,7 +131,7 @@
                     @endforeach
 
                     @if(count($restaurantWithActiveCourierList) == 0)
-                        Belum ada restoran yang tersedia
+                        <span style="font-size: 14px;">Belum ada restoran yang tersedia</span>
                     @endif
 
                 </div>
@@ -231,7 +231,7 @@
                     @endforeach
 
                     @if(count($restaurantWithNoActiveCourierList) == 0)
-                        Semua restoran tersedia
+                        <span style="font-size: 14px;">Semua restoran tersedia</span>
                     @endif
 
                 </div>

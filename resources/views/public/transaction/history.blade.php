@@ -23,8 +23,8 @@
 
     <!-- DataTables JavaScript -->
     <script src="{!! asset("/") !!}bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <script src="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
-    <script src="{!! asset("/") !!}bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
+    {{--<script src="{!! asset("/") !!}bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>--}}
+    {{--<script src="{!! asset("/") !!}bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>--}}
 
 
     <!-- JQuery-UI JavaScript -->
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12" style="padding: 10px 20px; background-color: white; font-size: 11pt;">
+                <div class="col-md-12" style="background-color: white; font-size: 11pt;">
 
                     <div class="table-responsive">
                         <table class="table table-hover" id="dataTables-list">
